@@ -1,0 +1,2018 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>🇰🇷 首爾旅遊手帳 · Mandy × 雅雅</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<!-- A 方案字體：粉圓 2.0 + Kalam + Patrick Hand + Zen Maru Gothic + Noto Sans TC -->
+<link href="https://fonts.googleapis.com/css2?family=Kalam:wght@400;700&family=Patrick+Hand&family=Zen+Maru+Gothic:wght@400;500;700&family=Noto+Sans+TC:wght@400;500;700&display=swap" rel="stylesheet">
+<!-- Phosphor Icons -->
+<link rel="stylesheet" href="https://unpkg.com/@phosphor-icons/web@2.1.1/src/regular/style.css">
+<link rel="stylesheet" href="https://unpkg.com/@phosphor-icons/web@2.1.1/src/fill/style.css">
+
+<style>
+/* 粉圓 2.0：本地優先，CDN 備援 */
+@font-face {
+  font-family: 'jf-openhuninn';
+  src: url('../../mandy-morning-dashboard/assets/fonts/jf-openhuninn.ttf') format('truetype'),
+       url('https://cdn.jsdelivr.net/gh/justfont/open-huninn-font@main/font/jf-openhuninn-2.0.ttf') format('truetype');
+  font-display: swap;
+}
+
+/* ═══════════════════════════════════════
+   TOKENS
+═══════════════════════════════════════ */
+:root {
+  /* ── Sumikko Gurashi 霧化版 ── */
+  --teal:      #9ECFCC;   /* ★ 薄荷綠不動                 */
+  --teal-lt:   #BDD8D6;   /* 淺薄荷（微降飽和）            */
+  --teal-pale: #E4F1F0;   /* 薄荷極淡                      */
+  --lavender:  #BEB8CC;   /* 薰衣草→灰紫霧                 */
+  --lav-pale:  #ECEAF2;   /* 極淡灰紫                      */
+  --yellow:    #EDE6C0;   /* 星星黃→米麥色                 */
+  --yel-deep:  #ACA078;   /* 深黃→橄欖金霧                 */
+  --cream:     #D8D4E0;   /* 背景→灰薰衣草（明顯降飽和）  */
+  --gridline:  #C8C4CE;   /* 格線→中性灰紫                 */
+  --ink:       #504858;   /* 文字深色微調                  */
+  --ink-lt:    #8C8898;   /* 文字中色→中性灰               */
+  --ink-pale:  #AEACB8;   /* 文字淡色→中性                 */
+  --border:    #C4C0CC;   /* 邊框→中性灰                   */
+  --white:     #F8F6F8;   /* 卡片底→幾乎純白帶極淡紫       */
+  --rose:      #E4C4CC;   /* 粉紅→乾燥玫瑰                 */
+  --rose-pale: #F4ECEE;   /* 粉極淡→幾乎白                 */
+
+  --ff-hand:   'Kalam', 'Zen Maru Gothic', 'Noto Sans TC', sans-serif;
+  --ff-serif:  'jf-openhuninn', 'Zen Maru Gothic', 'Noto Sans TC', sans-serif;
+  --ff-sans:   'jf-openhuninn', 'Zen Maru Gothic', 'Noto Sans TC', sans-serif;
+  --ff-en:     'Patrick Hand', cursive;
+}
+
+/* ═══════════════════════════════════════
+   RESET & BASE
+═══════════════════════════════════════ */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+html { scroll-behavior: smooth; }
+
+body {
+  font-family: var(--ff-sans);
+  background: var(--cream);
+  color: var(--ink);
+  min-height: 100vh;
+  background-image:
+    linear-gradient(var(--gridline) 1px, transparent 1px),
+    linear-gradient(90deg, var(--gridline) 1px, transparent 1px);
+  background-size: 32px 32px;
+}
+
+/* ═══════════════════════════════════════
+   LAYOUT SHELL
+═══════════════════════════════════════ */
+.shell {
+  display: flex;
+  min-height: 100vh;
+  max-width: 1100px;
+  margin: 0 auto;
+}
+
+/* ═══════════════════════════════════════
+   SIDEBAR
+═══════════════════════════════════════ */
+.sidebar {
+  width: 68px;
+  flex-shrink: 0;
+  background: var(--white);
+  border-right: 1.5px solid var(--border);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 24px 0 24px;
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  gap: 0;
+}
+
+.sidebar-logo {
+  font-family: var(--ff-hand);
+  font-size: 22px;
+  color: var(--teal);
+  writing-mode: vertical-rl;
+  text-orientation: mixed;
+  letter-spacing: 0.08em;
+  margin-bottom: 24px;
+  font-weight: 700;
+}
+
+.sidebar-divider {
+  width: 32px;
+  height: 1px;
+  background: var(--border);
+  margin: 8px 0;
+}
+
+.nav-tab {
+  width: 44px;
+  padding: 12px 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  cursor: pointer;
+  border-radius: 10px;
+  transition: background .2s;
+  margin: 2px 0;
+  text-decoration: none;
+}
+.nav-tab:hover { background: var(--teal-pale); }
+.nav-tab.active { background: var(--teal-pale); }
+
+.nav-tab .icon { font-size: 18px; line-height: 1; }
+.nav-tab .label {
+  font-size: 9px;
+  color: var(--ink-lt);
+  font-family: var(--ff-sans);
+  font-weight: 500;
+  text-align: center;
+  line-height: 1.2;
+}
+.nav-tab.active .label { color: var(--teal); font-weight: 700; }
+
+/* ═══════════════════════════════════════
+   MAIN AREA
+═══════════════════════════════════════ */
+.main {
+  flex: 1;
+  padding: 0 0 60px;
+  overflow-x: hidden;
+}
+
+/* ═══════════════════════════════════════
+   HERO HEADER
+═══════════════════════════════════════ */
+.hero {
+  background: var(--white);
+  border-bottom: 1.5px solid var(--border);
+  padding: 28px 36px 24px;
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 20px;
+  position: relative;
+  overflow: hidden;
+}
+
+.hero::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 4px;
+  background: linear-gradient(90deg, var(--teal), var(--lavender), var(--yellow));
+}
+
+.hero-left {}
+
+.hero-tag {
+  display: inline-block;
+  background: var(--teal-pale);
+  color: var(--teal);
+  border: 1px solid var(--teal-lt);
+  border-radius: 20px;
+  padding: 3px 12px;
+  font-size: 11px;
+  font-family: var(--ff-en);
+  letter-spacing: 0.06em;
+  margin-bottom: 10px;
+  font-weight: 600;
+}
+
+.hero-title {
+  font-family: var(--ff-serif);
+  font-size: 28px;
+  font-weight: 700;
+  color: var(--ink);
+  margin-bottom: 6px;
+  line-height: 1.3;
+}
+
+.hero-sub {
+  font-family: var(--ff-hand);
+  font-size: 17px;
+  color: var(--ink-lt);
+}
+
+.hero-stamps {
+  display: flex;
+  gap: 12px;
+  flex-shrink: 0;
+  align-items: flex-end;
+}
+
+.stamp {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 2px;
+}
+
+.stamp-circle {
+  width: 68px;
+  height: 68px;
+  border-radius: 50%;
+  border: 2.5px solid;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+}
+.stamp-circle::after {
+  content: '';
+  position: absolute;
+  inset: 3px;
+  border-radius: 50%;
+  border: 1px solid;
+  border-color: inherit;
+  opacity: .4;
+}
+
+.stamp-circle.teal  { border-color: var(--teal);     color: var(--teal); }
+.stamp-circle.lav   { border-color: var(--lavender);  color: var(--lavender); }
+.stamp-circle.yel   { border-color: var(--yel-deep);  color: var(--yel-deep); }
+
+.stamp-emoji  { font-size: 22px; line-height: 1; }
+.stamp-text   { font-family: var(--ff-hand); font-size: 10px; font-weight: 700; margin-top: 1px; }
+.stamp-label  { font-size: 10px; color: var(--ink-pale); font-family: var(--ff-sans); margin-top: 4px; }
+
+/* ═══════════════════════════════════════
+   SECTION COMMON
+═══════════════════════════════════════ */
+.section {
+  padding: 32px 36px;
+  border-bottom: 1px dashed var(--border);
+}
+
+.section-head {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 22px;
+}
+
+.section-stamp-mini {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  border: 2px solid var(--teal);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 18px;
+  flex-shrink: 0;
+  color: var(--teal);
+  background: var(--white);
+}
+
+.section-title {
+  font-family: var(--ff-serif);
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--ink);
+}
+
+.section-en {
+  font-family: var(--ff-hand);
+  font-size: 13px;
+  color: var(--ink-pale);
+  margin-left: 2px;
+}
+
+/* ═══════════════════════════════════════
+   §1 SUMMARY CARDS (頂部快覽)
+═══════════════════════════════════════ */
+.summary-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 12px;
+  margin-bottom: 0;
+}
+
+.sum-card {
+  background: var(--white);
+  border: 1.5px solid var(--border);
+  border-radius: 14px;
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.sum-card-emoji { font-size: 22px; color: var(--teal); line-height: 1; }
+.sum-card-emoji i { font-size: 22px; }
+.sum-card-label {
+  font-size: 10px;
+  color: var(--ink-pale);
+  font-family: var(--ff-en);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+.sum-card-value {
+  font-family: var(--ff-serif);
+  font-size: 15px;
+  color: var(--ink);
+  font-weight: 700;
+  line-height: 1.3;
+}
+.sum-card-sub {
+  font-family: var(--ff-hand);
+  font-size: 13px;
+  color: var(--ink-lt);
+}
+
+/* ═══════════════════════════════════════
+   §2 ITINERARY (行程)
+═══════════════════════════════════════ */
+#itinerary .section-stamp-mini { border-color: var(--teal); }
+
+.day-block { margin-bottom: 24px; }
+.day-block:last-child { margin-bottom: 0; }
+
+.day-header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 14px;
+}
+
+.day-badge {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--ff-hand);
+  font-weight: 700;
+  flex-shrink: 0;
+  border: 2px solid;
+}
+
+.day-badge.d1 { background: var(--teal-pale);  border-color: var(--teal);     color: var(--teal); }
+.day-badge.d2 { background: var(--lav-pale);   border-color: var(--lavender); color: #8880A4; }
+.day-badge.d3 { background: #F0ECD8;            border-color: var(--yel-deep); color: var(--yel-deep); }
+.day-badge.d4 { background: var(--rose-pale);  border-color: var(--rose);     color: #A88898; }
+
+.day-badge-day  { font-size: 9px; line-height: 1; }
+.day-badge-num  { font-size: 18px; line-height: 1; }
+
+.day-title {
+  font-family: var(--ff-serif);
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--ink);
+}
+.day-date {
+  font-family: var(--ff-hand);
+  font-size: 13px;
+  color: var(--ink-pale);
+}
+
+.timeline { position: relative; padding-left: 20px; }
+.timeline::before {
+  content: '';
+  position: absolute;
+  left: 7px;
+  top: 6px;
+  bottom: 6px;
+  width: 1.5px;
+  background: repeating-linear-gradient(
+    180deg,
+    var(--border) 0, var(--border) 6px,
+    transparent 6px, transparent 10px
+  );
+}
+
+.tl-item {
+  display: flex;
+  gap: 14px;
+  margin-bottom: 12px;
+  position: relative;
+}
+.tl-item:last-child { margin-bottom: 0; }
+
+.tl-dot {
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  background: var(--white);
+  border: 2px solid var(--teal);
+  flex-shrink: 0;
+  margin-top: 3px;
+  position: relative;
+  left: -20px;
+  margin-right: -14px;
+}
+
+.tl-card {
+  flex: 1;
+  background: var(--white);
+  border: 1.5px solid var(--border);
+  border-radius: 12px;
+  padding: 12px 14px;
+  display: flex;
+  gap: 12px;
+  align-items: flex-start;
+}
+
+.tl-card-thumb {
+  width: 56px;
+  height: 56px;
+  border-radius: 8px;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 24px;
+  color: var(--teal);
+}
+.tl-card-thumb.food   { background: #F0EEF4; color: var(--lavender); }
+.tl-card-thumb.shop   { background: #EAEAF0; color: var(--lavender); }
+.tl-card-thumb.sight  { background: var(--teal-pale); color: var(--teal); }
+.tl-card-thumb.hotel  { background: #FDE8EF; color: var(--rose); }
+.tl-card-thumb.trans  { background: #EAE4F2; color: var(--ink-lt); }
+
+.tl-card-body { flex: 1; }
+
+.tl-card-time {
+  font-family: var(--ff-hand);
+  font-size: 12px;
+  color: var(--ink-pale);
+  margin-bottom: 2px;
+}
+
+.tl-card-name {
+  font-family: var(--ff-serif);
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--ink);
+  margin-bottom: 4px;
+}
+
+.tl-card-note {
+  font-size: 12px;
+  color: var(--ink-lt);
+  line-height: 1.6;
+  font-family: var(--ff-sans);
+}
+
+.tl-card-tags {
+  display: flex;
+  gap: 5px;
+  margin-top: 6px;
+  flex-wrap: wrap;
+}
+
+.chip {
+  display: inline-block;
+  padding: 2px 8px;
+  border-radius: 10px;
+  font-size: 10px;
+  font-family: var(--ff-en);
+  font-weight: 600;
+  letter-spacing: 0.04em;
+}
+.chip.teal   { background: var(--teal-pale);  color: var(--teal); }
+.chip.lav    { background: var(--lav-pale);   color: #8880A4; }
+.chip.yel    { background: #EEEADC;           color: #8A7848; }
+.chip.rose   { background: var(--rose-pale);  color: #A88898; }
+.chip.gray   { background: #E2E0E8;           color: #8C8898; }
+
+/* ═══════════════════════════════════════
+   §3 ACCOMMODATION (住宿)
+═══════════════════════════════════════ */
+#accommodation .section-stamp-mini { border-color: var(--rose); color: var(--rose); }
+
+.hotel-card {
+  background: var(--white);
+  border: 1.5px solid var(--border);
+  border-radius: 16px;
+  padding: 20px 22px;
+  display: flex;
+  gap: 18px;
+  align-items: flex-start;
+  margin-bottom: 14px;
+}
+.hotel-card:last-child { margin-bottom: 0; }
+
+.hotel-thumb {
+  width: 80px;
+  height: 80px;
+  border-radius: 12px;
+  background: var(--rose-pale);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 36px;
+  flex-shrink: 0;
+}
+
+.hotel-body { flex: 1; }
+
+.hotel-name {
+  font-family: var(--ff-serif);
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--ink);
+  margin-bottom: 4px;
+}
+
+.hotel-meta {
+  font-size: 12px;
+  color: var(--ink-lt);
+  line-height: 1.8;
+  font-family: var(--ff-sans);
+}
+
+.hotel-meta span {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  margin-right: 14px;
+}
+
+.hotel-chips { margin-top: 8px; display: flex; gap: 6px; flex-wrap: wrap; }
+
+.hotel-note {
+  background: var(--rose-pale);
+  border-left: 3px solid var(--rose);
+  border-radius: 0 8px 8px 0;
+  padding: 8px 12px;
+  font-family: var(--ff-hand);
+  font-size: 14px;
+  color: #706878;
+  margin-top: 12px;
+  line-height: 1.5;
+}
+
+/* ═══════════════════════════════════════
+   §4 REELS (存起來)
+═══════════════════════════════════════ */
+#reels .section-stamp-mini { border-color: var(--lavender); color: var(--lavender); }
+
+.reels-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 14px;
+}
+
+.reel-card {
+  background: var(--white);
+  border: 1.5px solid var(--border);
+  border-radius: 14px;
+  overflow: hidden;
+  cursor: pointer;
+  transition: transform .2s, box-shadow .2s;
+}
+.reel-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px rgba(100,150,160,.12);
+}
+
+.reel-thumb {
+  width: 100%;
+  aspect-ratio: 9/14;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 42px;
+  position: relative;
+  overflow: hidden;
+}
+
+.reel-thumb.c1 { background: linear-gradient(160deg, #BEB8CC, #A8A0BC); }  /* 灰薰衣草 */
+.reel-thumb.c2 { background: linear-gradient(160deg, #9ECFCC, #7AB8B5); }  /* ★薄荷不動 */
+.reel-thumb.c3 { background: linear-gradient(160deg, #EDE6C0, #D0C888); }  /* 霧麥黃   */
+.reel-thumb.c4 { background: linear-gradient(160deg, #E4C4CC, #C8A0B0); }  /* 霧粉乾燥玫 */
+.reel-thumb.c5 { background: linear-gradient(160deg, #BDD8D6, #98C0BE); }  /* 淺薄荷   */
+.reel-thumb.c6 { background: linear-gradient(160deg, #D0C8D8, #B8B0C4); }  /* 灰紫霧   */
+
+.reel-play {
+  position: absolute;
+  bottom: 10px;
+  right: 10px;
+  width: 28px;
+  height: 28px;
+  background: rgba(255,255,255,.85);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 12px;
+  z-index: 2;
+}
+
+/* ── 有真實圖片的 reel-thumb ── */
+.reel-thumb.has-img {
+  display: block;
+  padding: 0;
+}
+.reel-thumb.has-img img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  transition: transform .35s ease;
+}
+.reel-card:hover .reel-thumb.has-img img { transform: scale(1.05); }
+
+/* 平台角標 */
+.reel-badge {
+  position: absolute;
+  top: 8px;
+  left: 8px;
+  background: rgba(0,0,0,.38);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+  border-radius: 20px;
+  padding: 3px 9px;
+  font-size: 9px;
+  color: rgba(255,255,255,.92);
+  font-family: var(--ff-en);
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  z-index: 2;
+  pointer-events: none;
+}
+
+/* 圖片底部淡出遮罩（讓文字區過渡自然） */
+.reel-thumb.has-img::after {
+  content: '';
+  position: absolute;
+  bottom: 0; left: 0; right: 0;
+  height: 40%;
+  background: linear-gradient(to bottom, transparent, rgba(80,60,70,.28));
+  pointer-events: none;
+}
+
+.reel-body { padding: 10px 12px 12px; }
+
+.reel-from {
+  font-family: var(--ff-hand);
+  font-size: 11px;
+  color: var(--lavender);
+  font-weight: 700;
+  margin-bottom: 3px;
+}
+
+.reel-title {
+  font-family: var(--ff-serif);
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--ink);
+  margin-bottom: 5px;
+  line-height: 1.4;
+}
+
+.reel-note {
+  font-size: 11px;
+  color: var(--ink-lt);
+  font-family: var(--ff-sans);
+  line-height: 1.5;
+}
+
+/* ═══════════════════════════════════════
+   §5 FOOD LIST (美食清單)
+═══════════════════════════════════════ */
+#food .section-stamp-mini { border-color: var(--yellow); color: var(--yel-deep); }
+
+.food-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+}
+
+.food-item {
+  background: var(--white);
+  border: 1.5px solid var(--border);
+  border-radius: 12px;
+  padding: 14px 16px;
+  display: flex;
+  gap: 12px;
+  align-items: flex-start;
+}
+
+.food-emoji {
+  font-size: 28px;
+  flex-shrink: 0;
+  line-height: 1;
+  margin-top: 2px;
+  color: var(--teal);
+}
+
+/* Phosphor icon sizing inside containers */
+.reel-thumb i          { font-size: 38px; color: rgba(255,255,255,.82); }
+.reel-play i           { font-size: 11px; color: var(--ink); }
+.stamp-emoji i         { font-size: 20px; }
+.note-card-title i     { font-size: 16px; margin-right: 2px; }
+.pack-col-title i      { font-size: 15px; margin-right: 3px; }
+.hotel-thumb i         { font-size: 36px; color: var(--rose); }
+.hotel-meta i          { font-size: 13px; color: var(--ink-pale); vertical-align: middle; }
+
+.food-body {}
+
+.food-name {
+  font-family: var(--ff-serif);
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--ink);
+  margin-bottom: 3px;
+}
+
+.food-area {
+  font-family: var(--ff-hand);
+  font-size: 13px;
+  color: var(--ink-pale);
+  margin-bottom: 4px;
+}
+
+.food-note {
+  font-size: 11px;
+  color: var(--ink-lt);
+  line-height: 1.6;
+  font-family: var(--ff-sans);
+}
+
+.food-must {
+  display: inline-block;
+  background: #EEEADC;
+  border: 1px solid var(--yel-deep);
+  color: #8A7848;
+  border-radius: 8px;
+  padding: 1px 7px;
+  font-size: 10px;
+  font-family: var(--ff-hand);
+  font-weight: 700;
+  margin-top: 5px;
+}
+
+/* ═══════════════════════════════════════
+   §6 NOTES (旅遊小筆記)
+═══════════════════════════════════════ */
+#notes .section-stamp-mini { border-color: var(--teal); }
+
+.notes-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 14px;
+}
+
+.note-card {
+  background: var(--white);
+  border: 1.5px solid var(--border);
+  border-radius: 14px;
+  padding: 16px 18px;
+}
+
+.note-card-title {
+  font-family: var(--ff-hand);
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--teal);
+  margin-bottom: 10px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.note-list { list-style: none; }
+.note-list li {
+  font-size: 13px;
+  color: var(--ink);
+  line-height: 1.8;
+  font-family: var(--ff-sans);
+  padding-left: 16px;
+  position: relative;
+}
+.note-list li::before {
+  content: '✦';
+  position: absolute;
+  left: 0;
+  color: var(--teal-lt);
+  font-size: 9px;
+  top: 4px;
+}
+
+.note-list li strong {
+  color: var(--ink);
+  font-weight: 700;
+}
+
+.note-hand {
+  font-family: var(--ff-hand);
+  font-size: 15px;
+  color: var(--ink-lt);
+  line-height: 1.9;
+  background: #F0EEF2;
+  border-radius: 10px;
+  padding: 12px 14px;
+  border: 1px dashed var(--border);
+  margin-top: 6px;
+}
+
+/* ═══════════════════════════════════════
+   §7 PACKING (行李清單)
+═══════════════════════════════════════ */
+#packing .section-stamp-mini { border-color: var(--lavender); color: var(--lavender); }
+
+.pack-cols {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 14px;
+}
+
+.pack-col {
+  background: var(--white);
+  border: 1.5px solid var(--border);
+  border-radius: 12px;
+  padding: 14px 16px;
+}
+
+.pack-col-title {
+  font-family: var(--ff-hand);
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--lavender);
+  margin-bottom: 10px;
+  border-bottom: 1px dashed var(--lav-pale);
+  padding-bottom: 6px;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.check-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  padding: 5px 0;
+  font-size: 13px;
+  color: var(--ink);
+  font-family: var(--ff-sans);
+  line-height: 1.4;
+  border-bottom: 1px solid #E2E0E8;
+}
+.check-item:last-child { border-bottom: none; }
+
+.checkbox {
+  width: 16px;
+  height: 16px;
+  border: 1.5px solid var(--lavender);
+  border-radius: 4px;
+  flex-shrink: 0;
+  margin-top: 1px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all .2s;
+}
+.checkbox.checked {
+  background: var(--lavender);
+  border-color: var(--lavender);
+}
+.checkbox.checked::after {
+  content: '✓';
+  color: white;
+  font-size: 10px;
+  font-weight: 700;
+}
+
+/* ═══════════════════════════════════════
+   FOOTER STAMP
+═══════════════════════════════════════ */
+.footer {
+  padding: 32px 36px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.footer-hand {
+  font-family: var(--ff-hand);
+  font-size: 16px;
+  color: var(--ink-pale);
+}
+
+.footer-stamp {
+  width: 72px;
+  height: 72px;
+  border-radius: 50%;
+  border: 2.5px solid var(--teal);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  color: var(--teal);
+  opacity: .6;
+  position: relative;
+}
+.footer-stamp::after {
+  content: '';
+  position: absolute;
+  inset: 4px;
+  border-radius: 50%;
+  border: 1px solid var(--teal);
+}
+.footer-stamp-emoji { font-size: 24px; }
+.footer-stamp-text  { font-family: var(--ff-hand); font-size: 9px; font-weight: 700; }
+
+/* ═══════════════════════════════════════
+   RESPONSIVE
+═══════════════════════════════════════ */
+@media (max-width: 760px) {
+  .sidebar { display: none; }
+  .hero { flex-direction: column; align-items: flex-start; }
+  .hero-stamps { align-self: flex-end; }
+  .summary-grid { grid-template-columns: 1fr 1fr; }
+  .reels-grid { grid-template-columns: 1fr 1fr; }
+  .food-grid { grid-template-columns: 1fr; }
+  .notes-grid { grid-template-columns: 1fr; }
+  .pack-cols { grid-template-columns: 1fr; }
+  .section { padding: 24px 20px; }
+  .hero { padding: 20px 20px 18px; }
+}
+
+/* ═══════════════════════════════════════
+   SCROLLBAR
+═══════════════════════════════════════ */
+::-webkit-scrollbar { width: 6px; }
+::-webkit-scrollbar-track { background: var(--cream); }
+::-webkit-scrollbar-thumb { background: var(--teal-lt); border-radius: 10px; }
+</style>
+</head>
+<body>
+
+<div class="shell">
+
+  <!-- ──────────── SIDEBAR ──────────── -->
+  <nav class="sidebar">
+    <div class="sidebar-logo">首爾</div>
+    <div class="sidebar-divider"></div>
+
+    <a class="nav-tab active" href="#overview">
+      <span class="icon"><i class="ph ph-note-blank"></i></span>
+      <span class="label">總覽</span>
+    </a>
+    <a class="nav-tab" href="#itinerary">
+      <span class="icon"><i class="ph ph-map-trifold"></i></span>
+      <span class="label">行程</span>
+    </a>
+    <a class="nav-tab" href="#accommodation">
+      <span class="icon"><i class="ph ph-bed"></i></span>
+      <span class="label">住宿</span>
+    </a>
+    <a class="nav-tab" href="#food">
+      <span class="icon"><i class="ph ph-fork-knife"></i></span>
+      <span class="label">美食</span>
+    </a>
+    <a class="nav-tab" href="#reels">
+      <span class="icon"><i class="ph ph-film-slate"></i></span>
+      <span class="label">Reels</span>
+    </a>
+    <a class="nav-tab" href="#notes">
+      <span class="icon"><i class="ph ph-notebook"></i></span>
+      <span class="label">筆記</span>
+    </a>
+    <a class="nav-tab" href="#packing">
+      <span class="icon"><i class="ph ph-suitcase-rolling"></i></span>
+      <span class="label">行李</span>
+    </a>
+  </nav>
+
+  <!-- ──────────── MAIN ──────────── -->
+  <main class="main">
+
+    <!-- HERO -->
+    <div class="hero" id="overview">
+      <div class="hero-left">
+        <div class="hero-tag">✈ KOREA TRIP · JUN 2026</div>
+        <h1 class="hero-title">首爾旅遊手帳</h1>
+        <div class="hero-sub">Mandy × 雅雅 · 四天三夜 ☁️</div>
+      </div>
+      <div class="hero-stamps">
+        <div class="stamp">
+          <div class="stamp-circle teal">
+            <span class="stamp-emoji"><i class="ph ph-airplane-takeoff"></i></span>
+            <span class="stamp-text">6.04</span>
+          </div>
+          <span class="stamp-label">出發</span>
+        </div>
+        <div class="stamp">
+          <div class="stamp-circle lav">
+            <span class="stamp-emoji">🇰🇷</span>
+            <span class="stamp-text">首爾</span>
+          </div>
+          <span class="stamp-label">目的地</span>
+        </div>
+        <div class="stamp">
+          <div class="stamp-circle yel">
+            <span class="stamp-emoji"><i class="ph ph-moon-stars"></i></span>
+            <span class="stamp-text">3夜</span>
+          </div>
+          <span class="stamp-label">住宿</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- OVERVIEW SUMMARY -->
+    <section class="section" id="overview-summary">
+      <div class="summary-grid">
+        <div class="sum-card">
+          <span class="sum-card-emoji"><i class="ph ph-calendar-dots"></i></span>
+          <span class="sum-card-label">Trip Dates</span>
+          <span class="sum-card-value">6/4 – 6/6</span>
+          <span class="sum-card-sub">三天兩夜</span>
+        </div>
+        <div class="sum-card">
+          <span class="sum-card-emoji"><i class="ph ph-bed"></i></span>
+          <span class="sum-card-label">Accommodation</span>
+          <span class="sum-card-value">H Avenue 新村</span>
+          <span class="sum-card-sub">2 晚 · NT$3,139（Agoda）</span>
+        </div>
+        <div class="sum-card">
+          <span class="sum-card-emoji"><i class="ph ph-airplane-takeoff"></i></span>
+          <span class="sum-card-label">Flight</span>
+          <span class="sum-card-value">7C6124 / IT663</span>
+          <span class="sum-card-sub">高雄 ⇄ 金浦</span>
+        </div>
+        <div class="sum-card">
+          <span class="sum-card-emoji"><i class="ph ph-currency-krw"></i></span>
+          <span class="sum-card-label">Currency</span>
+          <span class="sum-card-value">韓元 KRW</span>
+          <span class="sum-card-sub">1 TWD ≒ 43 KRW</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- §2 ITINERARY -->
+    <section class="section" id="itinerary">
+      <div class="section-head">
+        <div class="section-stamp-mini"><i class="ph ph-map-trifold"></i></div>
+        <div>
+          <div class="section-title">每日行程</div>
+          <div class="section-en">Day-by-Day Itinerary</div>
+        </div>
+      </div>
+
+      <!-- DAY 1 -->
+      <div class="day-block">
+        <div class="day-header">
+          <div class="day-badge d1">
+            <span class="day-badge-day">DAY</span>
+            <span class="day-badge-num">1</span>
+          </div>
+          <div>
+            <div class="day-title">抵達首爾</div>
+            <div class="day-date">6 月 4 日（四）</div>
+          </div>
+        </div>
+        <div class="timeline">
+          <div class="tl-item">
+            <div class="tl-dot"></div>
+            <div class="tl-card">
+              <div class="tl-card-thumb trans"><i class="ph ph-airplane-landing"></i></div>
+              <div class="tl-card-body">
+                <div class="tl-card-time">13:00 → 16:55</div>
+                <div class="tl-card-name">濟州航空 7C6124 · 抵達金浦 GMP</div>
+                <div class="tl-card-note">高雄小港 → 金浦（2h55m）/ 訂位代號（見 email） / 出關後搭機場線（AREX）1 站到弘大入口（10 分鐘）/ 入境後辦 T-money</div>
+                <div class="tl-card-tags">
+                  <span class="chip gray">交通</span>
+                  <span class="chip teal">去程</span>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="tl-item">
+            <div class="tl-dot"></div>
+            <div class="tl-card">
+              <div class="tl-card-thumb hotel"><i class="ph ph-bed"></i></div>
+              <div class="tl-card-body">
+                <div class="tl-card-time">15:00 入住</div>
+                <div class="tl-card-name">H Avenue Hotel 新村</div>
+                <div class="tl-card-note">地鐵 2 號線「新村站」步行 3 分鐘 / Agoda 訂單見 email / 6/1 自動扣款 NT$3,139</div>
+                <div class="tl-card-tags">
+                  <span class="chip rose">住宿</span>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="tl-item">
+            <div class="tl-dot"></div>
+            <div class="tl-card">
+              <div class="tl-card-thumb sight"><i class="ph ph-buildings"></i></div>
+              <div class="tl-card-body">
+                <div class="tl-card-time">下午</div>
+                <div class="tl-card-name">待填入景點 / 活動</div>
+                <div class="tl-card-note">把行程告訴我，我幫你填進來</div>
+                <div class="tl-card-tags">
+                  <span class="chip teal">景點</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- DAY 2 -->
+      <div class="day-block">
+        <div class="day-header">
+          <div class="day-badge d2">
+            <span class="day-badge-day">DAY</span>
+            <span class="day-badge-num">2</span>
+          </div>
+          <div>
+            <div class="day-title">醫美日・江南</div>
+            <div class="day-date">6 月 5 日（五）</div>
+          </div>
+        </div>
+        <div class="timeline">
+          <div class="tl-item">
+            <div class="tl-dot" style="border-color: var(--lavender);"></div>
+            <div class="tl-card" style="border-color: var(--lav-pale);">
+              <div class="tl-card-thumb shop"><i class="ph ph-shopping-bag"></i></div>
+              <div class="tl-card-body">
+                <div class="tl-card-time">上午</div>
+                <div class="tl-card-name">行程待填入</div>
+                <div class="tl-card-note">⏰ <strong>13:20 前抵達江南站 5 號出口</strong>（地鐵 2 號線新村站→江南站約 25 分，從出口走到 363 江南塔再 5 分鐘，留 30+ 分 buffer） / 14:00 預約絕對不能遲到</div>
+                <div class="tl-card-tags">
+                  <span class="chip lav">購物</span>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="tl-item">
+            <div class="tl-dot" style="border-color: var(--rose);"></div>
+            <div class="tl-card" style="border-color: var(--rose-pale);">
+              <div class="tl-card-thumb hotel"><i class="ph ph-syringe"></i></div>
+              <div class="tl-card-body">
+                <div class="tl-card-time">14:00 報到</div>
+                <div class="tl-card-name">江南醫美診所預約（兩位）</div>
+                <div class="tl-card-note">
+                  📍 363 강남타워 7층（江南大路 363 · 363 江南塔 7 樓）<br>
+                  🚇 江南站 5 號出口右手邊 / 7 樓前台登記後在大廳等候<br>
+                  📄 <strong>必帶護照</strong>（沒帶不能做）<br>
+                  ⏰ <strong>遲到 10 分鐘自動取消</strong>，迫切的話打電話確認<br>
+                  💧 <strong>素顏前往</strong>（可塗防曬），方便判斷膚況<br>
+                  🤰 備孕／懷孕／哺乳期只能做 LDM（其他項目不建議）
+                </div>
+                <div class="tl-card-tags">
+                  <span class="chip rose">醫美</span>
+                  <span class="chip teal">江南</span>
+                  <span class="chip gray">14:00 鐵錨</span>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="tl-item">
+            <div class="tl-dot" style="border-color: var(--yel-deep);"></div>
+            <div class="tl-card" style="border-color: #EAEAF0;">
+              <div class="tl-card-thumb sight"><i class="ph ph-coffee"></i></div>
+              <div class="tl-card-body">
+                <div class="tl-card-time">療程後 → 晚上</div>
+                <div class="tl-card-name">江南站周邊或回新村</div>
+                <div class="tl-card-note">療程後皮膚敏感建議避免上妝 / 江南站附近吃飯 or 回新村休息 / 行程待填入</div>
+                <div class="tl-card-tags">
+                  <span class="chip yel">自由</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- DAY 3 -->
+      <div class="day-block">
+        <div class="day-header">
+          <div class="day-badge d3">
+            <span class="day-badge-day">DAY</span>
+            <span class="day-badge-num">3</span>
+          </div>
+          <div>
+            <div class="day-title">最後一天・回程</div>
+            <div class="day-date">6 月 6 日（六）</div>
+          </div>
+        </div>
+        <div class="timeline">
+          <div class="tl-item">
+            <div class="tl-dot" style="border-color: var(--yel-deep);"></div>
+            <div class="tl-card" style="border-color: #EAEAF0;">
+              <div class="tl-card-thumb sight"><i class="ph ph-flower-lotus"></i></div>
+              <div class="tl-card-body">
+                <div class="tl-card-time">上午 → 下午</div>
+                <div class="tl-card-name">行程待填入</div>
+                <div class="tl-card-note">把你和雅雅的計畫傳給我（記得 18:00 前到金浦機場）</div>
+                <div class="tl-card-tags">
+                  <span class="chip yel">文化</span>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="tl-item">
+            <div class="tl-dot" style="border-color: var(--rose);"></div>
+            <div class="tl-card" style="border-color: var(--rose-pale);">
+              <div class="tl-card-thumb trans"><i class="ph ph-airplane-takeoff"></i></div>
+              <div class="tl-card-body">
+                <div class="tl-card-time">20:35 → 22:40</div>
+                <div class="tl-card-name">虎航 IT663 · 金浦 → 高雄</div>
+                <div class="tl-card-note">3h5m / 訂位代號（見 email） / 建議 18:00 前到金浦（提前 2.5h）/ 免稅店最後衝刺</div>
+                <div class="tl-card-tags">
+                  <span class="chip gray">交通</span>
+                  <span class="chip rose">回程</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- §3 ACCOMMODATION -->
+    <section class="section" id="accommodation">
+      <div class="section-head">
+        <div class="section-stamp-mini" style="border-color:var(--rose);color:var(--rose);"><i class="ph ph-bed"></i></div>
+        <div>
+          <div class="section-title">住宿資訊</div>
+          <div class="section-en">Where We Stay</div>
+        </div>
+      </div>
+
+      <div class="hotel-card">
+        <div class="hotel-thumb"><i class="ph ph-building"></i></div>
+        <div class="hotel-body">
+          <div class="hotel-name">H Avenue Hotel 新村</div>
+          <div class="hotel-meta">
+            <span><i class="ph ph-map-pin"></i> 서울 마포구 신촌로 90 근처</span>
+            <span><i class="ph ph-subway"></i> 地鐵 2 號線「新村站」步行 3 分鐘</span>
+            <span><i class="ph ph-clock"></i> Check-in 6/4 (四) 15:00</span>
+            <span><i class="ph ph-clock"></i> Check-out 6/6 (六)</span>
+            <span><i class="ph ph-receipt"></i> Agoda · 2 晚 NT$3,139（訂單號見 email）</span>
+          </div>
+          <div class="hotel-chips">
+            <span class="chip teal">新村</span>
+            <span class="chip gray">2 號線直達江南</span>
+            <span class="chip lav">大創新村本店步行 3 分鐘</span>
+          </div>
+          <div class="hotel-note">
+            💡 住新村超方便：地鐵 2 號線（綠色線）不用轉車直達江南 Olive Young 旗艦店、大創新村本店就在附近掃完直接回。
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- §4 FOOD -->
+    <section class="section" id="food">
+      <div class="section-head">
+        <div class="section-stamp-mini" style="border-color:var(--yel-deep);color:var(--yel-deep);"><i class="ph ph-fork-knife"></i></div>
+        <div>
+          <div class="section-title">必吃美食清單</div>
+          <div class="section-en">Food Must-Try</div>
+        </div>
+      </div>
+
+      <div class="food-grid">
+        <div class="food-item">
+          <i class="ph ph-bread food-emoji"></i>
+          <div class="food-body">
+            <div class="food-name">London Bagel Museum</div>
+            <div class="food-area">安國站 2 號出口 · 北村路4街20</div>
+            <div class="food-note">貝果天花板！安國店排隊比本店短很多。可外帶不包餡回台灣。</div>
+            <div class="food-must">★ 必吃</div>
+          </div>
+        </div>
+        <div class="food-item">
+          <i class="ph ph-bread food-emoji"></i>
+          <div class="food-body">
+            <div class="food-name">Artist Bakery 鹽麵包</div>
+            <div class="food-area">安國站 1 號出口 · 安國洞167</div>
+            <div class="food-note">最新爆紅鹽麵包！白色歐風店面，出口右手邊就看到。可外帶回台灣。</div>
+            <div class="food-must">★ 必吃</div>
+          </div>
+        </div>
+        <div class="food-item">
+          <i class="ph ph-shrimp food-emoji"></i>
+          <div class="food-body">
+            <div class="food-name">花蟹世界 꽃게나라 弘大店</div>
+            <div class="food-area">弘大入口站 8/9 出口步行 3-5 分鐘 · 2F, 136-3 Eoulmadang-ro</div>
+            <div class="food-note">鮮甜無腥蟹黃！2人點1份醬油+1份辣味定食（各附飯+大醬湯）+ 海鮮煎餅，共約 ₩50,000（NT$1,200），每人 NT$600 超值 🦀</div>
+            <div class="food-must">★ 必吃</div>
+          </div>
+        </div>
+        <div class="food-item">
+          <i class="ph ph-ice-cream food-emoji"></i>
+          <div class="food-body">
+            <div class="food-name">杜拜巧克力冰淇淋</div>
+            <div class="food-area">聖水洞</div>
+            <div class="food-note">好吃到哭！排隊也值得，聖水洞必訪甜點</div>
+            <div class="food-must">★ 必吃</div>
+          </div>
+        </div>
+        <div class="food-item">
+          <i class="ph ph-coffee food-emoji"></i>
+          <div class="food-body">
+            <div class="food-name">水蜜桃美式 + 2 shots</div>
+            <div class="food-area">韓國咖啡廳 · @serrano615_</div>
+            <div class="food-note">幾乎每天必喝！水蜜桃美式加兩個 shot，甜度剛好又有咖啡感。</div>
+          </div>
+        </div>
+        <div class="food-item">
+          <i class="ph ph-plant food-emoji"></i>
+          <div class="food-body">
+            <div class="food-name">Rafre Fruit 라프레플루트</div>
+            <div class="food-area">
+              聖水洞店：城東區 聖水洞一街 685-495<br>
+              西村店：鍾路區 玉仁洞108（景福宮旁）
+            </div>
+            <div class="food-note">草莓山鮮奶油甜而不膩！西村店週一公休 12:30–18:30。跟安國貝果+鹽麵包一起排超順。</div>
+            <div class="food-must">★ 必吃</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- §5 REELS -->
+    <section class="section" id="reels">
+      <div class="section-head">
+        <div class="section-stamp-mini" style="border-color:var(--lavender);color:var(--lavender);"><i class="ph ph-film-slate"></i></div>
+        <div>
+          <div class="section-title">存起來的 Reels</div>
+          <div class="section-en">Saved Posts & Reels</div>
+        </div>
+      </div>
+
+      <div class="reels-grid">
+        <div class="reel-group-title">美食・飲品</div>
+        <div class="reel-card" onclick="window.open('https://www.threads.com/@anyou.kr/post/DXEKxg9k5fH','_blank')">
+          <div class="reel-thumb c4 has-img">
+            <img
+              src="https://instagram.fkhh5-1.fna.fbcdn.net/v/t51.82787-15/670474939_17928097182258468_6167892548080563046_n.jpg?stp=dst-jpg_e35_tt6&_nc_cat=106&ig_cache_key=Mzg3NDI0OTM1ODM1NTcwNTg3Nw%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkNBUk9VU0VMX0lURU0ueHBpZHMuMTQ0MC5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=zZ4EdLXZRncQ7kNvwG9Kzwf&_nc_oc=Adr1ngD98zfb6d8C3xtyxbYPBdScJQWbcawGhf1hk8uUH8U46SqSDE3qss_TGIo4qbE&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=instagram.fkhh5-1.fna&_nc_gid=mSy3eKInWgkTP2yGLVkGvw&_nc_ss=7a22e&oh=00_Af6xBj3y6LZWQIYvYY-sD0V161f9-mFsVBtHeVqLy2-_cQ&oe=6A162EAC"
+              alt="首爾草莓奶油蛋糕"
+              onerror="this.style.display='none'"
+            >
+            <div class="reel-badge">Threads · @anyou.kr</div>
+            <div class="reel-play"><i class="ph-fill ph-arrow-square-out"></i></div>
+          </div>
+          <div class="reel-body">
+            <div class="reel-from">@anyou.kr · 景福宮 / 聖水洞</div>
+            <div class="reel-title">首爾 No.1 草莓奶油蛋糕 🍓</div>
+            <div class="reel-note">景福宮分店免排隊！聖水洞本店要等 1 小時。奶油控也會愛上這家。</div>
+          </div>
+        </div>
+        <div class="reel-card" onclick="window.open('https://www.threads.com/@zz.eatt/post/DYR3Um9Cbxv','_blank')">
+          <div class="reel-thumb c3 has-img">
+            <img
+              src="https://instagram.fkhh5-1.fna.fbcdn.net/v/t51.82787-15/687519596_17960877537110685_1971254953769811404_n.jpg?stp=dst-jpg_e35_tt6&_nc_cat=103&ig_cache_key=Mzg5NjEzNzgxMTc5NTQ0NjUxMw%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkNBUk9VU0VMX0lURU0ueHBpZHMuMTEwNC5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=zrd5m9T8GJwQ7kNvwFvNsqM&_nc_oc=Ado0QFTEJUtVpALWQgMMd0GzHDVqCYJlr4pFa07k0vCtzicP9xf6F02v72-sQ9gidGo&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=instagram.fkhh5-1.fna&_nc_gid=1ddYe5fPedl1wgTdTt8l4A&_nc_ss=7a22e&oh=00_Af4WUMJtOwVWl1szWG8RGoAbzuaRM9x8w_wWk4Gp2SCmMQ&oe=6A161468"
+              alt="聖水洞杜拜巧克力冰淇淋"
+              onerror="this.style.display='none'"
+            >
+            <div class="reel-badge">Threads · @zz.eatt</div>
+            <div class="reel-play"><i class="ph-fill ph-arrow-square-out"></i></div>
+          </div>
+          <div class="reel-body">
+            <div class="reel-from">@zz.eatt · 聖水洞</div>
+            <div class="reel-title">聖水洞杜拜巧克力冰淇淋 🍫</div>
+            <div class="reel-note">好吃到哭！活該排隊。聖水洞必吃，不要錯過。</div>
+          </div>
+        </div>
+        <div class="reel-card" onclick="window.open('https://www.threads.com/@serrano615_/post/DYcMW-uAbf6','_blank')">
+          <div class="reel-thumb c3 has-img">
+            <img
+              src="https://instagram.fkhh5-1.fna.fbcdn.net/v/t51.82787-15/702179872_17961334869105996_780726913103710621_n.webp?_nc_cat=104&ig_cache_key=Mzg5OTA0NTczMzEyNjQ4NjAxMA%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueXBpZHMuMTUwMC5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=Uq8I8Xx4ULUQ7kNvwHh5qFO&_nc_oc=AdppJ1NTYTTHKvsJwO_sgupfhE41QHulpty9ysS4yCODydgWnnWVi1iakWvBtGtPTaU&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=instagram.fkhh5-1.fna&_nc_gid=Lshkujg0NbolZIV_0emDgw&_nc_ss=7a22e&oh=00_Af40e-OOqppQBAatQlxbUuirqQPreJGqWlY4IGxVb3WXzA&oe=6A16286D"
+              alt="水蜜桃美式"
+              onerror="this.style.display='none'"
+            >
+            <div class="reel-badge">Threads · @serrano615_</div>
+            <div class="reel-play"><i class="ph-fill ph-arrow-square-out"></i></div>
+          </div>
+          <div class="reel-body">
+            <div class="reel-from">@serrano615_ · 咖啡廳</div>
+            <div class="reel-title">水蜜桃美式 + 2 shots ☕</div>
+            <div class="reel-note">在韓國幾乎每天一杯。現在回來還在想。</div>
+          </div>
+        </div>
+        <div class="reel-card" onclick="window.open('https://www.threads.com/@jolly._.1231/post/DYlayOagUbg','_blank')">
+          <div class="reel-thumb c4 has-img">
+            <img
+              src="https://instagram.fkhh5-1.fna.fbcdn.net/v/t51.82787-15/702273111_17968885887103584_2099706357415944761_n.jpg?stp=cp6_dst-jpegr_e35_tt6&_nc_cat=110&ig_cache_key=MzkwMTYzODEwMTM2NTIzODA4MQ%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkNBUk9VU0VMX0lURU0ueHBpZHMuMjI2OC5oZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=EZeJSCIBLJMQ7kNvwG5x_Eh&_nc_oc=Adot2u5871PKe-1NsqC_WwmXFwppwyt62HwTG_OY4nfxHgYFsVmNWZmtpiuGeYF0aug&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&se=-1&_nc_ht=instagram.fkhh5-1.fna&_nc_gid=WDIgTiHaR6sR_Dtt9vkwbg&_nc_ss=7a22e&oh=00_Af7Pq_e3P5C_i7vD9hpMN0FKzCVzG0EEPzlTKRHNuxhRSQ&oe=6A1642E7"
+              alt="弘大醬蟹"
+              onerror="this.style.display='none'"
+            >
+            <div class="reel-badge">Threads · @jolly._.1231</div>
+            <div class="reel-play"><i class="ph-fill ph-arrow-square-out"></i></div>
+          </div>
+          <div class="reel-body">
+            <div class="reel-from">@jolly._.1231 · 花蟹世界 꽃게나라</div>
+            <div class="reel-title">弘大醬蟹 · 2人 NT$1,200 🦀</div>
+            <div class="reel-note">鮮甜無腥！大醬湯是此行最好喝。弘大入口站 8/9 出口 3 分鐘，地鐵 2 號線直達。</div>
+          </div>
+        </div>
+        <!-- Row 4 -->
+        <div class="reel-card" onclick="window.open('https://www.threads.com/@mirandasue_0811/post/DYmhYv2AcHX','_blank')">
+          <div class="reel-thumb c5 has-img">
+            <img
+              src="https://scontent.cdninstagram.com/v/t51.71878-15/671809629_1532698588418523_889202135766553954_n.jpg?stp=cmp1_dst-jpg_e35_s640x640_tt6&_nc_cat=105&ccb=7-5&_nc_sid=18de74&efg=eyJlZmdfdGFnIjoiRkVFRC5iZXN0X2ltYWdlX3VybGdlbi5DMyJ9&_nc_ohc=mPrVnyQuUEAQ7kNvwG_IUL_&_nc_oc=Adqs4NsV8wmClJUJ0u2GB9UNAvM08WmopKK_fPmUKuRqgBoV4tf_WKwTWKLnKc8YkVY&_nc_zt=23&_nc_ht=scontent.cdninstagram.com&_nc_gid=cDQuf14NaXMW3Q3YS3lOYw&_nc_ss=7f20f&oh=00_Af7kxgfHlFPLcDC0I5rF6KQgkSPdP7H3XzXhMXGaJYQzmA&oe=6A164EBE"
+              alt="Rafre Fruit 西村"
+              onerror="this.style.display='none'"
+            >
+            <div class="reel-badge">Threads · @mirandasue_0811</div>
+            <div class="reel-play"><i class="ph-fill ph-arrow-square-out"></i></div>
+          </div>
+          <div class="reel-body">
+            <div class="reel-from">@mirandasue_0811 · 西村</div>
+            <div class="reel-title">Rafre Fruit 西村店 🍓</div>
+            <div class="reel-note">不用擠聖水洞！環境一樣絕美，草莓山鮮奶油甜而不膩。景福宮旁，跟安國站貝果一起排。</div>
+          </div>
+        </div>
+        <div class="reel-card" onclick="window.open('https://www.instagram.com/reel/DWltnn1gQ_c/','_blank')">
+          <div class="reel-thumb c6 has-img">
+            <img
+              src="https://scontent.cdninstagram.com/v/t51.82787-15/657447835_18139492723504324_8652017281088871964_n.jpg?stp=cmp1_dst-jpg_e35_s640x640_tt6&_nc_cat=106&ccb=7-5&_nc_sid=18de74&efg=eyJlZmdfdGFnIjoiQ0xJUFMuYmVzdF9pbWFnZV91cmxnZW4uQzMifQ%3D%3D&_nc_ohc=f-cthZ3L7f8Q7kNvwF11d2k&_nc_oc=Adrh_gaK1JPPfgjlF_oZmT_x3zivmPuJvtXJW_rtyEDknDUd5wSfAqkCVpTMgfzn_ck&_nc_zt=23&_nc_ht=scontent.cdninstagram.com&_nc_gid=-sKUJAWJIiKjI7tkJ4XZLg&_nc_ss=7f60f&oh=00_Af5Eh-YNhpQACutt8UboIE7udojfWYG9hxM_vIQcDronDg&oe=6A16247C"
+              alt="星巴克杜拜巧克力星冰樂"
+              onerror="this.style.display='none'"
+            >
+            <div class="reel-badge">Instagram · @dayoff_albee</div>
+            <div class="reel-play"><i class="ph-fill ph-play"></i></div>
+          </div>
+          <div class="reel-body">
+            <div class="reel-from">@dayoff_albee · 星巴克韓國限定</div>
+            <div class="reel-title">杜拜巧克力星冰樂 🍫</div>
+            <div class="reel-note">韓國 SBUX 限定新品，台灣喝不到。手刀衝一杯，回來再想。</div>
+          </div>
+        </div>
+        <div class="reel-card" onclick="window.open('https://www.instagram.com/reel/DVtVqJ7E33b/','_blank')">
+          <div class="reel-thumb c3 has-img">
+            <img
+              src="https://scontent.cdninstagram.com/v/t51.82787-15/649233126_18542943229070587_1461496284557119648_n.jpg?stp=cmp1_dst-jpg_e35_s640x640_tt6&_nc_cat=109&ccb=7-5&_nc_sid=18de74&efg=eyJlZmdfdGFnIjoiQ0xJUFMuYmVzdF9pbWFnZV91cmxnZW4uQzMifQ%3D%3D&_nc_ohc=bxK0bPuVts8Q7kNvwHdNVq9&_nc_oc=AdoH2Q7en1eMNL-TlCtqu-Li__Gt_iPl9I94Jqd1xLtHY_9w1jBLUR-0dSjqE4Z08D4&_nc_zt=23&_nc_ht=scontent.cdninstagram.com&_nc_gid=OylyE2xV8di0Bq6tYmrcIw&_nc_ss=7f60f&oh=00_Af4-DnUyVM2QLydPKpro9SyRVeeuoyYUCbXkJaeArk4-OQ&oe=6A162F2D"
+              alt="明洞烤起司年糕"
+              onerror="this.style.display='none'"
+            >
+            <div class="reel-badge">Instagram · @shishi_bao</div>
+            <div class="reel-play"><i class="ph-fill ph-play"></i></div>
+          </div>
+          <div class="reel-body">
+            <div class="reel-from">@shishi_bao · 明洞小吃</div>
+            <div class="reel-title">明洞烤起司年糕 🧀</div>
+            <div class="reel-note">爆紅療癒系！烤起司 + 烤起司年糕，加爆煉乳，每份 ₩5,000，明洞兩家攤位有售。</div>
+          </div>
+        </div>
+        <div class="reel-group-title">購物・美妝・醫美</div>
+        <div class="reel-card" onclick="window.open('https://www.threads.com/@716lchnuy/post/DYR-lHLmevf','_blank')">
+          <div class="reel-thumb c1 has-img">
+            <img
+              src="https://instagram.fkhh5-1.fna.fbcdn.net/v/t51.82787-15/696062887_17872005177609638_4606479233222138885_n.jpg?stp=dst-jpg_e35_tt6&_nc_cat=105&ig_cache_key=Mzg5NjE3MDM4MTg2NzM0NjkxMQ%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueXBpZHMuMTQ0MC5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=lQR0e6t8yA4Q7kNvwFU_P1-&_nc_oc=Adq_r9r_PPHH83em3ITAGCPHJ-ojYEPJyNtOKKYhP2Vb3DFXDaF9Tw8vO7n9IWkCltw&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=instagram.fkhh5-1.fna&_nc_gid=2EFlk7wEW_A_O1MHf2fCag&_nc_ss=7a22e&oh=00_Af4i2vqpmokVkAth3CmMt3oqknH2WH0BP5NbRYeEmGlFyw&oe=6A161F2A"
+              alt="韓國大創頭髮香水"
+              onerror="this.style.display='none'"
+            >
+            <div class="reel-badge">Threads · @716lchnuy</div>
+            <div class="reel-play"><i class="ph-fill ph-arrow-square-out"></i></div>
+          </div>
+          <div class="reel-body">
+            <div class="reel-from">@716lchnuy · 大創 DAISO</div>
+            <div class="reel-title">大創頭髮香水 ₩3,000 💜</div>
+            <div class="reel-note">換算台幣才 64 元！台灣賣 100 多。後悔沒多買幾瓶，必掃。</div>
+          </div>
+        </div>
+        <div class="reel-card" onclick="window.open('https://www.instagram.com/reel/DYThhRjuEx3/','_blank')">
+          <div class="reel-thumb c5 has-img">
+            <img
+              src="https://instagram.fkhh5-1.fna.fbcdn.net/v/t51.82787-15/695877331_18588044452010627_5845102936764182616_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=108&ig_cache_key=Mzg5NjYwNTUyNDczNjEwMTQ5NTE4NTg4MDQ0NDQ2MDEwNjI3.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkNMSVBTLnhwaWRzLjEwMzIuc2RyLnZpZGVvX2RlZmF1bHRfY292ZXJfZnJhbWUuQzMifQ%3D%3D&_nc_ohc=DsMcKLk3lR0Q7kNvwHm6k5c&_nc_oc=AdrZ52sZ5NvXwHmh72JNGvRiAU48-GrIXoHgPTRNZlHmD-2IWNbuDbg5Ex3XC009Qyk&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=instagram.fkhh5-1.fna&_nc_gid=e4V2UGZvN0FIT5gyLidhPQ&_nc_ss=7a22e&oh=00_Af6EaYTE3VDXUCDnLItug6ra-LiH_0h1tekqA_PVaI2vdA&oe=6A1623DA"
+              alt="韓國大創必買9件"
+              onerror="this.style.display='none'"
+            >
+            <div class="reel-badge">Instagram · @11.sns</div>
+            <div class="reel-play"><i class="ph-fill ph-play"></i></div>
+          </div>
+          <div class="reel-body">
+            <div class="reel-from">@11.sns · 韓國大創</div>
+            <div class="reel-title">韓國大創必買 9 件！🛍️</div>
+            <div class="reel-note">超長片，滿滿好物。出發前先把這部看完再去掃貨！</div>
+          </div>
+        </div>
+        <div class="reel-card" onclick="window.open('https://www.threads.com/@fz252525/post/DYUo2aJDyVm','_blank')">
+          <div class="reel-thumb c6 has-img">
+            <img
+              src="https://instagram.fkhh5-1.fna.fbcdn.net/v/t51.82787-15/689280787_18585646183004499_8183743605911915359_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=103&ig_cache_key=Mzg5NjkxOTIzODM2Mzc4NDU1MA%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMzYwLnNkci52aWRlb19kZWZhdWx0X2NvdmVyX2ZyYW1lLkMzIn0%3D&_nc_ohc=GMWQDq6E9QgQ7kNvwF6VKLh&_nc_oc=AdpQ5z0NubfS2Ky5HSIAtvvEtOIvLyseGNpz5POP5Sb2ztjCV_6mPmtsmPQn87C9OIU&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=instagram.fkhh5-1.fna&_nc_gid=1iStdCApP_osgewLEjPX_g&_nc_ss=7a22e&oh=00_Af4Ix37h93bseUzNtJTezWMp4wAk7qimMP6H6HHOcjECoA&oe=6A16329C"
+              alt="黃金微針 Dr. Evers"
+              onerror="this.style.display='none'"
+            >
+            <div class="reel-badge">Threads · @fz252525</div>
+            <div class="reel-play"><i class="ph-fill ph-arrow-square-out"></i></div>
+          </div>
+          <div class="reel-body">
+            <div class="reel-from">@fz252525 · 明洞醫美</div>
+            <div class="reel-title">韓國黃金微針 💉</div>
+            <div class="reel-note">Dr. Evers Clinic 明洞 8 號出口 50m。比台灣便宜 $5000！週日有開，適合快閃族。</div>
+          </div>
+        </div>
+        <!-- Row 3 -->
+        <div class="reel-card" onclick="window.open('https://www.threads.com/@benjaminclinic_tw/post/DYoYScNkXXs','_blank')">
+          <div class="reel-thumb c1 has-img">
+            <img
+              src="https://instagram.fkhh5-1.fna.fbcdn.net/v/t51.82787-15/704782936_17869287513653973_1439461861255300217_n.jpg?stp=dst-jpg_e35_tt6&_nc_cat=110&ig_cache_key=MzkwMjQ3NTg5NzQ3NTc5MDMxNg%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMjQ4MC5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=QjodFfrDbRkQ7kNvwFJows0&_nc_oc=Adq8vsVAPc3v6TcUw9r4N_IUhNOMBWW5oQZhQhmoj9S-BkiiE8oZqVz2OX6BxGZpvAU&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=instagram.fkhh5-1.fna&_nc_gid=VDhg-8bbEX-8nK6ptFcCGg&_nc_ss=7a22e&oh=00_Af6Wd-2mzg2ADtwEbKZ3iLMmi3j1Bs0TBxRI4HB-fzR86A&oe=6A16429D"
+              alt="韓國6月購物折扣"
+              onerror="this.style.display='none'"
+            >
+            <div class="reel-badge">Threads · @benjaminclinic_tw</div>
+            <div class="reel-play"><i class="ph-fill ph-arrow-square-out"></i></div>
+          </div>
+          <div class="reel-body">
+            <div class="reel-from">@benjaminclinic_tw · 購物情報</div>
+            <div class="reel-title">6 月韓國購物大折扣 🛍️</div>
+            <div class="reel-note">⚡UNIQLO 感謝祭 5/30–6/5（你在！）· MUSINSA 6/14–6/24 · SPAO 6/25 起，出發前看完！</div>
+          </div>
+        </div>
+        <!-- Row 5 - IG batch 1 -->
+        <div class="reel-card" onclick="window.open('https://www.instagram.com/reel/DSphSffj6Hk/','_blank')">
+          <div class="reel-thumb c2 has-img">
+            <img
+              src="https://scontent.cdninstagram.com/v/t51.71878-15/588873013_1521189262503679_1388401849664915141_n.jpg?stp=cmp1_dst-jpg_e35_s640x640_tt6&_nc_cat=109&ccb=7-5&_nc_sid=18de74&efg=eyJlZmdfdGFnIjoiQ0xJUFMuYmVzdF9pbWFnZV91cmxnZW4uQzMifQ%3D%3D&_nc_ohc=s2qdJvQqgQkQ7kNvwEXLkca&_nc_oc=AdrC6YA9wT3SlNC5Q1PXqTD9mr537mTq3CW5jUE8Z1WiZDCBbcJN379taEiA2DvUQ50&_nc_zt=23&_nc_ht=scontent.cdninstagram.com&_nc_gid=EtrUkOqoVkroNVNLe-2reg&_nc_ss=7f60f&oh=00_Af6m8qR64QAL1svL1LvaehquzuvYARHYNS9RuPlyixhreQ&oe=6A1627BF"
+              alt="韓國美妝店避雷"
+              onerror="this.style.display='none'"
+            >
+            <div class="reel-badge">Instagram · @mrskincareiscoming</div>
+            <div class="reel-play"><i class="ph-fill ph-play"></i></div>
+          </div>
+          <div class="reel-body">
+            <div class="reel-from">@mrskincareiscoming · 美妝採購</div>
+            <div class="reel-title">美妝店旗艦店避雷 💄</div>
+            <div class="reel-note">某間旗艦店不要去！弘大、釜山有更便宜的點。看完再買不踩雷。</div>
+          </div>
+        </div>
+        <!-- Row 6 - IG batch 2 -->
+        <div class="reel-card" onclick="window.open('https://www.instagram.com/reel/DYglBZouflw/','_blank')">
+          <div class="reel-thumb c3 has-img">
+            <img
+              src="https://scontent.cdninstagram.com/v/t51.82787-15/702625021_18589500562010627_6571515497072927153_n.jpg?stp=cmp1_dst-jpg_e35_s640x640_tt6&_nc_cat=101&ccb=7-5&_nc_sid=18de74&efg=eyJlZmdfdGFnIjoiQ0xJUFMuYmVzdF9pbWFnZV91cmxnZW4uQzMifQ%3D%3D&_nc_ohc=Wu-MNqxuNLUQ7kNvwGlc7Pd&_nc_oc=AdpiNUU2SBZsIl42zGbhFyVT4e10rH0oWWIRm3_FGsXzlAffT6vLvBCgWta8X1-xVrY&_nc_zt=23&_nc_ht=scontent.cdninstagram.com&_nc_gid=kbIaMUjJsCM8FljXhO199Q&_nc_ss=7f60f&oh=00_Af64Yi71wnopFDEAkVnNbPmoFIcX290a_u6rsixe9Fu8sQ&oe=6A16506C"
+              alt="韓國大創家事皂"
+              onerror="this.style.display='none'"
+            >
+            <div class="reel-badge">Instagram · @11.sns</div>
+            <div class="reel-play"><i class="ph-fill ph-play"></i></div>
+          </div>
+          <div class="reel-body">
+            <div class="reel-from">@11.sns · 大創 DAISO</div>
+            <div class="reel-title">大創神級家事皂 🧼</div>
+            <div class="reel-note">一物多用！洗蔬果、洗刷具都行，網友敲碗等實測。掃貨清單再加一條。</div>
+          </div>
+        </div>
+        <div class="reel-group-title">機場・入境・行李</div>
+        <div class="reel-card" onclick="window.open('https://www.threads.com/@simsgogo/post/DYNPgdjiZ2U','_blank')">
+          <div class="reel-thumb c2 has-img">
+            <img
+              src="https://instagram.fkhh5-1.fna.fbcdn.net/v/t51.82787-15/695105174_17879737224569756_2904701783236686843_n.jpg?stp=dst-jpg_e35_tt6&_nc_cat=111&ig_cache_key=Mzg5NDUyOTcyODcyOTA5Njc0OA%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkNBUk9VU0VMX0lURU0ueHBpZHMuMTA4MC5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=6LOmXhTFVWsQ7kNvwF-9tSM&_nc_oc=AdqRPwrZItIqJKSDUFLGbBuyH-obzsFfPCYnL_wA7Ne0qCUs2zrybeSiV3Ov_9VHZM8&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=instagram.fkhh5-1.fna&_nc_gid=vxGMysoDrzId9PM9Y0-zog&_nc_ss=7a22e&oh=00_Af5P0vAP84m4Gsg3f0SDymhe7aRHVqLykKEQusuH54hIFw&oe=6A16262A"
+              alt="2026韓國入境新制"
+              onerror="this.style.display='none'"
+            >
+            <div class="reel-badge">Threads · @simsgogo</div>
+            <div class="reel-play"><i class="ph-fill ph-arrow-square-out"></i></div>
+          </div>
+          <div class="reel-body">
+            <div class="reel-from">@simsgogo · 入境攻略</div>
+            <div class="reel-title">2026 韓國入境大改革 ✈️</div>
+            <div class="reel-note">e-Arrival Card 取代紙本 / SeS 自動通關 10 秒搞定，落地就辦！</div>
+          </div>
+        </div>
+        <div class="reel-card" onclick="window.open('https://www.threads.com/@lai__1122/post/DYmu3vsElao','_blank')">
+          <div class="reel-thumb c6 has-img">
+            <img
+              src="https://instagram.fkhh5-1.fna.fbcdn.net/v/t51.82787-15/702669145_17947709007176953_6355137967924177232_n.jpg?stp=cp6_dst-jpegr_e35_tt6&_nc_cat=104&ig_cache_key=MzkwMjAwODU0NDQzNDcyMTIyNw%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkNBUk9VU0VMX0lURU0ueHBpZHMuMjMwNC5oZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=fCsmqM4FXeIQ7kNvwHr1c-K&_nc_oc=AdpiDOhu9GoxHZ_6QozEgcZZdFIycumcMyJUWzDKxxJftSuxvHltaRqDYEJScYufohI&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&se=-1&_nc_ht=instagram.fkhh5-1.fna&_nc_gid=SLKA4Dawq1vou5-6h0KnMQ&_nc_ss=7a22e&oh=00_Af68wMJaQepJzEG1OMYcRtJT62pMcM1AMEMzvLT2Emb3tQ&oe=6A163AA0"
+              alt="虎航登機箱尺寸踩雷"
+              onerror="this.style.display='none'"
+            >
+            <div class="reel-badge">Threads · @lai__1122</div>
+            <div class="reel-play"><i class="ph-fill ph-arrow-square-out"></i></div>
+          </div>
+          <div class="reel-body">
+            <div class="reel-from">@lai__1122 · 虎航行李</div>
+            <div class="reel-title">虎航登機箱踩雷 🧳</div>
+            <div class="reel-note">看似一樣大的包，舊的可以、新的卻不行！廉航尺寸標準前後有差。⚠️ 妳回程搭 IT663 必看，行前再量一次。</div>
+          </div>
+        </div>
+        <div class="reel-card" onclick="window.open('https://www.threads.com/@siasopretty/post/DYezJZZGZda','_blank')">
+          <div class="reel-thumb c1 has-img">
+            <img
+              src="https://instagram.fkhh5-1.fna.fbcdn.net/v/t51.82787-15/702544724_17943938841228869_3030723481619077196_n.jpg?stp=dst-jpg_e35_tt6&_nc_cat=108&ig_cache_key=Mzg5OTc3OTI3MzQ2MTQzODI5OA%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMjM5MC5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=ZCLBL1coyQ4Q7kNvwGnUsNk&_nc_oc=AdrqmzOz1Kor1rCDie9UAOpAKwRWkP8BivTNnlU2Y57J3fzW_J5odbsRAG03LqyDbbE&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=instagram.fkhh5-1.fna&_nc_gid=IU-9a_DORrlZjOV5pvNuvA&_nc_ss=7a22e&oh=00_Af59woKMyvtzheUOj-rUTCVUBvRjyMOfaFwTkX2yraWj4g&oe=6A163F26"
+              alt="6月韓國機票降價"
+              onerror="this.style.display='none'"
+            >
+            <div class="reel-badge">Threads · @siasopretty</div>
+            <div class="reel-play"><i class="ph-fill ph-arrow-square-out"></i></div>
+          </div>
+          <div class="reel-body">
+            <div class="reel-from">@siasopretty · 機票情報</div>
+            <div class="reel-title">6 月韓國機票降價 ✈️</div>
+            <div class="reel-note">燃油附加費下調，短程線優惠 10-20%！6 月是購票好時機（妳已訂了，留作下次參考）。</div>
+          </div>
+        </div>
+        <!-- Row 10 - Threads batch 6 (final) -->
+        <div class="reel-card" onclick="window.open('https://www.threads.com/@anyou.kr/post/DWgrRQVk58M','_blank')">
+          <div class="reel-thumb c4 has-img">
+            <img
+              src="https://scontent.cdninstagram.com/v/t51.71878-15/656039917_26115588458099961_1924141273873059628_n.jpg?stp=cmp1_dst-jpg_e35_s640x640_tt6&_nc_cat=105&ccb=7-5&_nc_sid=18de74&efg=eyJlZmdfdGFnIjoiQ0FST1VTRUxfSVRFTS5iZXN0X2ltYWdlX3VybGdlbi5DMyJ9&_nc_ohc=VxYVBYLByjoQ7kNvwHyHxs5&_nc_oc=AdpHSD_xWod3UOGAc064DsRel7pUTHbItzAkXFWpbxkkl7_1Q2qas1MYBCbcADL8h8A&_nc_zt=23&_nc_ht=scontent.cdninstagram.com&_nc_gid=apzlPFpbkwi4vy3wejHmdg&_nc_ss=7f20f&oh=00_Af7c07rtF9UaVek3P8Ydl3fJvacxmxHD2epYWHU9Gt9sZg&oe=6A16291C"
+              alt="SeS 機場快速通關"
+              onerror="this.style.display='none'"
+            >
+            <div class="reel-badge">Threads · @anyou.kr</div>
+            <div class="reel-play"><i class="ph-fill ph-arrow-square-out"></i></div>
+          </div>
+          <div class="reel-body">
+            <div class="reel-from">@anyou.kr · 入境快速通關</div>
+            <div class="reel-title">SeS 5 分鐘出關 ⚡</div>
+            <div class="reel-note">像 VIP 一樣免排隊！入境前現場辦理。⚠️ 原文是仁川的，妳飛金浦——出發前查一下金浦 SeS 位置。</div>
+          </div>
+        </div>
+        <div class="reel-group-title">支付・交通・工具 App</div>
+        <div class="reel-card" onclick="window.open('https://www.threads.com/@huhu_travel/post/DYb4XpWAfOh','_blank')">
+          <div class="reel-thumb c2 has-img">
+            <img
+              src="https://instagram.fkhh5-1.fna.fbcdn.net/v/t51.82787-15/684931010_18053574446556163_6723237059555889995_n.jpg?stp=dst-jpg_e35_tt6&_nc_cat=109&ig_cache_key=Mzg5ODk1NzgwODc2MjE2NjA3OQ%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkNBUk9VU0VMX0lURU0ueHBpZHMuMTA4Ni5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=mssbAdTc9QUQ7kNvwHY33a6&_nc_oc=AdqEVf8tarJ9DbY4aH84Ru98K3piuka0IrEudHq1r5X54_3Wle0lISlzmcfYlKGy3cY&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=instagram.fkhh5-1.fna&_nc_gid=SqgDT6XpSytHE6b1TPCFUw&_nc_ss=7a22e&oh=00_Af7kK5jBvlNfQgqE5CgUzWsdT_X1Npb2RtmV1775YV8ffw&oe=6A162FB4"
+              alt="韓國必備App"
+              onerror="this.style.display='none'"
+            >
+            <div class="reel-badge">Threads · @huhu_travel</div>
+            <div class="reel-play"><i class="ph-fill ph-arrow-square-out"></i></div>
+          </div>
+          <div class="reel-body">
+            <div class="reel-from">@huhu_travel · 旅遊工具</div>
+            <div class="reel-title">韓國必備 App 清單 📱</div>
+            <div class="reel-note">出發前先裝好！地圖、交通、翻譯全包，一個人也能在韓國到處跑。</div>
+          </div>
+        </div>
+        <div class="reel-card" onclick="window.open('https://www.instagram.com/reel/DYUJIU_zM5j/','_blank')">
+          <div class="reel-thumb c4 has-img">
+            <img
+              src="https://scontent.cdninstagram.com/v/t51.82787-15/696983649_17923549452339703_802157677290328713_n.jpg?stp=cmp1_dst-jpg_e35_s640x640_tt6&_nc_cat=101&ccb=7-5&_nc_sid=18de74&efg=eyJlZmdfdGFnIjoiQ0xJUFMuYmVzdF9pbWFnZV91cmxnZW4uQzMifQ%3D%3D&_nc_ohc=TCoE4yVBE84Q7kNvwHkbB1X&_nc_oc=Adr_ehcUV2SRpoVMDP6ueEVCQjjlSUH2Ft73B87mJzkzjtEqBxgJGynUNpAUA3tjqrI&_nc_zt=23&_nc_ht=scontent.cdninstagram.com&_nc_gid=w17CWWAAG8p3a2-DdS0fig&_nc_ss=7f60f&oh=00_Af6E2QTVvAuX5eg5dsF9YfkvIYb9qpbDqu0p-_W5yWmHLg&oe=6A16424F"
+              alt="CHECK IN SEOUL 卡"
+              onerror="this.style.display='none'"
+            >
+            <div class="reel-badge">Instagram · @taimanshalang_korean</div>
+            <div class="reel-play"><i class="ph-fill ph-play"></i></div>
+          </div>
+          <div class="reel-body">
+            <div class="reel-from">@taimanshalang_korean · 交通與折扣</div>
+            <div class="reel-title">CHECK IN SEOUL 必收卡 💳</div>
+            <div class="reel-note">交通卡 + 百貨/超市/咖啡廳折扣！下載 APP 查餘額和附近店家，自由行省錢神器。</div>
+          </div>
+        </div>
+        <div class="reel-card" onclick="window.open('https://www.instagram.com/reel/DXZTjy1jzGn/','_blank')">
+          <div class="reel-thumb c6 has-img">
+            <img
+              src="https://scontent.cdninstagram.com/v/t51.82787-15/671227664_18582964219020191_6186217629906739559_n.jpg?stp=cmp1_dst-jpg_e35_s640x640_tt6&_nc_cat=110&ccb=7-5&_nc_sid=18de74&efg=eyJlZmdfdGFnIjoiQ0xJUFMuYmVzdF9pbWFnZV91cmxnZW4uQzMifQ%3D%3D&_nc_ohc=vR7aycBl89kQ7kNvwEvmWHA&_nc_oc=AdqgE9xgf03LBDyLfS8PgM99HuX5k3pdoNVQQfUMxyuF87eWIuNqLBS_OgKwFm4hm7Y&_nc_zt=23&_nc_ht=scontent.cdninstagram.com&_nc_gid=bit7wqVh7ALfi6EwLekCug&_nc_ss=7f60f&oh=00_Af49z0Op6SHHBuTS0QjenxCjPd_5BxylHakdb8LNCJBkrQ&oe=6A1655FE"
+              alt="首爾免費領禮品"
+              onerror="this.style.display='none'"
+            >
+            <div class="reel-badge">Instagram · @peiijing__</div>
+            <div class="reel-play"><i class="ph-fill ph-play"></i></div>
+          </div>
+          <div class="reel-body">
+            <div class="reel-from">@peiijing__ · 免費禮品</div>
+            <div class="reel-title">首爾免費歡迎禮 🎁</div>
+            <div class="reel-note">明洞樂天百貨領 T-money 交通卡 + Olive Young 歡迎禮，旅客專屬，記得帶護照！</div>
+          </div>
+        </div>
+        <div class="reel-card" onclick="window.open('https://www.instagram.com/p/DYCdCInjWvI/','_blank')">
+          <div class="reel-thumb c4 has-img">
+            <img
+              src="https://scontent.cdninstagram.com/v/t39.30808-6/692579283_1779478443333753_594167357053851727_n.jpg?stp=c216.0.648.648a_dst-jpg_e35_s640x640_tt6&_nc_cat=106&ccb=7-5&_nc_sid=18de74&efg=eyJlZmdfdGFnIjoiQ0FST1VTRUxfSVRFTS5iZXN0X2ltYWdlX3VybGdlbi5DMyJ9&_nc_ohc=COEARHI0jHMQ7kNvwF-dd9r&_nc_oc=AdptYhbnczigWPiLJpfk387nsqQT6iOpWKYoPMvME6a2FMaQMxpqjsGAziFlr4SMwFY&_nc_zt=23&_nc_ht=scontent.cdninstagram.com&_nc_gid=cukPjzZpCgTRgH4V5UIhLQ&_nc_ss=7f60f&oh=00_Af7fmJVW-pV2PP1TEoZlMZ29UFbO_ZZbpxa9bt5mjNaDYw&oe=6A1634D8"
+              alt="韓國旅遊支付攻略"
+              onerror="this.style.display='none'"
+            >
+            <div class="reel-badge">Instagram · @beurlife.tw</div>
+            <div class="reel-play"><i class="ph-fill ph-arrow-square-out"></i></div>
+          </div>
+          <div class="reel-body">
+            <div class="reel-from">@beurlife.tw · 支付攻略</div>
+            <div class="reel-title">韓國最強支付組合 💳</div>
+            <div class="reel-note">LINE Pay 回饋砍到 15%！改用悠遊付走 TWQR 最高 30% 回饋，信用卡 + TWQR 是 2026 最省組合。</div>
+          </div>
+        </div>
+        <!-- Row 9 - Threads batch 5 -->
+        <div class="reel-card" onclick="window.open('https://www.threads.com/@wenyiii0/post/DYokJxmnx7y','_blank')">
+          <div class="reel-thumb c5 has-img">
+            <img
+              src="https://instagram.fkhh5-1.fna.fbcdn.net/v/t51.82787-15/702716527_17925223821338424_178692107995237252_n.jpg?stp=dst-jpg_e35_tt6&_nc_cat=109&ig_cache_key=MzkwMjUyODAyOTA3NDc1NzM0MA%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkNBUk9VU0VMX0lURU0ueHBpZHMuODY4LnNkci5yZWd1bGFyX3Bob3RvLkMzIn0%3D&_nc_ohc=vQb0nJ_i8csQ7kNvwECTKQ0&_nc_oc=Ado05VyRAswfFAQzbk1hMYQ1c4wAkLaNz8WJTGelHUiRnjO_CYPOXRfs-RWIxdii5xE&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=instagram.fkhh5-1.fna&_nc_gid=Y3pcKqALzD4ifBBRH7NMug&_nc_ss=7a22e&oh=00_Af4Gcn2asccB-bHkcex4QgCZJZrgyjB3fjFpXZkqcOzPCQ&oe=6A162B7E"
+              alt="Tmoney + Mastercard"
+              onerror="this.style.display='none'"
+            >
+            <div class="reel-badge">Threads · @wenyiii0</div>
+            <div class="reel-play"><i class="ph-fill ph-arrow-square-out"></i></div>
+          </div>
+          <div class="reel-body">
+            <div class="reel-from">@wenyiii0 · 數位支付</div>
+            <div class="reel-title">手機綁 Mastercard ≈ T-money 💳</div>
+            <div class="reel-note">2 天快閃完全不帶現金！Tmoney APP 綁 Mastercard，地鐵、商店一機搞定。</div>
+          </div>
+        </div>
+        <div class="reel-card" onclick="window.open('https://www.threads.com/@yisheng_0222/post/DYcaA3zkvQe','_blank')">
+          <div class="reel-thumb c2 has-img">
+            <img
+              src="https://instagram.fkhh5-1.fna.fbcdn.net/v/t51.82787-15/702044049_17950242480153252_7274911185822179221_n.jpg?stp=cp6_dst-jpegr_e35_tt6&_nc_cat=100&ig_cache_key=Mzg5OTA5OTg0NjE5MjI3Nzg1Mw%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkNBUk9VU0VMX0lURU0ueHBpZHMuMzA3Mi5oZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=xDJ7_TGgoloQ7kNvwFnaBF7&_nc_oc=AdoGsmg41Xj0xosu2LkNHI17hSXyphc-QQy6S0EHAcdo6_U2fNdkp1bDdiecMvsSYW0&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&se=-1&_nc_ht=instagram.fkhh5-1.fna&_nc_gid=x3KRg_TEVVYHm0ZHJdDF6A&_nc_ss=7a22e&oh=00_Af4zDwUZCpTompkptVEre1B0icQnMpJXgl2yxlJ0tlaIlg&oe=6A1636E6"
+              alt="WOWPASS + 氣候卡"
+              onerror="this.style.display='none'"
+            >
+            <div class="reel-badge">Threads · @yisheng_0222</div>
+            <div class="reel-play"><i class="ph-fill ph-arrow-square-out"></i></div>
+          </div>
+          <div class="reel-body">
+            <div class="reel-from">@yisheng_0222 · 交通卡</div>
+            <div class="reel-title">WOWPASS + 氣候卡 🎫</div>
+            <div class="reel-note">兩張卡分開用！氣候卡只能用在首爾範圍，跨區要補票。Tmoney 跟 WOWPASS 也是兩套系統別搞混。</div>
+          </div>
+        </div>
+        <div class="reel-card" onclick="window.open('https://www.threads.com/@huang__10/post/DWvBZYOieXR','_blank')">
+          <div class="reel-thumb c3 has-img">
+            <img
+              src="https://instagram.fkhh5-1.fna.fbcdn.net/v/t51.82787-15/661375463_17955654438096625_4906848916832230847_n.jpg?stp=dst-jpg_e35_tt6&_nc_cat=104&ig_cache_key=Mzg2ODMxNjcyNzA5MjI4MzMyMA%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkNBUk9VU0VMX0lURU0ueHBpZHMuOTkzLnNkci5yZWd1bGFyX3Bob3RvLkMzIn0%3D&_nc_ohc=9z93F-PRG5oQ7kNvwFcKSj9&_nc_oc=AdqcmSgS8N-u0a32SAgYlyD4RqeSt5n2KGgi9StL31xo1uHlux4gk6yyO3DkGWZrnUg&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=instagram.fkhh5-1.fna&_nc_gid=qGBLUQ2Zg-fxR7YcNC4MNg&_nc_ss=7a22e&oh=00_Af4gehL408__4FAG7VB_8K_luRTFFEeTkO8hXX1HGnwP-Q&oe=6A16372E"
+              alt="LINE Pay 韓國回饋"
+              onerror="this.style.display='none'"
+            >
+            <div class="reel-badge">Threads · @huang__10</div>
+            <div class="reel-play"><i class="ph-fill ph-arrow-square-out"></i></div>
+          </div>
+          <div class="reel-body">
+            <div class="reel-from">@huang__10 · LINE Pay 回饋</div>
+            <div class="reel-title">LINE Pay 莫名多 ₩3,000 💰</div>
+            <div class="reel-note">在韓國刷 LINE Pay，回饋 + 獎勵突然冒近 3,000 元！搭 #22 悠遊付 TWQR 比較看哪個對妳划算。</div>
+          </div>
+        </div>
+        <div class="reel-group-title">禮儀・文化</div>
+        <div class="reel-card" onclick="window.open('https://www.instagram.com/reel/DX6qColT5Na/','_blank')">
+          <div class="reel-thumb c1 has-img">
+            <img
+              src="https://scontent.cdninstagram.com/v/t51.71878-15/685935138_4400969363515704_7969348744561551991_n.jpg?stp=cmp1_dst-jpg_e35_s640x640_tt6&_nc_cat=104&ccb=7-5&_nc_sid=18de74&efg=eyJlZmdfdGFnIjoiQ0xJUFMuYmVzdF9pbWFnZV91cmxnZW4uQzMifQ%3D%3D&_nc_ohc=3kzlEqaCyJwQ7kNvwELHFfk&_nc_oc=AdqOwun_hbypIKkU2by-ZmUtT4VFrbhKBcaDQxd7fSvbx_JoPFRBVnyU1buRFK0NqPE&_nc_zt=23&_nc_ht=scontent.cdninstagram.com&_nc_gid=snPyBFmXtzDDlhqpwjU9kw&_nc_ss=7f60f&oh=00_Af56-SABDCGrmUgiHp8ZUxj6YzThGKa5RUaozr2Xi3AROg&oe=6A164C76"
+              alt="韓國旅遊潛規則禮儀"
+              onerror="this.style.display='none'"
+            >
+            <div class="reel-badge">Instagram · @sherryluerr</div>
+            <div class="reel-play"><i class="ph-fill ph-play"></i></div>
+          </div>
+          <div class="reel-body">
+            <div class="reel-from">@sherryluerr · 旅遊禮儀</div>
+            <div class="reel-title">韓國 5 個潛規則 ⚠️</div>
+            <div class="reel-note">博愛座別坐 / 公車禁手搖 / 外帶不能內用 / 自己收餐盤 / 吃完去咖啡廳聊——記下來不被白眼。</div>
+          </div>
+        </div>
+        <div class="reel-card" onclick="window.open('https://www.instagram.com/reel/DXilLX1kVZh/','_blank')">
+          <div class="reel-thumb c5 has-img">
+            <img
+              src="https://scontent.cdninstagram.com/v/t51.82787-15/674447305_17931188469248127_3178630336910144590_n.jpg?stp=cmp1_dst-jpg_e35_s640x640_tt6&_nc_cat=101&ccb=7-5&_nc_sid=18de74&efg=eyJlZmdfdGFnIjoiQ0xJUFMuYmVzdF9pbWFnZV91cmxnZW4uQzMifQ%3D%3D&_nc_ohc=62y59pkTOF0Q7kNvwEdOnUM&_nc_oc=AdogwTqRYYHt_wfKsdgJC8fgFVJf1NnCuNRSdnyWlAqcJ9T38B7hbl_mFboRvr5XbUY&_nc_zt=23&_nc_ht=scontent.cdninstagram.com&_nc_gid=hFNH8wuJvbBocTAilihPag&_nc_ss=7f60f&oh=00_Af5PTw2vsquOccwJOSDW819cAhChfHScad85T_RE8h-Mrg&oe=6A165024"
+              alt="韓國 5 個社死瞬間"
+              onerror="this.style.display='none'"
+            >
+            <div class="reel-badge">Instagram · @rg_koreago</div>
+            <div class="reel-play"><i class="ph-fill ph-play"></i></div>
+          </div>
+          <div class="reel-body">
+            <div class="reel-from">@rg_koreago · 文化禮儀</div>
+            <div class="reel-title">韓國 5 個社死瞬間 😱</div>
+            <div class="reel-note">垃圾分類 / 廁所 / 餐桌——5 個容易踩雷的瞬間。台灣人其實大多沒問題，先看一下別尷尬。</div>
+          </div>
+        </div>
+        <!-- Row 7 - IG batch 3 -->
+        <div class="reel-card" onclick="window.open('https://www.instagram.com/p/DXyA1gpCe8g/','_blank')">
+          <div class="reel-thumb c1 has-img">
+            <img
+              src="https://scontent.cdninstagram.com/v/t39.30808-6/685017182_950259994508324_3987064988802880365_n.jpg?stp=c216.0.648.648a_dst-jpg_e35_s640x640_tt6&_nc_cat=107&ccb=7-5&_nc_sid=18de74&efg=eyJlZmdfdGFnIjoiRkVFRC5iZXN0X2ltYWdlX3VybGdlbi5DMyJ9&_nc_ohc=h_SP1pW8_WAQ7kNvwFt3iIM&_nc_oc=Adp_gT1m7yyfLfQ0i5FOIRfducnFmr5tnLMpIxSVXLx-ah_Nk7pEO93Pz8FSNvNVJhw&_nc_zt=23&_nc_ht=scontent.cdninstagram.com&_nc_gid=TNLmd51fWcb09iMvBovDtg&_nc_ss=7f60f&oh=00_Af77yX-iMKj4oSrrq9t8CL2W67gTxqI66pxnPgH3Bwqeew&oe=6A1655D0"
+              alt="濟州島過馬路被罰"
+              onerror="this.style.display='none'"
+            >
+            <div class="reel-badge">Instagram · @everyday.news88</div>
+            <div class="reel-play"><i class="ph-fill ph-arrow-square-out"></i></div>
+          </div>
+          <div class="reel-body">
+            <div class="reel-from">@everyday.news88 · 法規踩雷</div>
+            <div class="reel-title">沒走斑馬線罰 ₩20,000 ⚠️</div>
+            <div class="reel-note">台灣遊客在濟州島喜獲罰單一張！韓國交通執法很嚴，乖乖等綠燈走斑馬線。</div>
+          </div>
+        </div>
+        <div class="reel-group-title">其他（待補）</div>
+        <div class="reel-card" onclick="window.open('https://www.instagram.com/reel/DXULf-mE7sS/','_blank')">
+          <div class="reel-thumb c2 has-img">
+            <img
+              src="https://scontent.cdninstagram.com/v/t51.82787-15/683238639_18579927619056400_8826111170094122958_n.jpg?stp=cmp1_dst-jpg_e35_s640x640_tt6&_nc_cat=105&ccb=7-5&_nc_sid=18de74&efg=eyJlZmdfdGFnIjoiQ0xJUFMuYmVzdF9pbWFnZV91cmxnZW4uQzMifQ%3D%3D&_nc_ohc=zIu98ZphpWkQ7kNvwFzq0gF&_nc_oc=AdpGVn3rpOfBlV_yt0yl1-fA5_eqDM-mfR8cQp0zJNzSPSNZNJgf4S3wSOdKJvIfT_w&_nc_zt=23&_nc_ht=scontent.cdninstagram.com&_nc_gid=qsdFp4vbMSkAaolvnUR0xQ&_nc_ss=7f60f&oh=00_Af7Aue5m1axrBOEIGscR6Tyg01rnB-DUmc_ce93KxFi7yw&oe=6A16329E"
+              alt="@whitesunnie 韓國 Reel"
+              onerror="this.style.display='none'"
+            >
+            <div class="reel-badge">Instagram · @whitesunnie</div>
+            <div class="reel-play"><i class="ph-fill ph-play"></i></div>
+          </div>
+          <div class="reel-body">
+            <div class="reel-from">@whitesunnie · 韓國</div>
+            <div class="reel-title">[待 Mandy 補] ✏️</div>
+            <div class="reel-note">這支 IG 沒露描述抓不到，圖看起來可能是行程／景點。妳記得是什麼主題嗎？</div>
+          </div>
+        </div>
+        <!-- Row 8 - IG batch 4 (final) -->
+      </div>
+    </section>
+
+    <!-- §6 NOTES -->
+    <section class="section" id="notes">
+      <div class="section-head">
+        <div class="section-stamp-mini"><i class="ph ph-notebook"></i></div>
+        <div>
+          <div class="section-title">旅遊小筆記</div>
+          <div class="section-en">Travel Tips & Notes</div>
+        </div>
+      </div>
+
+      <div class="notes-grid">
+        <div class="note-card">
+          <div class="note-card-title"><i class="ph ph-credit-card"></i> 金錢 & 交通</div>
+          <ul class="note-list">
+            <li>T-money 卡：機場 7-11 購買，搭地鐵＋公車</li>
+            <li>換匯：明洞換匯所 > 機場（匯率較好）</li>
+            <li>信用卡：<strong>待填入你的卡別</strong> 有無回饋</li>
+            <li>計程車：Kakao T app，比路邊攔車安全</li>
+            <li>機場接送：私人包車仁川→市區約 NT$350（1-2人），免排隊直達飯店</li>
+          </ul>
+        </div>
+        <div class="note-card">
+          <div class="note-card-title"><i class="ph ph-wifi-high"></i> 網路 & 通訊</div>
+          <ul class="note-list">
+            <li>SIM 卡：<strong>待填入</strong>（Klook / 機場取件）</li>
+            <li>Pocket Wi-Fi：若共用一台記得輪流充電</li>
+            <li>免費 Wi-Fi：便利店、地鐵站普遍有</li>
+            <li>緊急聯絡：台灣駐韓代表處 +82-2-399-2767</li>
+          </ul>
+        </div>
+        <div class="note-card">
+          <div class="note-card-title"><i class="ph ph-chats"></i> 韓文常用句</div>
+          <div class="note-hand">
+            얼마예요? — 多少錢？<br>
+            감사합니다 — 謝謝<br>
+            주세요 — 請給我<br>
+            화장실 어디예요? — 廁所在哪？<br>
+            사진 찍어도 돼요? — 可以拍照嗎？
+          </div>
+        </div>
+        <div class="note-card">
+          <div class="note-card-title"><i class="ph ph-airplane-landing"></i> 入境 & 通關</div>
+          <ul class="note-list">
+            <li><strong>e-Arrival Card</strong>：紙本入境卡已廢，入境前 72 小時線上填電子版</li>
+            <li><strong>SeS 自動通關</strong>：落地走人工一次 → 到仁川 T1-H 區辦（5 分鐘）→ 下次 10 秒通關，效期同護照</li>
+            <li>辦了 SeS 連電子入境卡都免填，直接走閘門</li>
+            <li>SeS ≠ Smart Pass（SeS = 入出境 / Smart Pass = 出境快速安檢）</li>
+            <li>換新護照後需重辦，護照最後一頁會貼貼紙</li>
+          </ul>
+        </div>
+        <div class="note-card">
+          <div class="note-card-title"><i class="ph ph-shopping-bag"></i> 購物攻略</div>
+          <ul class="note-list">
+            <li><strong>Olive Young 江南旗艦店</strong>：江南站 10 號出口步行 5 分鐘。多層樓最齊全，可現場辦退稅，帶護照！</li>
+            <li><strong>大創 新村本店</strong>：新村站 8 號出口 3 分鐘，規模大、離飯店近，可辦自助退稅</li>
+            <li>大創必買：頭髮香水 ₩3,000、VT 針狀精華、各品牌聯名彩妝</li>
+            <li>退稅門檻：₩15,000 以上單筆消費</li>
+            <li>⚡ <strong>UNIQLO 感謝祭</strong> 5/30–6/5 → 6/4 你就在！熱門基本款優惠多</li>
+            <li>📅 MUSINSA 折扣 6/14–6/24 / SPAO 6/25+ / ZARA 6/25+（回來後可網購）</li>
+          </ul>
+        </div>
+        <div class="note-card">
+          <div class="note-card-title"><i class="ph ph-device-mobile"></i> 必備 App</div>
+          <ul class="note-list">
+            <li><strong>Naver Map</strong>：韓國版 Google Maps，步行＋地鐵路線最準</li>
+            <li><strong>Kakao T</strong>：叫計程車，比路邊攔安全有保障</li>
+            <li><strong>Papago</strong>：翻譯 App，拍菜單秒翻</li>
+            <li><strong>Naver Pay</strong>：部分店家支援，免帶現金</li>
+            <li>出發前先把這幾個裝好！</li>
+          </ul>
+        </div>
+        <div class="note-card">
+          <div class="note-card-title"><i class="ph ph-sparkle"></i> 韓國醫美筆記</div>
+          <ul class="note-list">
+            <li><strong>Dr. Evers Clinic 明洞</strong>：4 號線明洞站 8 號出口 50m，比台灣便宜 NT$5,000，週日有開</li>
+            <li><strong>黃金微針</strong>：底層破壞重建，收縮毛孔、減少出油，效果上癮</li>
+            <li><strong>Juvelook（喬雅露）</strong>：補土填凹坑，刺激自體膠原蛋白增生</li>
+            <li>兩者合打：效果不是 1+1=2，是直接開外掛！凹疤毛孔一起解決</li>
+            <li>每月促銷活動不同，新客有優惠，出發前查官網</li>
+          </ul>
+        </div>
+        <div class="note-card">
+          <div class="note-card-title"><i class="ph ph-warning"></i> ⚠️ 6/5 14:00 醫美預約速查</div>
+          <ul class="note-list">
+            <li>📍 <strong>363 강남타워 7층</strong>（江南大路 363 · 363 江南塔 7 樓）</li>
+            <li>🚇 江南站 5 號出口右手邊 · <strong>13:20 前抵達</strong></li>
+            <li>🏥 7 樓前台登記 → 大廳等候</li>
+            <li>📄 <strong>必帶護照</strong>（沒帶不能做）</li>
+            <li>⏰ <strong>遲到 10 分鐘自動取消</strong></li>
+            <li>💧 <strong>素顏前往</strong>（可塗防曬），方便判斷膚況</li>
+            <li>🤰 備孕／懷孕／哺乳期只能做 LDM</li>
+            <li>⚙️ 院內當天情況可能需要等待</li>
+          </ul>
+        </div>
+        <div class="note-card">
+          <div class="note-card-title"><i class="ph ph-notebook"></i> 其他筆記</div>
+          <ul class="note-list">
+            <li>把你想記的事情傳給我</li>
+            <li>退稅 Tax Refund 門檻：₩15,000 以上單筆</li>
+            <li>貝果 / 鹽麵包可外帶回台灣（不包餡款）</li>
+            <li><strong>待補充</strong></li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- §7 PACKING -->
+    <section class="section" id="packing">
+      <div class="section-head">
+        <div class="section-stamp-mini" style="border-color:var(--lavender);color:var(--lavender);"><i class="ph ph-suitcase-rolling"></i></div>
+        <div>
+          <div class="section-title">行李打包清單</div>
+          <div class="section-en">Packing Checklist</div>
+        </div>
+      </div>
+
+      <div class="pack-cols">
+        <div class="pack-col">
+          <div class="pack-col-title"><i class="ph ph-identification-card"></i> 證件 & 財物</div>
+          <div class="check-item"><div class="checkbox"></div>護照（有效期 6 個月以上）</div>
+          <div class="check-item"><div class="checkbox"></div><strong>⚠️ 6/5 14:00 醫美必帶護照</strong>（沒帶不能做療程）</div>
+          <div class="check-item"><div class="checkbox"></div>機票電子票（截圖備用）</div>
+          <div class="check-item"><div class="checkbox"></div>虎航手提行李尺寸確認：54×38×23cm（小港機場）</div>
+          <div class="check-item"><div class="checkbox"></div>信用卡 / 提款卡</div>
+          <div class="check-item"><div class="checkbox"></div>台幣（換韓元用）</div>
+          <div class="check-item"><div class="checkbox"></div>旅遊保險確認</div>
+        </div>
+        <div class="pack-col">
+          <div class="pack-col-title"><i class="ph ph-t-shirt"></i> 衣物 & 日用</div>
+          <div class="check-item"><div class="checkbox"></div>換洗衣物（x3）</div>
+          <div class="check-item"><div class="checkbox"></div>拍照好看的外出服</div>
+          <div class="check-item"><div class="checkbox"></div>防曬乳 SPF50+</div>
+          <div class="check-item"><div class="checkbox"></div>雨傘（6 月偶有梅雨）</div>
+          <div class="check-item"><div class="checkbox"></div>行走舒適的鞋子</div>
+        </div>
+        <div class="pack-col">
+          <div class="pack-col-title"><i class="ph ph-plug"></i> 3C & 其他</div>
+          <div class="check-item"><div class="checkbox"></div>手機充電線 + 充電頭</div>
+          <div class="check-item"><div class="checkbox"></div>行動電源</div>
+          <div class="check-item"><div class="checkbox"></div>相機（若有）</div>
+          <div class="check-item"><div class="checkbox"></div>韓國不需轉接頭（220V）</div>
+          <div class="check-item"><div class="checkbox"></div>藥品（腸胃 / 感冒備用）</div>
+          <div class="check-item"><div class="checkbox"></div>大創頭髮香水 ₩3,000 × 多瓶（聖水洞 / 明洞門市）</div>
+          <div class="check-item"><div class="checkbox"></div><strong>🧊 保冷袋 × 1（必！裝杜拜巧克力 + 藍莓奶酪回台灣）</strong></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- FOOTER -->
+    <div class="footer">
+      <div class="footer-hand">Have the best trip, Mandy × 雅雅 🌸</div>
+      <div class="footer-stamp">
+        <span class="footer-stamp-emoji">🇰🇷</span>
+        <span class="footer-stamp-text">SEOUL</span>
+      </div>
+    </div>
+
+  </main>
+</div>
+
+<script>
+  // Sidebar active state on scroll — rootMargin 優先命中「最靠近視窗頂部 30%」的 section
+  const sections = document.querySelectorAll('section[id], div[id]');
+  const navTabs  = document.querySelectorAll('.nav-tab');
+
+  // section id → nav href mapping (summary → overview 視覺對齊)
+  const idMap = { 'overview-summary': 'overview' };
+
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        const target = idMap[entry.target.id] || entry.target.id;
+        navTabs.forEach(tab => {
+          tab.classList.toggle('active', tab.getAttribute('href') === '#' + target);
+        });
+      }
+    });
+  }, {
+    rootMargin: '-15% 0px -70% 0px',  // 只有進入視窗上方 15%–30% 區帶才觸發
+    threshold: 0
+  });
+
+  sections.forEach(s => observer.observe(s));
+
+  // Checkbox state persistence via sessionStorage
+  document.querySelectorAll('.checkbox').forEach((cb, i) => {
+    const key = 'chk-' + i;
+    if (sessionStorage.getItem(key) === '1') cb.classList.add('checked');
+    cb.addEventListener('click', () => {
+      cb.classList.toggle('checked');
+      sessionStorage.setItem(key, cb.classList.contains('checked') ? '1' : '0');
+    });
+  });
+</script>
+
+</body>
+</html>
