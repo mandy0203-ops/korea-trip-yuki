@@ -944,6 +944,79 @@ body {
   .pack-cols { grid-template-columns: 1fr; }
   .section { padding: 24px 20px; }
   .hero { padding: 20px 20px 18px; }
+
+  /* 手機字體放大（為旅行查閱情境優化）*/
+  .sum-card-value  { font-size: 17px; }
+  .sum-card-sub    { font-size: 13px; }
+  .tl-card-time    { font-size: 13px; }
+  .tl-card-name    { font-size: 16px; }
+  .tl-card-note    { font-size: 14px; line-height: 1.65; }
+  .hotel-name      { font-size: 19px; }
+  .hotel-meta,
+  .hotel-meta span { font-size: 14px; line-height: 1.7; }
+  .food-name       { font-size: 17px; }
+  .food-area       { font-size: 13.5px; line-height: 1.6; }
+  .food-note       { font-size: 14px; line-height: 1.65; }
+  .reel-title      { font-size: 16px; }
+  .reel-note       { font-size: 13.5px; line-height: 1.6; }
+  .reel-from       { font-size: 12px; }
+  .reel-group-title { font-size: 1.2rem; }
+  .note-list li    { font-size: 14.5px; line-height: 1.7; }
+  .note-hand       { font-size: 15px; line-height: 1.85; }
+  .check-item      { font-size: 14.5px; line-height: 1.65; }
+}
+
+
+/* ═══════════════════════════════════════
+   COPY ADDRESS BUTTON
+═══════════════════════════════════════ */
+.copy-btn {
+  display: inline-flex;
+  align-items: center;
+  margin-left: 6px;
+  padding: 2px 8px;
+  font-size: 11px;
+  background: rgba(0,0,0,0.05);
+  color: var(--ink, #2b2e33);
+  border: 1px solid rgba(0,0,0,0.12);
+  border-radius: 6px;
+  cursor: pointer;
+  font-family: var(--ff-sans, -apple-system, sans-serif);
+  transition: all 0.15s ease;
+  -webkit-tap-highlight-color: transparent;
+  white-space: nowrap;
+  vertical-align: middle;
+}
+.copy-btn:hover,
+.copy-btn:active {
+  background: var(--teal, #6b9080);
+  color: #fff;
+  border-color: var(--teal, #6b9080);
+}
+@media (max-width: 760px) {
+  .copy-btn { font-size: 12px; padding: 3px 10px; }
+}
+
+.copy-toast {
+  position: fixed;
+  top: 20px;
+  left: 50%;
+  transform: translateX(-50%) translateY(-120px);
+  background: rgba(0,0,0,0.88);
+  color: #fff;
+  padding: 12px 22px;
+  border-radius: 10px;
+  font-size: 14px;
+  font-family: var(--ff-sans, -apple-system, sans-serif);
+  z-index: 9999;
+  transition: transform 0.3s ease;
+  pointer-events: none;
+  max-width: 86%;
+  text-align: center;
+  box-shadow: 0 6px 20px rgba(0,0,0,0.25);
+}
+.copy-toast.show {
+  transform: translateX(-50%) translateY(0);
 }
 
 /* ═══════════════════════════════════════
@@ -1162,7 +1235,7 @@ body {
                 <div class="tl-card-time">14:00 報到</div>
                 <div class="tl-card-name">江南醫美診所預約（兩位）</div>
                 <div class="tl-card-note">
-                  📍 363 강남타워 7층（江南大路 363 · 363 江南塔 7 樓）<br>
+                  📍 363 강남타워 7층（江南大路 363 · 363 江南塔 7 樓）<button class="copy-btn" data-copy="서울특별시 서초구 강남대로 363 363강남타워 7층">複製韓文地址</button><br>
                   🚇 江南站 5 號出口右手邊 / 7 樓前台登記後在大廳等候<br>
                   📄 <strong>必帶護照</strong>（沒帶不能做）<br>
                   ⏰ <strong>遲到 10 分鐘自動取消</strong>，迫切的話打電話確認<br>
@@ -1255,7 +1328,7 @@ body {
         <div class="hotel-body">
           <div class="hotel-name">H Avenue Hotel 新村</div>
           <div class="hotel-meta">
-            <span><i class="ph ph-map-pin"></i> 서울 마포구 신촌로 90 근처</span>
+            <span><i class="ph ph-map-pin"></i> 서울 마포구 신촌로 90 근처 <button class="copy-btn" data-copy="서울 마포구 신촌로 90">複製</button></span>
             <span><i class="ph ph-subway"></i> 地鐵 2 號線「新村站」步行 3 分鐘</span>
             <span><i class="ph ph-clock"></i> Check-in 6/4 (四) 15:00</span>
             <span><i class="ph ph-clock"></i> Check-out 6/6 (六)</span>
@@ -1288,7 +1361,7 @@ body {
           <i class="ph ph-bread food-emoji"></i>
           <div class="food-body">
             <div class="food-name">London Bagel Museum</div>
-            <div class="food-area">安國站 2 號出口 · 北村路4街20</div>
+            <div class="food-area">安國站 2 號出口 · 北村路4街20 <button class="copy-btn" data-copy="서울 종로구 북촌로4길 20">複製韓文</button></div>
             <div class="food-note">貝果天花板！安國店排隊比本店短很多。可外帶不包餡回台灣。</div>
             <div class="food-must">★ 必吃</div>
           </div>
@@ -1297,7 +1370,7 @@ body {
           <i class="ph ph-bread food-emoji"></i>
           <div class="food-body">
             <div class="food-name">Artist Bakery 鹽麵包</div>
-            <div class="food-area">安國站 1 號出口 · 安國洞167</div>
+            <div class="food-area">安國站 1 號出口 · 安國洞167 <button class="copy-btn" data-copy="서울 종로구 안국동 167">複製韓文</button></div>
             <div class="food-note">最新爆紅鹽麵包！白色歐風店面，出口右手邊就看到。可外帶回台灣。</div>
             <div class="food-must">★ 必吃</div>
           </div>
@@ -1306,7 +1379,7 @@ body {
           <i class="ph ph-shrimp food-emoji"></i>
           <div class="food-body">
             <div class="food-name">花蟹世界 꽃게나라 弘大店</div>
-            <div class="food-area">弘大入口站 8/9 出口步行 3-5 分鐘 · 2F, 136-3 Eoulmadang-ro</div>
+            <div class="food-area">弘大入口站 8/9 出口步行 3-5 分鐘 · 2F, 136-3 Eoulmadang-ro <button class="copy-btn" data-copy="서울 마포구 어울마당로 136-3 2층">複製韓文</button></div>
             <div class="food-note">鮮甜無腥蟹黃！2人點1份醬油+1份辣味定食（各附飯+大醬湯）+ 海鮮煎餅，共約 ₩50,000（NT$1,200），每人 NT$600 超值 🦀</div>
             <div class="food-must">★ 必吃</div>
           </div>
@@ -1315,7 +1388,7 @@ body {
           <i class="ph ph-ice-cream food-emoji"></i>
           <div class="food-body">
             <div class="food-name">杜拜巧克力冰淇淋</div>
-            <div class="food-area">聖水洞</div>
+            <div class="food-area">聖水洞 <button class="copy-btn" data-copy="두바이 초콜릿 아이스크림 성수">複製店名搜尋</button></div>
             <div class="food-note">好吃到哭！排隊也值得，聖水洞必訪甜點</div>
             <div class="food-must">★ 必吃</div>
           </div>
@@ -1333,8 +1406,8 @@ body {
           <div class="food-body">
             <div class="food-name">Rafre Fruit 라프레플루트</div>
             <div class="food-area">
-              聖水洞店：城東區 聖水洞一街 685-495<br>
-              西村店：鍾路區 玉仁洞108（景福宮旁）
+              聖水洞店：城東區 聖水洞一街 685-495 <button class="copy-btn" data-copy="서울 성동구 성수동1가 685-495">複製聖水洞</button><br>
+              西村店：鍾路區 玉仁洞108（景福宮旁） <button class="copy-btn" data-copy="서울 종로구 옥인동 108">複製西村</button>
             </div>
             <div class="food-note">草莓山鮮奶油甜而不膩！西村店週一公休 12:30–18:30。跟安國貝果+鹽麵包一起排超順。</div>
             <div class="food-must">★ 必吃</div>
@@ -2012,6 +2085,48 @@ body {
       sessionStorage.setItem(key, cb.classList.contains('checked') ? '1' : '0');
     });
   });
+
+  // ═══════════════════════════════════════
+  // COPY ADDRESS TO CLIPBOARD
+  // ═══════════════════════════════════════
+  let _toastEl = null;
+  function _showToast(msg) {
+    if (!_toastEl) {
+      _toastEl = document.createElement('div');
+      _toastEl.className = 'copy-toast';
+      document.body.appendChild(_toastEl);
+    }
+    _toastEl.textContent = msg;
+    _toastEl.classList.add('show');
+    clearTimeout(_toastEl._timer);
+    _toastEl._timer = setTimeout(() => _toastEl.classList.remove('show'), 1800);
+  }
+
+  document.addEventListener('click', (e) => {
+    const btn = e.target.closest('.copy-btn');
+    if (!btn) return;
+    e.stopPropagation();
+    e.preventDefault();
+    const text = btn.dataset.copy;
+    if (!text) return;
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      navigator.clipboard.writeText(text).then(() => {
+        const preview = text.length > 28 ? text.slice(0, 28) + '...' : text;
+        _showToast('✓ 已複製：' + preview);
+      }).catch(() => _showToast('✗ 複製失敗，請手動長按選取'));
+    } else {
+      // fallback: legacy
+      const ta = document.createElement('textarea');
+      ta.value = text;
+      ta.style.position = 'fixed'; ta.style.opacity = '0';
+      document.body.appendChild(ta);
+      ta.select();
+      try { document.execCommand('copy'); _showToast('✓ 已複製'); }
+      catch { _showToast('✗ 複製失敗'); }
+      document.body.removeChild(ta);
+    }
+  });
+
 </script>
 
 </body>
