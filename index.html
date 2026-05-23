@@ -50,8 +50,8 @@
   --cream:     #D8D4E0;   /* 背景→灰薰衣草（明顯降飽和）  */
   --gridline:  #C8C4CE;   /* 格線→中性灰紫                 */
   --ink:       #504858;   /* 文字深色微調                  */
-  --ink-lt:    #8C8898;   /* 文字中色→中性灰               */
-  --ink-pale:  #AEACB8;   /* 文字淡色→中性                 */
+  --ink-lt:    #5F5A6B;   /* 文字中色→中性灰               */
+  --ink-pale:  #7E7986;   /* 文字淡色→中性                 */
   --border:    #C4C0CC;   /* 邊框→中性灰                   */
   --white:     #F8F6F8;   /* 卡片底→幾乎純白帶極淡紫       */
   --rose:      #E4C4CC;   /* 粉紅→乾燥玫瑰                 */
@@ -580,7 +580,7 @@ body {
 .reels-grid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  gap: 14px;
+  gap: 12px;
 }
 
 .reel-card {
@@ -598,7 +598,7 @@ body {
 
 .reel-thumb {
   width: 100%;
-  aspect-ratio: 9/14;
+  aspect-ratio: 4/5;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -728,7 +728,7 @@ body {
 }
 
 /* Phosphor icon sizing inside containers */
-.reel-thumb i          { font-size: 38px; color: rgba(255,255,255,.82); }
+.reel-thumb i          { font-size: 32px; color: rgba(255,255,255,.82); }
 .reel-play i           { font-size: 11px; color: var(--ink); }
 .stamp-emoji i         { font-size: 20px; }
 .note-card-title i     { font-size: 16px; margin-right: 2px; }
@@ -1005,9 +1005,9 @@ body {
   .food-name       { font-size: 19px; }
   .food-area       { font-size: 15px; line-height: 1.65; }
   .food-note       { font-size: 16px; line-height: 1.7; }
-  .reel-title      { font-size: 17.5px; }
-  .reel-note       { font-size: 15px; line-height: 1.65; }
-  .reel-from       { font-size: 13.5px; }
+  .reel-title      { font-size: 16px; }
+  .reel-note       { font-size: 14px; line-height: 1.6; }
+  .reel-from       { font-size: 13px; }
   .reel-group-title { font-size: 1.45rem; }
   .note-list li    { font-size: 16px; line-height: 1.75; }
   .note-hand       { font-size: 17px; line-height: 1.9; }
