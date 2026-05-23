@@ -2518,6 +2518,10 @@ html:not(.locked) #pwgate { display: none !important; }
     if (sessionStorage.getItem(SESSION_KEY) === '1') {
       gate.remove();
       document.documentElement.classList.remove('locked');
+      // ✨ 此 path 不會走解鎖按鈕，但仍要通知地圖
+      setTimeout(function() {
+        if (window.__koreaTripMap) window.__koreaTripMap.invalidateSize();
+      }, 100);
       return;
     }
 
@@ -2540,6 +2544,10 @@ html:not(.locked) #pwgate { display: none !important; }
         gate.style.transition = 'opacity 0.3s ease';
         gate.style.opacity = '0';
         setTimeout(() => gate.remove(), 300);
+        // ✨ 通知 Leaflet 地圖：container 現在有 size 了，重新計算
+        setTimeout(function() {
+          if (window.__koreaTripMap) window.__koreaTripMap.invalidateSize();
+        }, 400);
       } else {
         msg.textContent = '密碼錯誤';
         input.classList.add('shake');
@@ -2568,11 +2576,20 @@ document.addEventListener('DOMContentLoaded', function() {
   const CLINIC = [37.4951, 127.0284];
 
   const map = L.map('leaflet-map').setView(HOTEL, 12);
+  window.__koreaTripMap = map;  // 暴露給 password gate 解鎖時呼叫 invalidateSize
 
   L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
     attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>',
     maxZoom: 19
   }).addTo(map);
+
+  // 保險：init 後再呼叫 invalidateSize（解決 container 剛 render 時 size 測錯）
+  setTimeout(function() { map.invalidateSize(); }, 200);
+  // 手機橫直轉換也重算
+  window.addEventListener('resize', function() { map.invalidateSize(); });
+  window.addEventListener('orientationchange', function() {
+    setTimeout(function() { map.invalidateSize(); }, 200);
+  });
 
   function naverUrl(q) {
     return 'https://map.naver.com/p/search/' + encodeURIComponent(q);
