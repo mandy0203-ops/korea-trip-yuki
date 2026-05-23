@@ -21,7 +21,9 @@
 <!-- A 方案字體：粉圓 2.0 + Kalam + Patrick Hand + Zen Maru Gothic + Noto Sans TC -->
 <link href="https://fonts.googleapis.com/css2?family=Kalam:wght@400;700&family=Patrick+Hand&family=Zen+Maru+Gothic:wght@400;500;700&family=Noto+Sans+TC:wght@400;500;700&display=swap" rel="stylesheet">
 <!-- Phosphor Icons -->
-<link rel="stylesheet" href="https://unpkg.com/@phosphor-icons/web@2.1.1/src/regular/style.css">
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+    integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="" />
+  <link rel="stylesheet" href="https://unpkg.com/@phosphor-icons/web@2.1.1/src/regular/style.css">
 <link rel="stylesheet" href="https://unpkg.com/@phosphor-icons/web@2.1.1/src/fill/style.css">
 
 <style>
@@ -1131,6 +1133,65 @@ html:not(.locked) #pwgate { display: none !important; }
   40%, 80% { transform: translateX(8px); }
 }
 
+
+/* ═══════════════════════════════════════
+   MAP SECTION
+═══════════════════════════════════════ */
+.map-legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px 14px;
+  margin-bottom: 14px;
+  font-size: 12.5px;
+  font-family: var(--ff-sans, sans-serif);
+}
+.legend-item {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  color: var(--ink, #2b2e33);
+}
+.legend-dot {
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  border: 1.5px solid rgba(0,0,0,0.2);
+  display: inline-block;
+  flex-shrink: 0;
+}
+#leaflet-map {
+  height: 460px;
+  border-radius: 16px;
+  border: 1.5px dashed rgba(0,0,0,0.18);
+  font-family: var(--ff-sans, -apple-system, sans-serif);
+  z-index: 1;
+}
+.map-note {
+  margin-top: 12px;
+  font-size: 12.5px;
+  color: var(--ink-pale, #888);
+  font-family: var(--ff-hand, sans-serif);
+  line-height: 1.6;
+}
+.leaflet-popup-content {
+  font-family: var(--ff-sans, sans-serif);
+  font-size: 13.5px;
+  line-height: 1.6;
+  margin: 12px 14px !important;
+}
+.leaflet-popup-content a {
+  color: var(--teal, #6b9080);
+  font-weight: 600;
+  text-decoration: none;
+}
+.leaflet-popup-content a:hover { text-decoration: underline; }
+@media (max-width: 760px) {
+  #leaflet-map { height: 380px; }
+  .map-legend { font-size: 13px; }
+  .map-note { font-size: 13.5px; }
+  .leaflet-popup-content { font-size: 14.5px; }
+}
+
 ::-webkit-scrollbar { width: 6px; }
 ::-webkit-scrollbar-track { background: var(--cream); }
 ::-webkit-scrollbar-thumb { background: var(--teal-lt); border-radius: 10px; }
@@ -1248,6 +1309,36 @@ html:not(.locked) #pwgate { display: none !important; }
           <span class="sum-card-value">韓元 KRW</span>
           <span class="sum-card-sub">1 TWD ≒ 43 KRW</span>
         </div>
+      </div>
+    </section>
+
+
+    <!-- §1.5 MAP -->
+    <section class="section" id="map">
+      <div class="section-head">
+        <div class="section-stamp-mini" style="border-color:var(--teal);color:var(--teal);">
+          <i class="ph ph-map-trifold"></i>
+        </div>
+        <div>
+          <div class="section-title">地點地圖總覽</div>
+          <div class="section-en">Map Overview · 真實座標</div>
+        </div>
+      </div>
+
+      <div class="map-legend">
+        <span class="legend-item"><span class="legend-dot" style="background:#c14d4d;"></span>飯店</span>
+        <span class="legend-item"><span class="legend-dot" style="background:#3a7ca5;"></span>D1 抵達/汗蒸幕</span>
+        <span class="legend-item"><span class="legend-dot" style="background:#d4a5b8;"></span>D2 江南醫美</span>
+        <span class="legend-item"><span class="legend-dot" style="background:#daa520;"></span>D3 回程</span>
+        <span class="legend-item"><span class="legend-dot" style="background:#6b9080;"></span>美食/隨時可去</span>
+      </div>
+
+      <div id="leaflet-map"></div>
+
+      <div class="map-note">
+        💡 點 marker 跳出地點名 + 「在 NAVER Map 打開」連結（直接帶妳到地圖 App）<br>
+        📏 虛線是「行程順序」連線，不是真實步行/地鐵路線（真實導航請點 marker 進 NAVER Map）<br>
+        🗺️ 底圖 © OpenStreetMap 貢獻者
       </div>
     </section>
 
@@ -2314,6 +2405,75 @@ html:not(.locked) #pwgate { display: none !important; }
     input.focus();
   });
 })();
+</script>
+
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+  integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+  const mapEl = document.getElementById('leaflet-map');
+  if (!mapEl || typeof L === 'undefined') return;
+
+  const HOTEL = [37.5552, 126.9369];
+  const GIMPO = [37.5590, 126.7942];
+  const SAUNA = [37.5567, 126.9237];
+  const CLINIC = [37.4951, 127.0284];
+
+  const map = L.map('leaflet-map').setView(HOTEL, 12);
+
+  L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+    attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>',
+    maxZoom: 19
+  }).addTo(map);
+
+  function naverUrl(q) {
+    return 'https://map.naver.com/p/search/' + encodeURIComponent(q);
+  }
+
+  function pin(lat, lon, color, label, naverQ, emoji) {
+    const html = '<div style="background:' + color +
+      ';color:#fff;border:2.5px solid #fff;border-radius:50%;width:28px;height:28px;display:flex;align-items:center;justify-content:center;font-size:14px;line-height:1;box-shadow:0 2px 6px rgba(0,0,0,0.35);">' +
+      emoji + '</div>';
+    const icon = L.divIcon({
+      className: 'custom-marker',
+      html: html,
+      iconSize: [28, 28],
+      iconAnchor: [14, 14]
+    });
+    const m = L.marker([lat, lon], {icon: icon}).addTo(map);
+    m.bindPopup('<strong>' + label + '</strong><br><a href="' + naverUrl(naverQ) +
+      '" target="_blank" rel="noopener">📍 在 NAVER Map 打開</a>');
+    return m;
+  }
+
+  // 顏色
+  const C_HOTEL = '#c14d4d';
+  const C_D1 = '#3a7ca5';
+  const C_D2 = '#d4a5b8';
+  const C_D3 = '#daa520';
+  const C_FOOD = '#6b9080';
+
+  // markers
+  pin(HOTEL[0], HOTEL[1], C_HOTEL, 'H Avenue 新村（飯店）', '신촌로 90 마포구', '🏨');
+  pin(GIMPO[0], GIMPO[1], C_D1, '金浦國際機場 GMP', '김포국제공항', '✈️');
+  pin(SAUNA[0], SAUNA[1], C_D1, '弘大 24h 火爐桑拿', '홍대 24시 불가마사우나', '♨️');
+  pin(CLINIC[0], CLINIC[1], C_D2, '江南醫美診所 (6/5 14:00)', '서초구 강남대로 363', '💉');
+  pin(37.5793, 126.9859, C_FOOD, 'London Bagel Museum 安國店', '런던베이글뮤지엄 안국점', '🥯');
+  pin(37.5772, 126.9836, C_FOOD, 'Artist Bakery 安國店', 'artist bakery 안국', '🍞');
+  pin(37.5560, 126.9252, C_FOOD, '花蟹世界 弘大店', '꽃게나라 홍대점', '🦀');
+  pin(37.5835, 126.9639, C_FOOD, 'Rafre Fruit 西村店', '라프레프루트 옥인동', '🍓');
+  pin(37.5435, 127.0374, C_FOOD, 'Rafre Fruit 聖水洞', '라프레프루트 성수', '🍓');
+  pin(37.5454, 127.0536, C_FOOD, '杜拜巧克力冰淇淋 (聖水)', '두바이 초콜릿 아이스크림 성수', '🍫');
+
+  // 行程順序連線（虛線，標明非真實路線）
+  L.polyline([GIMPO, HOTEL, SAUNA], {color: C_D1, weight: 3, dashArray: '8,8', opacity: 0.75}).addTo(map);
+  L.polyline([HOTEL, CLINIC, HOTEL], {color: C_D2, weight: 3, dashArray: '8,8', opacity: 0.75}).addTo(map);
+  L.polyline([HOTEL, GIMPO], {color: C_D3, weight: 3, dashArray: '8,8', opacity: 0.75}).addTo(map);
+
+  // Fit bounds
+  map.fitBounds(L.latLngBounds([GIMPO, CLINIC, [37.5835, 126.9639], [37.5454, 127.0536]]),
+                {padding: [35, 35]});
+});
 </script>
 </body>
 </html>
