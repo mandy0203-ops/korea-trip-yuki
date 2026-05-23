@@ -1137,6 +1137,39 @@ html:not(.locked) #pwgate { display: none !important; }
 /* ═══════════════════════════════════════
    MAP SECTION
 ═══════════════════════════════════════ */
+.tl-card-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 10px;
+}
+.card-action-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 7px 12px;
+  font-size: 12.5px;
+  font-weight: 600;
+  background: var(--cream, #faf5ec);
+  color: var(--ink, #2b2e33);
+  border: 1.5px solid rgba(0,0,0,0.15);
+  border-radius: 8px;
+  text-decoration: none;
+  font-family: var(--ff-sans, sans-serif);
+  cursor: pointer;
+  transition: all 0.15s;
+  -webkit-tap-highlight-color: transparent;
+}
+.card-action-btn:hover,
+.card-action-btn:active {
+  background: var(--teal, #6b9080);
+  color: #fff;
+  border-color: var(--teal, #6b9080);
+}
+@media (max-width: 760px) {
+  .card-action-btn { font-size: 13.5px; padding: 9px 14px; }
+}
+
 .map-actions {
   display: flex;
   flex-wrap: wrap;
@@ -1370,6 +1403,7 @@ html:not(.locked) #pwgate { display: none !important; }
         <span class="legend-item"><span class="legend-dot" style="background:#d4a5b8;"></span>D2 江南醫美</span>
         <span class="legend-item"><span class="legend-dot" style="background:#daa520;"></span>D3 回程</span>
         <span class="legend-item"><span class="legend-dot" style="background:#6b9080;"></span>美食/隨時可去</span>
+        <span class="legend-item"><span class="legend-dot" style="background:#a47dc4;"></span>購物</span>
       </div>
 
       <div id="leaflet-map"></div>
@@ -1384,8 +1418,8 @@ html:not(.locked) #pwgate { display: none !important; }
         <a href="itinerary.kml" download="korea-trip-yuki.kml" class="map-action-btn primary">
           📥 下載 KML（Google My Maps）
         </a>
-        <button class="map-action-btn copy-btn" data-copy="런던베이글뮤지엄 안국점&#10;artist bakery 안국&#10;꽃게나라 홍대점&#10;라프레프루트 옥인동&#10;라프레프루트 성수&#10;두바이 초콜릿 아이스크림 성수&#10;홍대 24시 불가마사우나&#10;김포국제공항&#10;서초구 강남대로 363&#10;신촌로 90 마포구">
-          📋 複製 10 個 NAVER 韓文搜尋詞
+        <button class="map-action-btn copy-btn" data-copy="런던베이글뮤지엄 안국점&#10;artist bakery 안국&#10;꽃게나라 홍대점&#10;라프레프루트 옥인동&#10;라프레프루트 성수&#10;두바이 초콜릿 아이스크림 성수&#10;홍대 24시 불가마사우나&#10;김포국제공항&#10;서초구 강남대로 363&#10;신촌로 90 마포구&#10;올리브영 강남타운점&#10;다이소 신촌점">
+          📋 複製 12 個 NAVER 韓文搜尋詞
         </button>
       </div>
 
@@ -1528,6 +1562,17 @@ html:not(.locked) #pwgate { display: none !important; }
                   <span class="chip rose">醫美</span>
                   <span class="chip teal">江南</span>
                   <span class="chip gray">14:00 鐵錨</span>
+                </div>
+                <div class="tl-card-actions">
+                  <a href="https://map.naver.com/p/search/%EC%84%9C%EC%B4%88%EA%B5%AC%20%EA%B0%95%EB%82%A8%EB%8C%80%EB%A1%9C%20363%20363%EA%B0%95%EB%82%A8%ED%83%80%EC%9B%8C"
+                     target="_blank" rel="noopener" class="card-action-btn">
+                    📍 NAVER 路線
+                  </a>
+                  <a href="kakaot://launch"
+                     onclick="setTimeout(function(){window.location.href='https://kakaot.kakao.com/';},800);"
+                     class="card-action-btn">
+                    🚖 Kakao T 叫車
+                  </a>
                 </div>
               </div>
             </div>
@@ -2567,6 +2612,11 @@ document.addEventListener('DOMContentLoaded', function() {
   pin(37.5835, 126.9639, C_FOOD, 'Rafre Fruit 西村店', '라프레프루트 옥인동', '🍓');
   pin(37.5435, 127.0374, C_FOOD, 'Rafre Fruit 聖水洞', '라프레프루트 성수', '🍓');
   pin(37.5454, 127.0536, C_FOOD, '杜拜巧克力冰淇淋 (聖水)', '두바이 초콜릿 아이스크림 성수', '🍫');
+
+  // 購物地點
+  const C_SHOP = '#a47dc4';  // 莫蘭迪紫
+  pin(37.5008, 127.0258, C_SHOP, 'Olive Young 江南旗艦店', '올리브영 강남타운점', '🛍️');
+  pin(37.5553, 126.9356, C_SHOP, '大創新村本店', '다이소 신촌점', '🧴');
 
   // 行程順序連線（虛線，標明非真實路線）
   L.polyline([GIMPO, HOTEL, SAUNA], {color: C_D1, weight: 3, dashArray: '8,8', opacity: 0.75}).addTo(map);
