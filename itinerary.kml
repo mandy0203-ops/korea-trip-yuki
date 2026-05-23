@@ -34,6 +34,12 @@
         <Icon><href>https://maps.google.com/mapfiles/kml/paddle/grn-circle.png</href></Icon>
       </IconStyle>
     </Style>
+    <Style id="shopStyle">
+      <IconStyle>
+        <color>ffc47da4</color>
+        <Icon><href>https://maps.google.com/mapfiles/kml/paddle/purple-circle.png</href></Icon>
+      </IconStyle>
+    </Style>
     <Style id="d1LineStyle">
       <LineStyle><color>ffa57c3a</color><width>4</width></LineStyle>
     </Style>
@@ -159,6 +165,22 @@
         <description><![CDATA[攤位風格現場排 / 韓文: 두바이 초콜릿 아이스크림 성수]]></description>
         <styleUrl>#foodStyle</styleUrl>
         <Point><coordinates>127.0536,37.5454,0</coordinates></Point>
+      </Placemark>
+    </Folder>
+
+    <Folder>
+      <name>🛍️ 購物（隨時可去）</name>
+      <Placemark>
+        <name>🛍️ Olive Young 江南旗艦店</name>
+        <description><![CDATA[江南站 10 號出口走 5 分鐘 / 多層樓最齊全 / 帶護照辦退稅 / 韓文: 올리브영 강남타운점 / 강남대로 429]]></description>
+        <styleUrl>#shopStyle</styleUrl>
+        <Point><coordinates>127.0258,37.5008,0</coordinates></Point>
+      </Placemark>
+      <Placemark>
+        <name>🧴 大創新村本店</name>
+        <description><![CDATA[新村站 8 號出口 3 分鐘 / 規模大、離飯店近 / 必買頭髮香水 ₩3000、VT 針狀精華 / 韓文: 다이소 신촌점 / 신촌로]]></description>
+        <styleUrl>#shopStyle</styleUrl>
+        <Point><coordinates>126.9356,37.5553,0</coordinates></Point>
       </Placemark>
     </Folder>
 
