@@ -1,6 +1,12 @@
 <!DOCTYPE html>
-<html lang="zh-TW">
+<html lang="zh-TW" class="locked">
 <head>
+<script>
+  // PW gate early check — 已解鎖則立即移除 .locked 避免閃爍
+  if (sessionStorage.getItem('mtk-unlocked-2026') === '1') {
+    document.documentElement.classList.remove('locked');
+  }
+</script>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>🇰🇷 首爾旅遊手帳 · Mandy × 雅雅</title>
@@ -1022,12 +1028,115 @@ body {
 /* ═══════════════════════════════════════
    SCROLLBAR
 ═══════════════════════════════════════ */
+
+/* ═══════════════════════════════════════
+   PASSWORD GATE
+═══════════════════════════════════════ */
+html.locked .shell { display: none !important; }
+html:not(.locked) #pwgate { display: none !important; }
+
+#pwgate {
+  position: fixed;
+  inset: 0;
+  background: var(--cream, #faf5ec);
+  z-index: 99999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  font-family: var(--ff-sans, -apple-system, sans-serif);
+}
+.pwgate-box {
+  background: #fff;
+  border: 1.5px dashed rgba(0,0,0,0.15);
+  border-radius: 16px;
+  padding: 36px 28px;
+  max-width: 360px;
+  width: 100%;
+  text-align: center;
+  box-shadow: 0 6px 24px rgba(0,0,0,0.08);
+}
+.pwgate-emoji {
+  font-size: 44px;
+  margin-bottom: 6px;
+  line-height: 1;
+}
+.pwgate-title {
+  font-family: var(--ff-hand, sans-serif);
+  font-size: 22px;
+  color: var(--ink, #2b2e33);
+  margin: 0 0 4px;
+  font-weight: 600;
+}
+.pwgate-sub {
+  font-size: 13px;
+  color: var(--ink-pale, #888);
+  margin: 0 0 20px;
+}
+.pwgate-input {
+  width: 100%;
+  padding: 12px 14px;
+  font-size: 18px;
+  border: 1.5px solid rgba(0,0,0,0.12);
+  border-radius: 10px;
+  text-align: center;
+  letter-spacing: 0.3em;
+  font-family: inherit;
+  outline: none;
+  box-sizing: border-box;
+  transition: border-color 0.15s;
+}
+.pwgate-input:focus { border-color: var(--teal, #6b9080); }
+.pwgate-btn {
+  width: 100%;
+  margin-top: 12px;
+  padding: 12px;
+  font-size: 15px;
+  font-weight: 600;
+  background: var(--teal, #6b9080);
+  color: #fff;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  font-family: inherit;
+  transition: opacity 0.15s;
+  -webkit-tap-highlight-color: transparent;
+}
+.pwgate-btn:active { opacity: 0.85; }
+.pwgate-msg {
+  margin-top: 12px;
+  font-size: 13px;
+  color: #c14d4d;
+  min-height: 18px;
+  font-family: inherit;
+}
+.pwgate-input.shake {
+  animation: pwshake 0.4s;
+  border-color: #c14d4d;
+}
+@keyframes pwshake {
+  0%, 100% { transform: translateX(0); }
+  20%, 60% { transform: translateX(-8px); }
+  40%, 80% { transform: translateX(8px); }
+}
+
 ::-webkit-scrollbar { width: 6px; }
 ::-webkit-scrollbar-track { background: var(--cream); }
 ::-webkit-scrollbar-thumb { background: var(--teal-lt); border-radius: 10px; }
 </style>
 </head>
 <body>
+
+<div id="pwgate">
+  <div class="pwgate-box">
+    <div class="pwgate-emoji">🇰🇷</div>
+    <h2 class="pwgate-title">韓國旅遊手帳</h2>
+    <p class="pwgate-sub">Mandy × 雅雅 私人空間</p>
+    <input type="password" id="pwgate-input" class="pwgate-input" placeholder="輸入密碼" inputmode="numeric" autocomplete="off">
+    <button id="pwgate-btn" class="pwgate-btn">解鎖</button>
+    <div class="pwgate-msg" id="pwgate-msg"></div>
+  </div>
+</div>
 
 <div class="shell">
 
@@ -2145,5 +2254,55 @@ body {
 
 </script>
 
+
+<script>
+(function() {
+  const SESSION_KEY = 'mtk-unlocked-2026';
+  const PW_HASH = 'e49cca5032eca9cfc83a736cb387d44f9a2b906f950079c43c06390db7d4f771';
+
+  document.addEventListener('DOMContentLoaded', function() {
+    const gate = document.getElementById('pwgate');
+    if (!gate) return;
+
+    // 二次確認 sessionStorage（race condition 保險）
+    if (sessionStorage.getItem(SESSION_KEY) === '1') {
+      gate.remove();
+      document.documentElement.classList.remove('locked');
+      return;
+    }
+
+    const input = document.getElementById('pwgate-input');
+    const btn = document.getElementById('pwgate-btn');
+    const msg = document.getElementById('pwgate-msg');
+
+    async function sha256hex(s) {
+      const buf = await crypto.subtle.digest('SHA-256', new TextEncoder().encode(s));
+      return Array.from(new Uint8Array(buf)).map(b => b.toString(16).padStart(2, '0')).join('');
+    }
+
+    async function checkPw() {
+      const v = input.value.trim();
+      if (!v) return;
+      const h = await sha256hex(v);
+      if (h === PW_HASH) {
+        sessionStorage.setItem(SESSION_KEY, '1');
+        document.documentElement.classList.remove('locked');
+        gate.style.transition = 'opacity 0.3s ease';
+        gate.style.opacity = '0';
+        setTimeout(() => gate.remove(), 300);
+      } else {
+        msg.textContent = '密碼錯誤';
+        input.classList.add('shake');
+        setTimeout(() => input.classList.remove('shake'), 400);
+        input.select();
+      }
+    }
+
+    btn.addEventListener('click', checkPw);
+    input.addEventListener('keydown', e => { if (e.key === 'Enter') checkPw(); });
+    input.focus();
+  });
+})();
+</script>
 </body>
 </html>
