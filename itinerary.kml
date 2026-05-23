@@ -1,0 +1,166 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<kml xmlns="http://www.opengis.net/kml/2.2">
+  <Document>
+    <name>Korea Trip Yuki — Mandy × 雅雅</name>
+    <description>2026/6/4-6/6 首爾旅遊（10 個真實座標地點，分 4 群組）</description>
+
+    <Style id="hotelStyle">
+      <IconStyle>
+        <color>ff4d4dc1</color>
+        <Icon><href>https://maps.google.com/mapfiles/kml/paddle/red-circle.png</href></Icon>
+      </IconStyle>
+    </Style>
+    <Style id="d1Style">
+      <IconStyle>
+        <color>ffa57c3a</color>
+        <Icon><href>https://maps.google.com/mapfiles/kml/paddle/blu-circle.png</href></Icon>
+      </IconStyle>
+    </Style>
+    <Style id="d2Style">
+      <IconStyle>
+        <color>ffb8a5d4</color>
+        <Icon><href>https://maps.google.com/mapfiles/kml/paddle/pink-circle.png</href></Icon>
+      </IconStyle>
+    </Style>
+    <Style id="d3Style">
+      <IconStyle>
+        <color>ff20a5da</color>
+        <Icon><href>https://maps.google.com/mapfiles/kml/paddle/ylw-circle.png</href></Icon>
+      </IconStyle>
+    </Style>
+    <Style id="foodStyle">
+      <IconStyle>
+        <color>ff80906b</color>
+        <Icon><href>https://maps.google.com/mapfiles/kml/paddle/grn-circle.png</href></Icon>
+      </IconStyle>
+    </Style>
+    <Style id="d1LineStyle">
+      <LineStyle><color>ffa57c3a</color><width>4</width></LineStyle>
+    </Style>
+    <Style id="d2LineStyle">
+      <LineStyle><color>ffb8a5d4</color><width>4</width></LineStyle>
+    </Style>
+    <Style id="d3LineStyle">
+      <LineStyle><color>ff20a5da</color><width>4</width></LineStyle>
+    </Style>
+
+    <Folder>
+      <name>🏨 飯店</name>
+      <Placemark>
+        <name>H Avenue Hotel 新村</name>
+        <description><![CDATA[地鐵 2 號線新村站步行 3 分 / Agoda 訂房 6/4 15:00 入住 / 韓文: 신촌로 90 마포구]]></description>
+        <styleUrl>#hotelStyle</styleUrl>
+        <Point><coordinates>126.9369,37.5552,0</coordinates></Point>
+      </Placemark>
+    </Folder>
+
+    <Folder>
+      <name>DAY 1 (6/4)：抵達 + 汗蒸幕</name>
+      <Placemark>
+        <name>✈️ 金浦國際機場 GMP</name>
+        <description><![CDATA[6/4 13:00 高雄→16:55 抵達 / 濟州航空 7C6124 / 韓文: 김포국제공항]]></description>
+        <styleUrl>#d1Style</styleUrl>
+        <Point><coordinates>126.7942,37.5590,0</coordinates></Point>
+      </Placemark>
+      <Placemark>
+        <name>♨️ 弘大 24h 火爐桑拿</name>
+        <description><![CDATA[弘大入口站 4 號出口 1 分 / 24h 營業 / 韓文: 홍대 24시 불가마사우나]]></description>
+        <styleUrl>#d1Style</styleUrl>
+        <Point><coordinates>126.9237,37.5567,0</coordinates></Point>
+      </Placemark>
+      <Placemark>
+        <name>DAY 1 行程順序</name>
+        <styleUrl>#d1LineStyle</styleUrl>
+        <LineString>
+          <coordinates>
+            126.7942,37.5590,0
+            126.9369,37.5552,0
+            126.9237,37.5567,0
+          </coordinates>
+        </LineString>
+      </Placemark>
+    </Folder>
+
+    <Folder>
+      <name>DAY 2 (6/5)：江南醫美</name>
+      <Placemark>
+        <name>💉 江南醫美診所 14:00</name>
+        <description><![CDATA[6/5 14:00 報到，13:20 前抵達江南站 5 號出口 / 必帶護照、素顏、遲到 10 分自動取消 / 韓文: 서초구 강남대로 363 363강남타워 7층]]></description>
+        <styleUrl>#d2Style</styleUrl>
+        <Point><coordinates>127.0284,37.4951,0</coordinates></Point>
+      </Placemark>
+      <Placemark>
+        <name>DAY 2 行程順序</name>
+        <styleUrl>#d2LineStyle</styleUrl>
+        <LineString>
+          <coordinates>
+            126.9369,37.5552,0
+            127.0284,37.4951,0
+            126.9369,37.5552,0
+          </coordinates>
+        </LineString>
+      </Placemark>
+    </Folder>
+
+    <Folder>
+      <name>DAY 3 (6/6)：回程</name>
+      <Placemark>
+        <name>✈️ 金浦回程 20:35</name>
+        <description><![CDATA[6/6 20:35 金浦→22:40 高雄 / 虎航 IT663 / 18:00 前到機場]]></description>
+        <styleUrl>#d3Style</styleUrl>
+        <Point><coordinates>126.7942,37.5590,0</coordinates></Point>
+      </Placemark>
+      <Placemark>
+        <name>DAY 3 回程路線</name>
+        <styleUrl>#d3LineStyle</styleUrl>
+        <LineString>
+          <coordinates>
+            126.9369,37.5552,0
+            126.7942,37.5590,0
+          </coordinates>
+        </LineString>
+      </Placemark>
+    </Folder>
+
+    <Folder>
+      <name>🍽️ 美食/隨時可去</name>
+      <Placemark>
+        <name>🥯 London Bagel Museum 安國店</name>
+        <description><![CDATA[Catch Table Global APP 可預約 / 韓文: 런던베이글뮤지엄 안국점 / 北촌로4길20]]></description>
+        <styleUrl>#foodStyle</styleUrl>
+        <Point><coordinates>126.9859,37.5793,0</coordinates></Point>
+      </Placemark>
+      <Placemark>
+        <name>🍞 Artist Bakery 安國店</name>
+        <description><![CDATA[安國站 1 號出口 / 鹽麵包必吃 / 韓文: 안국동 167]]></description>
+        <styleUrl>#foodStyle</styleUrl>
+        <Point><coordinates>126.9836,37.5772,0</coordinates></Point>
+      </Placemark>
+      <Placemark>
+        <name>🦀 花蟹世界 弘大店</name>
+        <description><![CDATA[弘大入口站 8/9 出口 3 分 / 不收預約早點到 / 午休 15:30-17:30 / 韓文: 꽃게나라 홍대점]]></description>
+        <styleUrl>#foodStyle</styleUrl>
+        <Point><coordinates>126.9252,37.5560,0</coordinates></Point>
+      </Placemark>
+      <Placemark>
+        <name>🍓 Rafre Fruit 西村店</name>
+        <description><![CDATA[景福宮旁 / 比聖水洞排短 / 韓文: 라프레프루트 옥인동]]></description>
+        <styleUrl>#foodStyle</styleUrl>
+        <Point><coordinates>126.9639,37.5835,0</coordinates></Point>
+      </Placemark>
+      <Placemark>
+        <name>🍓 Rafre Fruit 聖水洞</name>
+        <description><![CDATA[本店 / 排隊較長 / 韓文: 라프레프루트 성수]]></description>
+        <styleUrl>#foodStyle</styleUrl>
+        <Point><coordinates>127.0374,37.5435,0</coordinates></Point>
+      </Placemark>
+      <Placemark>
+        <name>🍫 杜拜巧克力冰淇淋 聖水</name>
+        <description><![CDATA[攤位風格現場排 / 韓文: 두바이 초콜릿 아이스크림 성수]]></description>
+        <styleUrl>#foodStyle</styleUrl>
+        <Point><coordinates>127.0536,37.5454,0</coordinates></Point>
+      </Placemark>
+    </Folder>
+
+  </Document>
+</kml>
