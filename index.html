@@ -1137,6 +1137,45 @@ html:not(.locked) #pwgate { display: none !important; }
 /* ═══════════════════════════════════════
    MAP SECTION
 ═══════════════════════════════════════ */
+.map-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin: 14px 0 0;
+}
+.map-action-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 9px 14px;
+  font-size: 13px;
+  font-weight: 600;
+  background: var(--cream, #faf5ec);
+  color: var(--ink, #2b2e33);
+  border: 1.5px solid rgba(0,0,0,0.15);
+  border-radius: 10px;
+  cursor: pointer;
+  text-decoration: none;
+  font-family: var(--ff-sans, sans-serif);
+  transition: all 0.15s;
+  -webkit-tap-highlight-color: transparent;
+}
+.map-action-btn:hover,
+.map-action-btn:active {
+  background: var(--teal, #6b9080);
+  color: #fff;
+  border-color: var(--teal, #6b9080);
+}
+.map-action-btn.primary {
+  background: var(--teal, #6b9080);
+  color: #fff;
+  border-color: var(--teal, #6b9080);
+}
+.map-action-btn.primary:hover { opacity: 0.9; }
+@media (max-width: 760px) {
+  .map-action-btn { font-size: 14px; padding: 10px 16px; }
+}
+
 .map-legend {
   display: flex;
   flex-wrap: wrap;
@@ -1336,10 +1375,42 @@ html:not(.locked) #pwgate { display: none !important; }
       <div id="leaflet-map"></div>
 
       <div class="map-note">
-        💡 點 marker 跳出地點名 + 「在 NAVER Map 打開」連結（直接帶妳到地圖 App）<br>
-        📏 虛線是「行程順序」連線，不是真實步行/地鐵路線（真實導航請點 marker 進 NAVER Map）<br>
-        🗺️ 底圖 © OpenStreetMap 貢獻者
+        💡 頁面內地圖 = <strong>快速看相對位置</strong>（規劃用）<br>
+        🗺️ <strong>規劃詳細 → Google My Maps</strong>（下載 KML 匯入，含大眾運輸 routing）<br>
+        📱 <strong>現場導航 → NAVER Map APP</strong>（複製韓文搜尋詞加我的地點）<br>
+        © 底圖 OpenStreetMap 貢獻者
       </div>
+      <div class="map-actions">
+        <a href="itinerary.kml" download="korea-trip-yuki.kml" class="map-action-btn primary">
+          📥 下載 KML（Google My Maps）
+        </a>
+        <button class="map-action-btn copy-btn" data-copy="런던베이글뮤지엄 안국점&#10;artist bakery 안국&#10;꽃게나라 홍대점&#10;라프레프루트 옥인동&#10;라프레프루트 성수&#10;두바이 초콜릿 아이스크림 성수&#10;홍대 24시 불가마사우나&#10;김포국제공항&#10;서초구 강남대로 363&#10;신촌로 90 마포구">
+          📋 複製 10 個 NAVER 韓文搜尋詞
+        </button>
+      </div>
+
+      <details class="map-howto" style="margin-top:14px;border:1.5px dashed rgba(0,0,0,0.15);border-radius:10px;padding:12px 14px;font-size:13.5px;line-height:1.7;">
+        <summary style="cursor:pointer;font-weight:600;color:var(--ink);">📖 雙軔導航使用教學（點開）</summary>
+        <div style="margin-top:10px;color:var(--ink);">
+          <strong>🎯 規劃時用 → Google My Maps</strong>
+          <ol style="margin:6px 0 14px;padding-left:22px;">
+            <li>電腦開 <a href="https://www.google.com/mymaps" target="_blank" rel="noopener" style="color:var(--teal);">google.com/mymaps</a></li>
+            <li>點「建立新地圖」→「匯入」</li>
+            <li>上傳剛剛下載的 <code>korea-trip-yuki.kml</code></li>
+            <li>地圖會自動顯示 10 個地點 + 3 條 D1/D2/D3 路線</li>
+            <li>右上「分享」設「知道連結的人可檢視」→ 把連結傳給雅雅</li>
+          </ol>
+          <strong>📱 現場時用 → NAVER Map APP</strong>
+          <ol style="margin:6px 0 0;padding-left:22px;">
+            <li>點上方「複製 10 個 NAVER 韓文搜尋詞」</li>
+            <li>NAVER Map APP 一一搜尋（貼上一個搜一個）</li>
+            <li>每個店家點「⭐ 즐겨찾기」加入「我的地點」</li>
+            <li>建議在「내장소」開資料夾分組 D1/D2/D3</li>
+            <li>現場一鍵叫「길찾기（找路）」拿真實步行/地鐵路線</li>
+          </ol>
+        </div>
+      </details>
+
     </section>
 
     <!-- §2 ITINERARY -->
