@@ -53,10 +53,10 @@
     <Folder>
       <name>🏨 飯店</name>
       <Placemark>
-        <name>H Avenue Hotel 新村</name>
-        <description><![CDATA[地鐵 2 號線新村站步行 3 分 / Agoda 訂房 6/4 15:00 入住 / 韓文: 신촌로 90 마포구]]></description>
+        <name>🏨 莊藍酒店 (Trang Blue Hotel)</name>
+        <description><![CDATA[地鐵 2 號線新林站步行約 3-4 分 / Agoda 訂房 6/4 入住 / KRW 148,682 (2 晚) / 韓文: 서울 관악구 신림동 7길 52 / 電話: +82-2-2889-8000]]></description>
         <styleUrl>#hotelStyle</styleUrl>
-        <Point><coordinates>126.9369,37.5552,0</coordinates></Point>
+        <Point><coordinates>126.9264,37.4859,0</coordinates></Point>
       </Placemark>
     </Folder>
 
@@ -69,10 +69,10 @@
         <Point><coordinates>126.7942,37.5590,0</coordinates></Point>
       </Placemark>
       <Placemark>
-        <name>♨️ 弘大 24h 火爐桑拿</name>
-        <description><![CDATA[弘大入口站 4 號出口 1 分 / 24h 營業 / 韓文: 홍대 24시 불가마사우나]]></description>
+        <name>♨️ 太陽海水汗蒸幕</name>
+        <description><![CDATA[新林站附近 / 冠岳區評價最高 / 韓文: 태양해수사우나 신림]]></description>
         <styleUrl>#d1Style</styleUrl>
-        <Point><coordinates>126.9237,37.5567,0</coordinates></Point>
+        <Point><coordinates>126.9305,37.4860,0</coordinates></Point>
       </Placemark>
       <Placemark>
         <name>DAY 1 行程順序</name>
@@ -80,8 +80,8 @@
         <LineString>
           <coordinates>
             126.7942,37.5590,0
-            126.9369,37.5552,0
-            126.9237,37.5567,0
+            126.9264,37.4859,0
+            126.9305,37.4860,0
           </coordinates>
         </LineString>
       </Placemark>
@@ -100,9 +100,9 @@
         <styleUrl>#d2LineStyle</styleUrl>
         <LineString>
           <coordinates>
-            126.9369,37.5552,0
+            126.9264,37.4859,0
             127.0284,37.4951,0
-            126.9369,37.5552,0
+            126.9264,37.4859,0
           </coordinates>
         </LineString>
       </Placemark>
@@ -121,7 +121,7 @@
         <styleUrl>#d3LineStyle</styleUrl>
         <LineString>
           <coordinates>
-            126.9369,37.5552,0
+            126.9264,37.4859,0
             126.7942,37.5590,0
           </coordinates>
         </LineString>
@@ -177,10 +177,32 @@
         <Point><coordinates>127.0258,37.5008,0</coordinates></Point>
       </Placemark>
       <Placemark>
-        <name>🧴 大創新村本店</name>
-        <description><![CDATA[新村站 8 號出口 3 分鐘 / 規模大、離飯店近 / 必買頭髮香水 ₩3000、VT 針狀精華 / 韓文: 다이소 신촌점 / 신촌로]]></description>
+        <name>🥇 大創 신림역 1 號店（最近莊藍）</name>
+        <description><![CDATA[신림역附近 走路 5-8 分鐘 / 離莊藍最近 / 韓文: 다이소 신림역점 / 신림로 354 (신림동 1424-19)]]></description>
+        <styleUrl>#shopStyle</styleUrl>
+        <Point><coordinates>126.9300,37.4842,0</coordinates></Point>
+      </Placemark>
+      <Placemark>
+        <name>🧴 大創新村本店（原推薦・離原飯店近）</name>
+        <description><![CDATA[新村站 8 號出口 3 分鐘 / 規模大、可辦自助退稅 / 必買頭髮香水 ₩3000、VT 針狀精華 / ⚠️ 從新林過去約 25 分（2 號線）/ 韓文: 다이소 신촌점 / 신촌로]]></description>
         <styleUrl>#shopStyle</styleUrl>
         <Point><coordinates>126.9356,37.5553,0</coordinates></Point>
+      </Placemark>
+    </Folder>
+
+    <Folder>
+      <name>♨️ 汗蒸幕替代選項</name>
+      <Placemark>
+        <name>🥈 삼모스포렉스 (複合館)</name>
+        <description><![CDATA[신림로59길 23 / 신림역 4 號出口走 10 分 / 1991 創業老牌 / 찜질방+사우나+泳池+健身房+保齡球 / 日 ₩15,000 夜 ₩17,000 사우나 ₩12,000 / 韓文: 삼모스포렉스]]></description>
+        <styleUrl>#d1Style</styleUrl>
+        <Point><coordinates>126.9320,37.4870,0</coordinates></Point>
+      </Placemark>
+      <Placemark>
+        <name>🥉 우성사우나 (在地搓澡大媽最強)</name>
+        <description><![CDATA[신림동 광신길 225 / 傳統小型在地 목욕탕 / 想找會搓澡的大媽就來這 / 세신師傅功力最深厚 / 세신行情 ₩25,000-35,000 / 韓文: 우성사우나]]></description>
+        <styleUrl>#d1Style</styleUrl>
+        <Point><coordinates>126.9325,37.4810,0</coordinates></Point>
       </Placemark>
     </Folder>
 
