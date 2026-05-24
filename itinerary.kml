@@ -91,7 +91,7 @@
       <name>DAY 2 (6/5)：江南醫美</name>
       <Placemark>
         <name>💉 江南醫美診所 14:00</name>
-        <description><![CDATA[6/5 14:00 報到，13:20 前抵達江南站 5 號出口 / 必帶護照、素顏、遲到 10 分自動取消 / 韓文: 서초구 강남대로 363 363강남타워 7층]]></description>
+        <description><![CDATA[6/5 14:00-16:00 玻尿酸注射 (兩人都做)，13:30 前抵達 363 강남타워 7F / 必帶護照、素顏、遲到 10 分自動取消 / 韓文: 서초구 강남대로 363 363강남타워 7층]]></description>
         <styleUrl>#d2Style</styleUrl>
         <Point><coordinates>127.0284,37.4951,0</coordinates></Point>
       </Placemark>
@@ -112,7 +112,7 @@
       <name>DAY 3 (6/6)：回程</name>
       <Placemark>
         <name>✈️ 金浦回程 20:35</name>
-        <description><![CDATA[6/6 20:35 金浦→22:40 高雄 / 虎航 IT663 / 18:00 前到機場]]></description>
+        <description><![CDATA[6/6 20:35 金浦→22:40 高雄 / 虎航 IT663 / 17:30 前到機場（신림→金浦 60 分含行李）]]></description>
         <styleUrl>#d3Style</styleUrl>
         <Point><coordinates>126.7942,37.5590,0</coordinates></Point>
       </Placemark>
