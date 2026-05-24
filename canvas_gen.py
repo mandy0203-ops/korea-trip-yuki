@@ -3,6 +3,11 @@
 Generate itinerary-canvas.excalidraw — Excalidraw 行程編排 canvas
 排版：左側候選池 (5×6 grid) + 右側 3 days × 4 時段 grid + 標題/說明
 
+⚠️ DEPRECATED 2026-05-24
+此檔案是早期 brainstorm 階段的工具。最終決定用 Wanderlog AI 取代。
+保留腳本作為歷史紀錄（如未來想再 brainstorm 行程可重用）。
+CARDS list 已 update 反映 Wanderlog real-time 驗證後結果（剔除 OUT 店）。
+
 用法: python3 canvas_gen.py
 輸出: itinerary-canvas.excalidraw (import 到 https://excalidraw.com)
 """
@@ -27,18 +32,18 @@ COLORS = {
 # ── 卡片清單：(emoji+name, category, [optional pre-pin: (col, row)])
 # col: 0=DAY1, 1=DAY2, 2=DAY3 ; row: 0=上午, 1=中午, 2=下午, 3=晚上
 CARDS = [
-    # 食物（聖水洞群）
+    # 食物
+    ("🍲 더진국수육국밥\n신림店 (D1晚 lock)", "food"),
     ("🥯 London Bagel\n安國店", "food"),
     ("🍞 Artist Bakery\n鹽麵包 安國", "food"),
-    ("🦀 花蟹世界\n弘大醬蟹", "food"),
+    ("🦀 花蟹世界\n弘大醬蟹 (D2晚 lock)", "food"),
     ("🍓 Rafre Fruit\n西村店", "food"),
     ("🍓 Rafre Fruit\n聖水洞本店", "food"),
-    ("🍫 杜拜巧克力\n冰淇淋 聖水", "food"),
-    ("🍓 韓貞仙杜拜\n巧克力(包草莓)", "food"),
+    ("🍡 韓貞仙\n杜拜糯米糕 聖水", "food"),
     ("☕ 水蜜桃美式\n+2 shots", "food"),
     ("🍓 No.1 草莓蛋糕\n景福宮分店", "food"),
     ("🍰 杜拜巧克力\n星冰樂 SBUX", "food"),
-    ("🧀 明洞烤起司\n年糕", "food"),
+    ("🍫 杜拜巧克力\n金浦 GS25 買", "food"),
     ("🍱 GS25 超商\n必吃清單", "food"),
     # 景點/區域
     ("🏘️ 半天逛\n聖水洞", "spot"),
@@ -46,10 +51,10 @@ CARDS = [
     # 購物
     ("🛍️ Olive Young\n江南旗艦", "shop"),
     ("🐱 OY 寵物香水\nZoa", "shop"),
-    ("🧴 大창 신림역店\n(離飯店最近)", "shop"),
-    ("🧴 大창 新村本店\n(原推薦)", "shop"),
-    ("💜 大창頭髮香水\n₩3000", "shop"),
-    ("🧼 大창神級\n家事皂", "shop"),
+    ("🧴 Daiso 신림역店\n(離飯店最近)", "shop"),
+    ("🧴 Daiso 新村本店\n(原推薦)", "shop"),
+    ("💜 Daiso 頭髮香水\n₩3000", "shop"),
+    ("🧼 Daiso 神級\n家事皂", "shop"),
     ("👕 弘大寶藏\n服飾店", "shop"),
     ("👟 ept 鞋\n兩萬步不痛", "shop"),
     ("💊 藥局 PDRN\n麗珠蘭 痘膏", "shop"),
@@ -57,10 +62,11 @@ CARDS = [
     ("⚡ UNIQLO 感謝祭\n5/30-6/5", "shop"),
     # 醫美
     ("💉 黃金微針\nDr.Evers 明洞", "med"),
-    # 汗蒸幕
-    ("♨️ 太陽海水\n汗蒸幕(主推)", "sauna"),
-    ("♨️ 삼모스포렉스\n(老牌複合館)", "sauna"),
-    ("♨️ 우성사우나\n(搓澡大媽最強)", "sauna"),
+    # 汗蒸幕（唯一 verified 推薦）
+    ("♨️ 삼모스포렉스\n(D1晚 lock)", "sauna"),
+    # ❌ 已 OUT（Wanderlog Google Maps real-time 驗證 5/24）：
+    # - 太陽海水汗蒸幕：永久關閉
+    # - 우성사우나：Google 2.4 評 + 對外國人不友善
 ]
 
 # ── 鐵錨：已固定不能動的卡（直接放進 grid，不在 pool）
