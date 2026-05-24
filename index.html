@@ -2338,7 +2338,7 @@ html:not(.locked) #pwgate { display: none !important; }
           <div class="reel-body">
             <div class="reel-from">@_food.travel · 汗蒸幕教學</div>
             <div class="reel-title">汗蒸幕流程一次上手 ♨️</div>
-            <div class="reel-note">第一次汗蒸幕的完整 SOP 教學！原文示範釜山，但**流程全韓通用**——妳去 삼모스포렉스 / 우성사우나 也照這套走（更衣→淋浴→泡澡→蒸→搓澡）。</div>
+            <div class="reel-note">第一次汗蒸幕的完整 SOP 教學！原文示範釜山，但**流程全韓通用**——妳去 삼모스포렉스 也照這套走（更衣→淋浴→泡澡→蒸→搓澡）。</div>
           </div>
         </div>
         <div class="reel-card" onclick="window.open('https://www.instagram.com/p/DXRd5rBie8j/','_blank')">
@@ -2449,7 +2449,7 @@ html:not(.locked) #pwgate { display: none !important; }
           <ul class="note-list">
             <li><strong>❌ 太陽海水汗蒸幕（태양해수사우나）— 已永久關閉</strong>：Google Maps 5/24 確認，原推薦作廢。改看下面 2 選 1。</li>
             <li><strong>🥈 삼모스포렉스（Sammo Sporex）</strong>：신림로59길 23（신림역 4 號出口走 10 分鐘）。1991 創業老牌複合館（찜질방＋사우나＋泳池＋健身房＋保齡球）。日 ₩15,000 / 夜 ₩17,000 / 純 사우나 ₩12,000。<button class="copy-btn" data-copy="삼모스포렉스">複製韓文</button></li>
-            <li><strong>🥉 우성사우나（在地搓澡大媽功力最強）</strong>：신림동 광신길 225 傳統小型在地 목욕탕。<strong>想找會搓澡的大媽就來這</strong>——傳統 목욕탕的 세신사功力最深厚。<button class="copy-btn" data-copy="우성사우나 신림동">複製韓文</button></li>
+            <li><strong>❌ 우성사우나 — 已從推薦移除</strong>：Wanderlog 確認 Google 評分 2.4 / 對外國人領地意識強 / 桑拿房關閉。改用上面삼모스포렉스。</li>
             <li>💡 <strong>세신（搓澡）行情</strong>：₩25,000–35,000 一次。到櫃台說「세신 부탁드려요」（請幫我搓澡）。不確定當天有沒有師傅，可以先 Kakao Map 訊息問。</li>
             <li>📝 流程：更衣 → 淋浴 → 泡澡 → 蒸 → 搓澡。第一次看 <strong>#reels</strong> 區的「汗蒸幕教學」＋「潛規則」兩張卡。</li>
           </ul>
@@ -2781,7 +2781,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
   // 汗蒸幕替代選項（同 D1 系列色）
   pin(37.4870, 126.9320, C_D1, '🥈 삼모스포렉스（複合館・走 10 分）', '삼모스포렉스', '♨️');
-  pin(37.4810, 126.9325, C_D1, '🥉 우성사우나（在地搓澡大媽最強）', '우성사우나 신림동', '♨️');
+  // 우성사우나 pin 移除（Google 2.4 評分 + 對外國人不友善）
 
   // 行程順序連線（虛線，標明非真實路線）
   L.polyline([GIMPO, HOTEL, SAUNA], {color: C_D1, weight: 3, dashArray: '8,8', opacity: 0.75}).addTo(map);

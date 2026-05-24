@@ -198,12 +198,6 @@
         <styleUrl>#d1Style</styleUrl>
         <Point><coordinates>126.9320,37.4870,0</coordinates></Point>
       </Placemark>
-      <Placemark>
-        <name>🥉 우성사우나 (在地搓澡大媽最強)</name>
-        <description><![CDATA[신림동 광신길 225 / 傳統小型在地 목욕탕 / 想找會搓澡的大媽就來這 / 세신師傅功力最深厚 / 세신行情 ₩25,000-35,000 / 韓文: 우성사우나]]></description>
-        <styleUrl>#d1Style</styleUrl>
-        <Point><coordinates>126.9325,37.4810,0</coordinates></Point>
-      </Placemark>
     </Folder>
 
   </Document>
