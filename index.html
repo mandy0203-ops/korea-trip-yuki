@@ -1308,17 +1308,38 @@ html:not(.locked) #pwgate { display: none !important; }
 .map-legend {
   display: flex;
   flex-wrap: wrap;
-  gap: 10px 14px;
-  margin-bottom: 14px;
-  font-size: 12.5px;
-  font-family: var(--ff-sans, sans-serif);
+  gap: 8px;
+  margin-bottom: 12px;
 }
-.legend-item {
+/* 可點擊篩選 Chip */
+.map-filter-chip {
   display: inline-flex;
   align-items: center;
-  gap: 6px;
-  color: var(--ink, #2b2e33);
+  gap: 5px;
+  padding: 5px 13px;
+  border-radius: 999px;
+  border: 1.5px solid var(--border);
+  background: var(--white);
+  font-family: var(--ff-sans);
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--ink-lt);
+  cursor: pointer;
+  transition: background .15s, color .15s, border-color .15s, transform .1s;
+  -webkit-tap-highlight-color: transparent;
 }
+.map-filter-chip:active { transform: scale(0.94); }
+.map-filter-chip.active {
+  background: var(--ink);
+  color: #fff;
+  border-color: var(--ink);
+}
+.map-filter-chip[data-group="itinerary"].active { background:#3a7ca5; border-color:#3a7ca5; }
+.map-filter-chip[data-group="medical"].active   { background:#b87ca0; border-color:#b87ca0; }
+.map-filter-chip[data-group="food"].active      { background:#6b9080; border-color:#6b9080; }
+.map-filter-chip[data-group="shop"].active      { background:#a47dc4; border-color:#a47dc4; }
+/* legend-dot 保留（不再顯示，以防其他地方引用） */
+.legend-item { display: none; }
 .legend-dot {
   width: 14px;
   height: 14px;
@@ -1493,13 +1514,12 @@ html:not(.locked) #pwgate { display: none !important; }
         </div>
       </div>
 
-      <div class="map-legend">
-        <span class="legend-item"><span class="legend-dot" style="background:#c14d4d;"></span>飯店</span>
-        <span class="legend-item"><span class="legend-dot" style="background:#3a7ca5;"></span>D1 抵達/汗蒸幕</span>
-        <span class="legend-item"><span class="legend-dot" style="background:#d4a5b8;"></span>D2 江南醫美</span>
-        <span class="legend-item"><span class="legend-dot" style="background:#daa520;"></span>D3 回程</span>
-        <span class="legend-item"><span class="legend-dot" style="background:#6b9080;"></span>美食/隨時可去</span>
-        <span class="legend-item"><span class="legend-dot" style="background:#a47dc4;"></span>購物</span>
+      <div class="map-legend" id="map-filter-bar">
+        <button class="map-filter-chip active" data-group="all">🗺️ 全部</button>
+        <button class="map-filter-chip" data-group="itinerary">🏨 行程</button>
+        <button class="map-filter-chip" data-group="medical">💉 醫美</button>
+        <button class="map-filter-chip" data-group="food">🍽️ 美食</button>
+        <button class="map-filter-chip" data-group="shop">🛍️ 購物</button>
       </div>
 
       <div id="leaflet-map"></div>
@@ -2764,7 +2784,10 @@ document.addEventListener('DOMContentLoaded', function() {
     return 'https://map.naver.com/p/search/' + encodeURIComponent(q);
   }
 
-  function pin(lat, lon, color, label, naverQ, emoji) {
+  const markerGroups = {};   // { 'food': [m1, m2, ...], ... }
+  const allMarkers  = [];
+
+  function pin(lat, lon, color, label, naverQ, emoji, group) {
     const html = '<div style="background:' + color +
       ';color:#fff;border:2.5px solid #fff;border-radius:50%;width:28px;height:28px;display:flex;align-items:center;justify-content:center;font-size:14px;line-height:1;box-shadow:0 2px 6px rgba(0,0,0,0.35);">' +
       emoji + '</div>';
@@ -2777,6 +2800,10 @@ document.addEventListener('DOMContentLoaded', function() {
     const m = L.marker([lat, lon], {icon: icon}).addTo(map);
     m.bindPopup('<strong>' + label + '</strong><br><a href="' + naverUrl(naverQ) +
       '" target="_blank" rel="noopener">📍 在 NAVER Map 打開</a>');
+    m._pinGroup = group || 'other';
+    if (!markerGroups[m._pinGroup]) markerGroups[m._pinGroup] = [];
+    markerGroups[m._pinGroup].push(m);
+    allMarkers.push(m);
     return m;
   }
 
@@ -2788,39 +2815,69 @@ document.addEventListener('DOMContentLoaded', function() {
   const C_FOOD = '#6b9080';
 
   // markers
-  pin(HOTEL[0], HOTEL[1], C_HOTEL, '莊藍酒店 Trang Blue Hotel（飯店）', '서울 관악구 신림동 7길 52', '🏨');
-  pin(GIMPO[0], GIMPO[1], C_D1, '金浦國際機場 GMP', '김포국제공항', '✈️');
-  pin(SAUNA[0], SAUNA[1], C_D1, '♨️ 삼모스포렉스 (新林・主推)', '삼모스포렉스', '♨️');
-  pin(CLINIC[0], CLINIC[1], C_D2, '江南醫美診所 (6/5 14:00)', '서초구 강남대로 363', '💉');
-  pin(37.5793, 126.9859, C_FOOD, 'London Bagel Museum 安國店', '런던베이글뮤지엄 안국점', '🥯');
-  pin(37.5772, 126.9836, C_FOOD, 'Artist Bakery 安國店', 'artist bakery 안국', '🍞');
-  pin(37.5560, 126.9252, C_FOOD, '花蟹世界 弘大店', '꽃게나라 홍대점', '🦀');
-  pin(37.5835, 126.9639, C_FOOD, 'Rafre Fruit 西村店', '라프레프루트 옥인동', '🍓');
-  pin(37.5435, 127.0374, C_FOOD, 'Rafre Fruit 聖水洞', '라프레프루트 성수', '🍓');
-  pin(37.5454, 127.0536, C_FOOD, '杜拜巧克力冰淇淋 (聖水)', '두바이 초콜릿 아이스크림 성수', '🍫');
+  pin(HOTEL[0], HOTEL[1], C_HOTEL, '莊藍酒店 Trang Blue Hotel（飯店）', '서울 관악구 신림동 7길 52', '🏨', 'itinerary');
+  pin(GIMPO[0], GIMPO[1], C_D1,   '金浦國際機場 GMP', '김포국제공항', '✈️', 'itinerary');
+  pin(SAUNA[0], SAUNA[1], C_D1,   '♨️ 삼모스포렉스 (新林・主推)', '삼모스포렉스', '♨️', 'itinerary');
+  pin(CLINIC[0], CLINIC[1], C_D2, '江南醫美診所 (6/5 14:00)', '서초구 강남대로 363', '💉', 'medical');
+  pin(37.5793, 126.9859, C_FOOD, 'London Bagel Museum 安國店', '런던베이글뮤지엄 안국점', '🥯', 'food');
+  pin(37.5772, 126.9836, C_FOOD, 'Artist Bakery 安國店', 'artist bakery 안국', '🍞', 'food');
+  pin(37.5560, 126.9252, C_FOOD, '花蟹世界 弘大店', '꽃게나라 홍대점', '🦀', 'food');
+  pin(37.5835, 126.9639, C_FOOD, 'Rafre Fruit 西村店', '라프레프루트 옥인동', '🍓', 'food');
+  pin(37.5435, 127.0374, C_FOOD, 'Rafre Fruit 聖水洞', '라프레프루트 성수', '🍓', 'food');
+  pin(37.5454, 127.0536, C_FOOD, '杜拜巧克力冰淇淋 (聖水)', '두바이 초콜릿 아이스크림 성수', '🍫', 'food');
 
   // 購物地點
   const C_SHOP = '#a47dc4';  // 莫蘭迪紫
-  pin(37.5008, 127.0258, C_SHOP, 'Olive Young 江南旗艦店', '올리브영 강남타운점', '🛍️');
-  pin(37.5553, 126.9356, C_SHOP, '大創新村本店', '다이소 신촌점', '🧴');
-  pin(37.5638, 126.9850, C_SHOP, '大創明洞本店（旗艦）', '다이소 명동본점', '🧴');
-  pin(37.5538, 126.9237, C_SHOP, 'ason 弘大 (包包)', "as''on 홍대", '👜');
+  pin(37.5008, 127.0258, C_SHOP, 'Olive Young 江南旗艦店', '올리브영 강남타운점', '🛍️', 'shop');
+  pin(37.5553, 126.9356, C_SHOP, '大創新村本店', '다이소 신촌점', '🧴', 'shop');
+  pin(37.5638, 126.9850, C_SHOP, '大創明洞本店（旗艦）', '다이소 명동본점', '🧴', 'shop');
+  pin(37.5538, 126.9237, C_SHOP, 'ason 弘大 (包包)', "as''on 홍대", '👜', 'shop');
 
   // 明洞周邊
-  pin(37.5651, 126.9822, C_SHOP, '롯데백화점 明洞本店（T-money + OY 歡迎禮領取）', '롯데백화점 명동점', '🎁');
-  pin(37.5640, 126.9843, C_D2,   'Dr. Evers Clinic 明洞（黃金微針・8號出口50m）', '닥터에버스클리닉 명동', '💉');
-  pin(37.5628, 126.9858, C_FOOD, '明洞街 烤起司年糕（街頭攤位・明洞길）', '명동 거리음식', '🧀');
+  pin(37.5651, 126.9822, C_SHOP, '롯데백화점 明洞本店（T-money + OY 歡迎禮領取）', '롯데백화점 명동점', '🎁', 'shop');
+  pin(37.5640, 126.9843, C_D2,   'Dr. Evers Clinic 明洞（黃金微針・8號出口50m）', '닥터에버스클리닉 명동', '💉', 'medical');
+  pin(37.5628, 126.9858, C_FOOD, '明洞街 烤起司年糕（街頭攤位・明洞길）', '명동 거리음식', '🧀', 'food');
   // 南大門
-  pin(37.5592, 126.9763, C_SHOP, '南大門市場（老奶奶搓澡巾）', '남대문시장', '🧖');
+  pin(37.5592, 126.9763, C_SHOP, '南大門市場（老奶奶搓澡巾）', '남대문시장', '🧖', 'shop');
 
   // 行程順序連線（虛線，標明非真實路線）
   L.polyline([GIMPO, HOTEL, SAUNA], {color: C_D1, weight: 3, dashArray: '8,8', opacity: 0.75}).addTo(map);
   L.polyline([HOTEL, CLINIC, HOTEL], {color: C_D2, weight: 3, dashArray: '8,8', opacity: 0.75}).addTo(map);
   L.polyline([HOTEL, GIMPO], {color: C_D3, weight: 3, dashArray: '8,8', opacity: 0.75}).addTo(map);
 
-  // Fit bounds
-  map.fitBounds(L.latLngBounds([GIMPO, CLINIC, [37.5835, 126.9639], [37.5454, 127.0536]]),
-                {padding: [35, 35]});
+  // Fit bounds（全圖）
+  const FULL_BOUNDS = L.latLngBounds([GIMPO, CLINIC, [37.5835, 126.9639], [37.5454, 127.0536]]);
+  map.fitBounds(FULL_BOUNDS, {padding: [35, 35]});
+
+  // ── 篩選 Chip ────────────────────────────────────────────
+  document.querySelectorAll('.map-filter-chip').forEach(function(chip) {
+    chip.addEventListener('click', function() {
+      const g = this.dataset.group;
+
+      // 更新 active 狀態
+      document.querySelectorAll('.map-filter-chip').forEach(function(c) {
+        c.classList.remove('active');
+      });
+      this.classList.add('active');
+
+      // 顯示 / 隱藏 marker
+      allMarkers.forEach(function(m) {
+        if (g === 'all' || m._pinGroup === g) {
+          if (!map.hasLayer(m)) m.addTo(map);
+        } else {
+          if (map.hasLayer(m)) map.removeLayer(m);
+        }
+      });
+
+      // 自動縮放到可見 marker 範圍
+      if (g !== 'all' && markerGroups[g] && markerGroups[g].length > 0) {
+        var pts = markerGroups[g].map(function(m) { return m.getLatLng(); });
+        map.fitBounds(L.latLngBounds(pts), {padding: [55, 55], maxZoom: 15});
+      } else {
+        map.fitBounds(FULL_BOUNDS, {padding: [35, 35]});
+      }
+    });
+  });
 });
 </script>
 </body>
