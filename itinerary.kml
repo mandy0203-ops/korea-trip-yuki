@@ -188,6 +188,12 @@
         <styleUrl>#shopStyle</styleUrl>
         <Point><coordinates>126.9356,37.5553,0</coordinates></Point>
       </Placemark>
+      <Placemark>
+        <name>🧴 大創明洞本店（旗艦）</name>
+        <description><![CDATA[明洞站 6 號出口 321m / 신한은행 地下 / 全首爾最大旗艦 / 10:00 開門 / 新林→明洞約 30-35 分（2 號線→4 號線）/ 韓文: 다이소 명동본점 / 중구 명동길 43]]></description>
+        <styleUrl>#shopStyle</styleUrl>
+        <Point><coordinates>126.9850,37.5638,0</coordinates></Point>
+      </Placemark>
     </Folder>
 
     <Folder>
