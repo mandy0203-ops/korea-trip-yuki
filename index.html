@@ -2556,7 +2556,7 @@ html:not(.locked) #pwgate { display: none !important; }
       <div class="footer-toolkit">
         <a href="itinerary.kml" download="korea-trip-yuki.kml">📥 KML</a>
         <span class="footer-sep">·</span>
-        <button class="footer-link-btn copy-btn" data-copy="런던베이글뮤지엄 안국점&#10;artist bakery 안국&#10;꽃게나라 홍대점&#10;라프레프루트 옥인동&#10;라프레프루트 성수&#10;두바이 초콜릿 아이스크림 성수&#10;삼모스포렉스&#10;as''on 홍대&#10;김포국제공항&#10;서초구 강남대로 363&#10;서울 관악구 신림동 7길 52&#10;올리브영 강남타운점&#10;다이소 신촌점&#10;다이소 명동본점">📋 複製 14 個 NAVER 韓文搜尋詞</button>
+        <button class="footer-link-btn copy-btn" data-copy="런던베이글뮤지엄 안국점&#10;artist bakery 안국&#10;꽃게나라 홍대점&#10;라프레프루트 옥인동&#10;라프레프루트 성수&#10;두바이 초콜릿 아이스크림 성수&#10;삼모스포렉스&#10;as''on 홍대&#10;김포국제공항&#10;서초구 강남대로 363&#10;서울 관악구 신림동 7길 52&#10;올리브영 강남타운점&#10;다이소 신촌점&#10;다이소 명동본점&#10;롯데백화점 명동점&#10;닥터에버스클리닉 명동&#10;남대문시장">📋 複製 17 個 NAVER 韓文搜尋詞</button>
       </div>
       <div class="footer-stamp">
         <span class="footer-stamp-emoji">🇰🇷</span>
@@ -2776,6 +2776,13 @@ document.addEventListener('DOMContentLoaded', function() {
   pin(37.5553, 126.9356, C_SHOP, '大創新村本店', '다이소 신촌점', '🧴');
   pin(37.5638, 126.9850, C_SHOP, '大創明洞本店（旗艦）', '다이소 명동본점', '🧴');
   pin(37.5538, 126.9237, C_SHOP, 'ason 弘大 (包包)', "as''on 홍대", '👜');
+
+  // 明洞周邊
+  pin(37.5651, 126.9822, C_SHOP, '롯데백화점 明洞本店（T-money + OY 歡迎禮領取）', '롯데백화점 명동점', '🎁');
+  pin(37.5640, 126.9843, C_D2,   'Dr. Evers Clinic 明洞（黃金微針・8號出口50m）', '닥터에버스클리닉 명동', '💉');
+  pin(37.5628, 126.9858, C_FOOD, '明洞街 烤起司年糕（街頭攤位・明洞길）', '명동 거리음식', '🧀');
+  // 南大門
+  pin(37.5592, 126.9763, C_SHOP, '南大門市場（老奶奶搓澡巾）', '남대문시장', '🧖');
 
   // 行程順序連線（虛線，標明非真實路線）
   L.polyline([GIMPO, HOTEL, SAUNA], {color: C_D1, weight: 3, dashArray: '8,8', opacity: 0.75}).addTo(map);
