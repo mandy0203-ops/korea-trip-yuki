@@ -123,11 +123,23 @@ def fetch_image_url_via_playwright(post_url: str) -> str | None:
     with sync_playwright() as p:
         log(f"瀏覽器啟動 → {post_url[:60]}...", "🌐")
 
+        # 首次執行：SESSION_DIR 是空的 → 有頭模式，讓使用者手動登入
+        # 之後執行：有 cookies → 也用有頭 (避免 bot 偵測)
+        has_session = any(SESSION_DIR.iterdir()) if SESSION_DIR.exists() else False
         ctx = p.chromium.launch_persistent_context(
             str(SESSION_DIR),
-            headless=True,
-            args=["--disable-web-security", "--no-sandbox"],
+            headless=False,         # 有頭模式，防 bot 偵測
+            slow_mo=300,            # 避免太快被偵測
+            args=["--no-sandbox"],
         )
+        if not has_session:
+            log("⚠️  第一次執行，請在開啟的視窗中登入 Threads/Instagram", "🔑")
+            log("   登入完成後，腳本會自動繼續...", "")
+            page_login = ctx.new_page()
+            page_login.goto("https://www.threads.com/login", timeout=30000)
+            page_login.wait_for_url("**/threads.com", timeout=120000)
+            log("✅ 偵測到已登入，繼續...", "")
+            page_login.close()
         page = ctx.new_page()
 
         captured = []
