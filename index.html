@@ -31,6 +31,7 @@
   <link rel="apple-touch-icon" href="icon.png">
   <link rel="icon" type="image/svg+xml" href="icon.svg">
   <link rel="icon" type="image/png" sizes="180x180" href="icon.png">
+  <meta name="description" content="Mandy × 雅雅 2026/6/4–6/6 首爾旅遊手帳：行程、飯店、汗蒸幕、江南醫美、美食、購物 Reel 精選">
   <meta name="apple-mobile-web-app-title" content="韓國旅遊手帳">
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="default">
@@ -2343,7 +2344,7 @@ html:not(.locked) #pwgate { display: none !important; }
           <div class="reel-body">
             <div class="reel-from">@_food.travel · 汗蒸幕教學</div>
             <div class="reel-title">汗蒸幕流程一次上手 ♨️</div>
-            <div class="reel-note">第一次汗蒸幕的完整 SOP 教學！原文示範釜山，但**流程全韓通用**——妳去太陽海水汗蒸幕也照這套走（更衣→淋浴→泡澡→蒸→搓澡）。</div>
+            <div class="reel-note">第一次汗蒸幕的完整 SOP 教學！原文示範釜山，但**流程全韓通用**——妳去삼모스포렉스也照這套走（更衣→淋浴→泡澡→蒸→搓澡）。⚠️ 太陽海水已永久關閉，改去新林站的삼모스포렉스。</div>
           </div>
         </div>
         <div class="reel-card" onclick="window.open('https://www.instagram.com/p/DXRd5rBie8j/','_blank')">
@@ -2359,7 +2360,7 @@ html:not(.locked) #pwgate { display: none !important; }
           <div class="reel-body">
             <div class="reel-from">@creatrip.tw · 汗蒸幕禮儀</div>
             <div class="reel-title">汗蒸幕潛規則 ♨️</div>
-            <div class="reel-note">兩個女生穿橘色幕服喝甜米露的招牌畫面！必懂潛規則——跟 #30 流程教學一起看，DAY 1 進太陽海水汗蒸幕前必複習。畫面跟妳+雅雅情境一模一樣。</div>
+            <div class="reel-note">兩個女生穿橘色幕服喝甜米露的招牌畫面！必懂潛規則——跟 #30 流程教學一起看，DAY 1 進삼모스포렉스前必複習。畫面跟妳+雅雅情境一模一樣。</div>
           </div>
         </div>
         <div class="reel-card" onclick="window.open('https://www.threads.com/@missman_diary/post/DYtsFktk1mL','_blank')">
@@ -2555,7 +2556,7 @@ html:not(.locked) #pwgate { display: none !important; }
       <div class="footer-toolkit">
         <a href="itinerary.kml" download="korea-trip-yuki.kml">📥 KML</a>
         <span class="footer-sep">·</span>
-        <button class="footer-link-btn copy-btn" data-copy="런던베이글뮤지엄 안국점&#10;artist bakery 안국&#10;꽃게나라 홍대점&#10;라프레프루트 옥인동&#10;라프레프루트 성수&#10;두바이 초콜릿 아이스크림 성수&#10;태양해수사우나 신림&#10;김포국제공항&#10;서초구 강남대로 363&#10;서울 관악구 신림동 7길 52&#10;올리브영 강남타운점&#10;다이소 신촌점&#10;다이소 명동본점">📋 複製 13 個 NAVER 韓文搜尋詞</button>
+        <button class="footer-link-btn copy-btn" data-copy="런던베이글뮤지엄 안국점&#10;artist bakery 안국&#10;꽃게나라 홍대점&#10;라프레프루트 옥인동&#10;라프레프루트 성수&#10;두바이 초콜릿 아이스크림 성수&#10;삼모스포렉스&#10;as''on 홍대&#10;김포국제공항&#10;서초구 강남대로 363&#10;서울 관악구 신림동 7길 52&#10;올리브영 강남타운점&#10;다이소 신촌점&#10;다이소 명동본점">📋 複製 14 個 NAVER 韓文搜尋詞</button>
       </div>
       <div class="footer-stamp">
         <span class="footer-stamp-emoji">🇰🇷</span>
@@ -2711,7 +2712,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
   const HOTEL = [37.4859, 126.9264];  // 莊藍酒店 (Trang Blue Hotel) 신림동7길, 관악구 (OSM 精確街道座標)
   const GIMPO = [37.5590, 126.7942];
-  const SAUNA = [37.4860, 126.9305];  // 太陽海水汗蒸幕 태양해수사우나（新林站附近）
+  const SAUNA = [37.4860, 126.9305];  // 삼모스포렉스（新林站步行10分・主推・1991老牌）
   const CLINIC = [37.4951, 127.0284];
 
   const map = L.map('leaflet-map').setView(HOTEL, 12);
@@ -2760,7 +2761,7 @@ document.addEventListener('DOMContentLoaded', function() {
   // markers
   pin(HOTEL[0], HOTEL[1], C_HOTEL, '莊藍酒店 Trang Blue Hotel（飯店）', '서울 관악구 신림동 7길 52', '🏨');
   pin(GIMPO[0], GIMPO[1], C_D1, '金浦國際機場 GMP', '김포국제공항', '✈️');
-  pin(SAUNA[0], SAUNA[1], C_D1, '太陽海水汗蒸幕 (新林)', '태양해수사우나 신림', '♨️');
+  pin(SAUNA[0], SAUNA[1], C_D1, '♨️ 삼모스포렉스 (新林・主推)', '삼모스포렉스', '♨️');
   pin(CLINIC[0], CLINIC[1], C_D2, '江南醫美診所 (6/5 14:00)', '서초구 강남대로 363', '💉');
   pin(37.5793, 126.9859, C_FOOD, 'London Bagel Museum 安國店', '런던베이글뮤지엄 안국점', '🥯');
   pin(37.5772, 126.9836, C_FOOD, 'Artist Bakery 安國店', 'artist bakery 안국', '🍞');
@@ -2774,6 +2775,7 @@ document.addEventListener('DOMContentLoaded', function() {
   pin(37.5008, 127.0258, C_SHOP, 'Olive Young 江南旗艦店', '올리브영 강남타운점', '🛍️');
   pin(37.5553, 126.9356, C_SHOP, '大創新村本店', '다이소 신촌점', '🧴');
   pin(37.5638, 126.9850, C_SHOP, '大創明洞本店（旗艦）', '다이소 명동본점', '🧴');
+  pin(37.5538, 126.9237, C_SHOP, 'ason 弘大 (包包)', "as''on 홍대", '👜');
 
   // 行程順序連線（虛線，標明非真實路線）
   L.polyline([GIMPO, HOTEL, SAUNA], {color: C_D1, weight: 3, dashArray: '8,8', opacity: 0.75}).addTo(map);
