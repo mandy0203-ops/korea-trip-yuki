@@ -96,51 +96,113 @@ def extract_pairs(html: str) -> list[dict]:
     return pairs
 
 
-def pick_best_img(urls: list[str]) -> str | None:
-    """從 network 抓到的 CDN URL 清單選出最佳貼文圖片"""
-    # 過濾：只要 t51.82787-15（貼文圖），排除 profile pic（t51.2885-19 / t51.82787-19）
-    post_imgs = [u for u in urls if "t51.82787-15" in u and "scontent" in u]
-    if not post_imgs:
-        return None
+CDN_DOMAINS = ("scontent", "cdninstagram.com", "fbcdn.net")
+EXCLUDE_PATTERNS = ("s150x150", "s320x320", "t51.2885-19", "t51.2885-11", "profile_pic")
 
-    # 優先選 CAROUSEL_ITEM / 無縮圖限制的版本
-    priority = [u for u in post_imgs if "s320x320" not in u and "s150x150" not in u]
-    return (priority or post_imgs)[0]
+
+def pick_best_img(urls: list[str]) -> str | None:
+    """從 CDN URL 清單選出最佳貼文圖片（URL 越長解析度越高）"""
+    if not urls:
+        return None
+    filtered = [u for u in urls if not any(e in u for e in EXCLUDE_PATTERNS)]
+    pool = filtered or urls
+    return max(pool, key=len)
+
+
+def _dom_scan(page) -> list[str]:
+    """從 DOM 掃 img.src / img.srcset，回傳所有 CDN URL"""
+    try:
+        srcs = page.evaluate("""
+            () => {
+                const out = new Set();
+                document.querySelectorAll('img[src]').forEach(img => {
+                    if (img.naturalWidth > 80) out.add(img.src);
+                });
+                document.querySelectorAll('img[srcset]').forEach(img => {
+                    img.srcset.split(',').forEach(e => {
+                        const u = e.trim().split(' ')[0];
+                        if (u) out.add(u);
+                    });
+                });
+                // meta og:image fallback
+                const og = document.querySelector('meta[property="og:image"]');
+                if (og && og.content) out.add(og.content);
+                return [...out];
+            }
+        """)
+        return [u for u in srcs if u and any(d in u for d in ("scontent", "cdninstagram", "fbcdn"))]
+    except Exception:
+        return []
 
 
 def fetch_and_download(page, post_url: str, out_path: Path) -> bool:
-    """用已開啟的 browser page 抓貼文圖，下載到 out_path"""
-    captured = []
+    """v3：network capture → DOM scan → scroll+DOM，三段保底"""
+    captured_net = []
 
     def on_response(response):
-        if "t51.82787-15" in response.url and "scontent" in response.url and response.status == 200:
-            captured.append(response.url)
+        url = response.url
+        if response.status == 200 and any(d in url for d in CDN_DOMAINS):
+            try:
+                ct = response.headers.get("content-type", "")
+            except Exception:
+                ct = ""
+            if "image" in ct or any(url.endswith(x) for x in (".jpg", ".jpeg", ".webp", ".png")):
+                captured_net.append(url)
 
     page.on("response", on_response)
 
+    # ── 導航 ──────────────────────────────────────────────────
+    # Instagram reel URL 可能 ERR_ABORTED（重定向到 App），改用 commit 等級
+    wait_level = "commit" if "instagram.com" in post_url else "domcontentloaded"
     try:
-        page.goto(post_url, wait_until="domcontentloaded", timeout=25000)
-        # 多等 3 秒讓圖片載入
+        page.goto(post_url, wait_until=wait_level, timeout=25000)
         try:
             page.wait_for_load_state("networkidle", timeout=8000)
         except Exception:
             pass
         time.sleep(2)
     except Exception as e:
-        log(f"頁面導航失敗: {str(e)[:80]}", "⚠️")
+        log(f"導航: {str(e)[:80]}", "⚠️")
     finally:
         page.remove_listener("response", on_response)
 
-    cdn_url = pick_best_img(captured)
+    # ── 方法 1：network capture ────────────────────────────────
+    cdn_url = pick_best_img(captured_net)
+    if cdn_url:
+        log(f"方法1 network 截到 {len(captured_net)} 個，選出最佳", "🔗")
+
+    # ── 方法 2：DOM img 掃描（適合 SW 快取或預渲染頁面）──────
     if not cdn_url:
-        log("未抓到貼文圖片（可能需要登入或頁面結構變化）", "⚠️")
+        log("方法2 DOM scan...", "🔍")
+        dom_imgs = _dom_scan(page)
+        cdn_url = pick_best_img(dom_imgs)
+        if cdn_url:
+            log(f"DOM 找到 {len(dom_imgs)} 張，選出最佳", "🔍")
+
+    # ── 方法 3：scroll 觸發懶加載後再掃 DOM ──────────────────
+    if not cdn_url:
+        log("方法3 scroll + DOM scan...", "📜")
+        try:
+            page.evaluate("window.scrollTo(0, 500)")
+            time.sleep(1.5)
+            page.evaluate("window.scrollTo(0, 0)")
+            time.sleep(0.5)
+        except Exception:
+            pass
+        dom_imgs = _dom_scan(page)
+        cdn_url = pick_best_img(dom_imgs)
+        if cdn_url:
+            log(f"Scroll 後 DOM 找到 {len(dom_imgs)} 張", "📜")
+
+    if not cdn_url:
+        log("三種方法全失敗", "⚠️")
         return False
 
-    log(f"CDN URL 抓到 ({len(captured)} 個請求中選出)", "🔗")
-
+    # ── 下載 ──────────────────────────────────────────────────
     try:
         req = urllib.request.Request(cdn_url)
         req.add_header("User-Agent", "Mozilla/5.0 AppleWebKit/537.36")
+        req.add_header("Referer", "https://www.threads.com/")
         with urllib.request.urlopen(req, timeout=20) as r:
             data = r.read()
         if len(data) < 5000:
