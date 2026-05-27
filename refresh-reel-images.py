@@ -1,52 +1,37 @@
 #!/usr/bin/env python3
 """
-refresh-reel-images.py
+refresh-reel-images.py  v2
 ═══════════════════════════════════════════════════════════════
 Korea Trip Yuki — Reel 卡片圖片永久化腳本
 ═══════════════════════════════════════════════════════════════
 
-【問題根因】
-Instagram/Threads CDN URL 帶有簽名 token (oe= 到期時間戳)，
-通常 7 天內失效。直接把這些 URL 寫進 HTML = 技術債。
-
-【解法】
-本腳本把圖片下載並上傳到 GitHub repo → jsDelivr CDN，
-取得永久不過期的 URL，並自動更新 HTML 的 src。
-
-【使用方式】
+【用法】
   python3 refresh-reel-images.py
 
-【首次執行注意】
-  需要在彈出的 Chromium 視窗中登入 Threads/Instagram，
-  登入後腳本自動繼續。Session 會存在 /tmp/reel-auth-session/。
+【流程】
+  1. 讀 HTML，找出所有還是 IG/Threads CDN URL 的 reel 卡圖片
+  2. 彈出 Chromium 視窗 → 第一次需要登入 Threads（30 秒內登入）
+  3. 對每張失效圖：開新分頁 → 打開 Threads 貼文 → 抓 CDN URL → 下載
+  4. 上傳到 GitHub (mandy0203-ops/korea-trip-yuki/assets/)
+  5. 更新 HTML src → jsDelivr 永久 URL
+  6. 自動 sync.py push 上線
 
 【環境需求】
-  pip install playwright
-  playwright install chromium
-
-【腳本版本】2026-05-27
+  pip install playwright && playwright install chromium
 """
 
-import re
-import os
-import sys
-import json
-import time
-import base64
-import hashlib
-import subprocess
-import urllib.request
+import re, os, sys, json, time, base64, hashlib, subprocess, urllib.request
 from pathlib import Path
 from datetime import datetime
 
 # ── 設定 ──────────────────────────────────────────────────────
-HTML_SRC   = Path(__file__).parent.parent / "tars-001" / "korea-trip-yuki.html"
-ASSETS_DIR = Path("/tmp/reel-img-refresh")
+HTML_SRC    = Path(__file__).parent.parent / "tars-001" / "korea-trip-yuki.html"
+ASSETS_DIR  = Path("/tmp/reel-img-refresh")
 SESSION_DIR = Path("/tmp/reel-auth-session")
-GH_REPO    = "mandy0203-ops/korea-trip-yuki"
-GH_ASSET_PREFIX = "assets"
-JSDELIVR_BASE   = f"https://cdn.jsdelivr.net/gh/{GH_REPO}@main/{GH_ASSET_PREFIX}"
-SKIP_IF_ALREADY_HOSTED = True  # 已是 jsdelivr URL 的跳過
+GH_REPO     = "mandy0203-ops/korea-trip-yuki"
+ASSET_PREFIX = "assets"
+JSDELIVR_BASE = f"https://cdn.jsdelivr.net/gh/{GH_REPO}@main/{ASSET_PREFIX}"
+SKIP_HOSTED  = True   # 已是 jsDelivr URL 的跳過
 
 ASSETS_DIR.mkdir(parents=True, exist_ok=True)
 SESSION_DIR.mkdir(parents=True, exist_ok=True)
@@ -58,237 +43,251 @@ def log(msg, emoji=""):
 
 
 def is_cdn_expired(url: str) -> bool:
-    """嘗試 HEAD request，403/200 判斷"""
+    """HEAD request 判斷 CDN URL 是否仍有效"""
+    if "jsdelivr" in url or "raw.githubusercontent" in url:
+        return False   # 永久 URL
     try:
         req = urllib.request.Request(url, method="HEAD")
         req.add_header("User-Agent", "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36")
         with urllib.request.urlopen(req, timeout=8) as r:
             return r.status != 200
     except Exception:
-        return True  # 403 / timeout → 當作過期
+        return True
 
 
 def upload_to_github(local_path: Path, remote_filename: str) -> str | None:
     """上傳到 GitHub repo，回傳 jsDelivr URL"""
-    github_path = f"{GH_ASSET_PREFIX}/{remote_filename}"
-
+    github_path = f"{ASSET_PREFIX}/{remote_filename}"
     with open(local_path, "rb") as f:
         content_b64 = base64.b64encode(f.read()).decode()
 
-    # 檢查是否已存在（取 SHA）
     check = subprocess.run(
         ["gh", "api", f"/repos/{GH_REPO}/contents/{github_path}", "--jq", ".sha"],
         capture_output=True, text=True
     )
     sha = check.stdout.strip()
-
     payload = {"message": f"reel img: {remote_filename}", "content": content_b64}
     if sha:
         payload["sha"] = sha
 
     result = subprocess.run(
         ["gh", "api", "-X", "PUT", f"/repos/{GH_REPO}/contents/{github_path}", "--input", "-"],
-        input=json.dumps(payload),
-        capture_output=True, text=True
+        input=json.dumps(payload), capture_output=True, text=True
     )
-
     if result.returncode == 0:
         return f"{JSDELIVR_BASE}/{remote_filename}"
-    else:
-        log(f"Upload failed: {result.stderr[:120]}", "❌")
-        return None
+    log(f"Upload failed: {result.stderr[:120]}", "❌")
+    return None
 
 
-def extract_post_img_pairs(html: str) -> list[dict]:
-    """從 HTML 提取每張 reel card 的 (post_url, img_src, img_fname)"""
-    card_pattern = re.compile(
+def extract_pairs(html: str) -> list[dict]:
+    """提取每張 reel card 的 (post_url, img_src, fname)"""
+    pat = re.compile(
         r"window\.open\('([^']+)','_blank'\).*?"
-        r'src="([^"]+cdninstagram[^"]+|[^"]+fbcdn\.net[^"]+|[^"]+scontent[^"]+|[^"]+jsdelivr[^"]+)"',
+        r'src="([^"]*(?:cdninstagram|fbcdn\.net|scontent|jsdelivr)[^"]*)"',
         re.DOTALL
     )
     pairs = []
-    for m in card_pattern.finditer(html):
-        post_url = m.group(1)
-        img_src  = m.group(2)
-        fname_m  = re.search(r'/([^/?]+\.jpg)', img_src)
-        fname    = fname_m.group(1) if fname_m else hashlib.md5(img_src.encode()).hexdigest()[:12] + ".jpg"
+    for m in pat.finditer(html):
+        post_url, img_src = m.group(1), m.group(2)
+        fm = re.search(r'/([^/?]+\.jpg)', img_src)
+        fname = fm.group(1) if fm else hashlib.md5(img_src.encode()).hexdigest()[:16] + ".jpg"
         pairs.append({"post_url": post_url, "img_src": img_src, "fname": fname})
     return pairs
 
 
-def fetch_image_url_via_playwright(post_url: str) -> str | None:
-    """用 Playwright 開啟貼文頁面，從 network requests 抓圖片 CDN URL"""
-    from playwright.sync_api import sync_playwright
+def pick_best_img(urls: list[str]) -> str | None:
+    """從 network 抓到的 CDN URL 清單選出最佳貼文圖片"""
+    # 過濾：只要 t51.82787-15（貼文圖），排除 profile pic（t51.2885-19 / t51.82787-19）
+    post_imgs = [u for u in urls if "t51.82787-15" in u and "scontent" in u]
+    if not post_imgs:
+        return None
 
-    with sync_playwright() as p:
-        log(f"瀏覽器啟動 → {post_url[:60]}...", "🌐")
+    # 優先選 CAROUSEL_ITEM / 無縮圖限制的版本
+    priority = [u for u in post_imgs if "s320x320" not in u and "s150x150" not in u]
+    return (priority or post_imgs)[0]
 
-        # 首次執行：SESSION_DIR 是空的 → 有頭模式，讓使用者手動登入
-        # 之後執行：有 cookies → 也用有頭 (避免 bot 偵測)
-        has_session = any(SESSION_DIR.iterdir()) if SESSION_DIR.exists() else False
-        ctx = p.chromium.launch_persistent_context(
-            str(SESSION_DIR),
-            headless=False,         # 有頭模式，防 bot 偵測
-            slow_mo=300,            # 避免太快被偵測
-            args=["--no-sandbox"],
-        )
-        if not has_session:
-            log("⚠️  第一次執行，請在開啟的視窗中登入 Threads/Instagram", "🔑")
-            log("   登入完成後，腳本會自動繼續...", "")
-            page_login = ctx.new_page()
-            page_login.goto("https://www.threads.com/login", timeout=30000)
-            page_login.wait_for_url("**/threads.com", timeout=120000)
-            log("✅ 偵測到已登入，繼續...", "")
-            page_login.close()
-        page = ctx.new_page()
 
-        captured = []
+def fetch_and_download(page, post_url: str, out_path: Path) -> bool:
+    """用已開啟的 browser page 抓貼文圖，下載到 out_path"""
+    captured = []
 
-        def on_response(response):
-            url = response.url
-            if (
-                "t51.82787-15" in url
-                and "scontent" in url
-                and response.status == 200
-            ):
-                captured.append(url)
+    def on_response(response):
+        if "t51.82787-15" in response.url and "scontent" in response.url and response.status == 200:
+            captured.append(response.url)
 
-        page.on("response", on_response)
+    page.on("response", on_response)
 
+    try:
+        page.goto(post_url, wait_until="domcontentloaded", timeout=25000)
+        # 多等 3 秒讓圖片載入
         try:
-            page.goto(post_url, wait_until="networkidle", timeout=30000)
-            time.sleep(2)  # 等圖片載入完成
-        except Exception as e:
-            log(f"頁面載入失敗: {e}", "⚠️")
-        finally:
-            ctx.close()
+            page.wait_for_load_state("networkidle", timeout=8000)
+        except Exception:
+            pass
+        time.sleep(2)
+    except Exception as e:
+        log(f"頁面導航失敗: {str(e)[:80]}", "⚠️")
+    finally:
+        page.remove_listener("response", on_response)
 
-        if not captured:
-            return None
-
-        # 優先找 CAROUSEL_ITEM 或較大解析度的
-        # 排除 profile pic (t51.2885-19)
-        post_imgs = [
-            u for u in captured
-            if "t51.82787-15" in u
-        ]
-
-        if not post_imgs:
-            return None
-
-        # 選最大的（通常 stp 裡沒有 s320x320 的才是原圖）
-        best = None
-        for u in post_imgs:
-            if "s320x320" not in u and "s150x150" not in u:
-                best = u
-                break
-        if not best:
-            best = post_imgs[0]
-
-        return best
-
-
-def run_headless_fetch(post_url: str, out_path: Path) -> bool:
-    """嘗試用 Playwright 抓圖，下載到 out_path"""
-    cdn_url = fetch_image_url_via_playwright(post_url)
+    cdn_url = pick_best_img(captured)
     if not cdn_url:
-        log(f"Playwright 未能抓到圖片", "❌")
+        log("未抓到貼文圖片（可能需要登入或頁面結構變化）", "⚠️")
         return False
 
-    log(f"抓到 CDN URL: {cdn_url[:80]}...", "🔗")
+    log(f"CDN URL 抓到 ({len(captured)} 個請求中選出)", "🔗")
 
     try:
         req = urllib.request.Request(cdn_url)
         req.add_header("User-Agent", "Mozilla/5.0 AppleWebKit/537.36")
         with urllib.request.urlopen(req, timeout=20) as r:
-            with open(out_path, "wb") as f:
-                f.write(r.read())
-        size = out_path.stat().st_size
-        if size < 5000:
-            log(f"圖片太小 ({size}b)，可能是錯誤頁", "⚠️")
+            data = r.read()
+        if len(data) < 5000:
+            log(f"圖片太小 ({len(data)}b)，略過", "⚠️")
             return False
-        log(f"下載成功 {size//1024}KB", "📥")
+        out_path.write_bytes(data)
+        log(f"下載 {len(data)//1024}KB ✔", "📥")
         return True
     except Exception as e:
         log(f"下載失敗: {e}", "❌")
         return False
 
 
+def ensure_logged_in(page) -> bool:
+    """確認已登入 Threads；若否，等使用者手動登入"""
+    log("導航到 Threads 確認登入狀態...", "🔑")
+    try:
+        page.goto("https://www.threads.com/", timeout=20000)
+        # 等待幾秒看 URL 是否停在 login 頁
+        time.sleep(3)
+        current_url = page.url
+        log(f"目前 URL: {current_url[:60]}", "")
+
+        # 若還在 login 相關頁面 → 提示登入
+        if any(kw in current_url for kw in ["login", "accounts", "sso"]):
+            log("", "")
+            log("=" * 55, "")
+            log("🔑  請在開啟的瀏覽器視窗中登入 Threads / Instagram", "")
+            log("    登入完成後，腳本會自動偵測並繼續（最多等 5 分鐘）", "")
+            log("=" * 55, "")
+
+            # 等待 URL 離開 login 頁面
+            deadline = time.time() + 300   # 5 分鐘
+            while time.time() < deadline:
+                time.sleep(2)
+                cur = page.url
+                if not any(kw in cur for kw in ["login", "accounts", "sso"]):
+                    log(f"✅ 登入成功！URL={cur[:50]}", "")
+                    return True
+            log("登入等待逾時（5 分鐘）", "❌")
+            return False
+        else:
+            log("✅ 已登入", "")
+            return True
+    except Exception as e:
+        log(f"登入確認失敗: {e}", "❌")
+        return False
+
+
 def main():
-    log("Korea Trip 圖片永久化腳本啟動", "🚀")
+    from playwright.sync_api import sync_playwright
 
-    # 讀 HTML
+    log("Korea Trip 圖片永久化腳本 v2 啟動", "🚀")
+
     html = HTML_SRC.read_text(encoding="utf-8")
-    pairs = extract_post_img_pairs(html)
-    log(f"找到 {len(pairs)} 張 reel card 圖片", "📋")
+    pairs = extract_pairs(html)
+    log(f"共 {len(pairs)} 張 reel card 圖", "📋")
 
-    updated = 0
-    skipped = 0
-    failed  = 0
-
-    for i, item in enumerate(pairs, 1):
-        post_url = item["post_url"]
-        img_src  = item["img_src"]
-        fname    = item["fname"]
-        log_prefix = f"[{i:02d}/{len(pairs)}] {fname[:45]}"
-
-        # 已是 jsDelivr / GitHub 永久 URL？
-        if SKIP_IF_ALREADY_HOSTED and "jsdelivr.net" in img_src:
-            log(f"{log_prefix} → 已是永久 URL，跳過", "✅")
-            skipped += 1
+    # 過濾出需要處理的（跳過已永久化的）
+    to_process = []
+    for item in pairs:
+        if SKIP_HOSTED and "jsdelivr.net" in item["img_src"]:
             continue
+        to_process.append(item)
 
-        # 嘗試直接 curl（若 CDN URL 仍有效）
-        local_path = ASSETS_DIR / f"{i:02d}_{fname}"
-        if not is_cdn_expired(img_src):
-            log(f"{log_prefix} → CDN 仍有效，直接下載", "⚡")
-            try:
-                req = urllib.request.Request(img_src)
-                req.add_header("User-Agent", "Mozilla/5.0 AppleWebKit/537.36")
-                with urllib.request.urlopen(req, timeout=20) as r:
-                    local_path.write_bytes(r.read())
-                dl_ok = local_path.stat().st_size > 5000
-            except Exception:
-                dl_ok = False
+    log(f"需要處理: {len(to_process)} 張（已永久化 {len(pairs)-len(to_process)} 張跳過）", "📊")
+
+    if not to_process:
+        log("全部已永久化，無需處理 ✨", "✅")
+        return
+
+    updated = skipped = failed = 0
+
+    with sync_playwright() as p:
+        ctx = p.chromium.launch_persistent_context(
+            str(SESSION_DIR),
+            headless=False,
+            slow_mo=200,
+            args=["--no-sandbox", "--disable-blink-features=AutomationControlled"],
+            ignore_https_errors=True,
+        )
+
+        page = ctx.new_page()
+        page.set_extra_http_headers({
+            "Accept-Language": "zh-TW,zh;q=0.9,en;q=0.8",
+        })
+
+        # 登入確認（只做一次）
+        if not ensure_logged_in(page):
+            log("無法確認登入，腳本終止", "❌")
+            ctx.close()
+            return
+
+        for i, item in enumerate(to_process, 1):
+            post_url = item["post_url"]
+            img_src  = item["img_src"]
+            fname    = item["fname"]
+            label    = f"[{i:02d}/{len(to_process)}] {fname[:42]}"
+
+            # 先試直接下載（若 CDN 仍有效）
+            local_path = ASSETS_DIR / f"{i:02d}_{fname}"
+            if not is_cdn_expired(img_src):
+                log(f"{label} → CDN 仍有效，直接下載", "⚡")
+                try:
+                    req = urllib.request.Request(img_src)
+                    req.add_header("User-Agent", "Mozilla/5.0 AppleWebKit/537.36")
+                    with urllib.request.urlopen(req, timeout=20) as r:
+                        local_path.write_bytes(r.read())
+                    dl_ok = local_path.stat().st_size > 5000
+                except Exception:
+                    dl_ok = False
+            else:
+                log(f"{label} → CDN 過期，用 Playwright 重抓", "⏰")
+                dl_ok = fetch_and_download(page, post_url, local_path)
 
             if not dl_ok:
-                log(f"{log_prefix} → 直接下載失敗，改用 Playwright", "🔄")
-                dl_ok = run_headless_fetch(post_url, local_path)
-        else:
-            log(f"{log_prefix} → CDN 已過期，用 Playwright 重抓", "⏰")
-            dl_ok = run_headless_fetch(post_url, local_path)
+                log(f"{label} → 無法取得圖片，略過", "⚠️")
+                failed += 1
+                continue
 
-        if not dl_ok:
-            log(f"{log_prefix} → 圖片無法取得，保留現有 URL", "⚠️")
-            failed += 1
-            continue
+            # 上傳 GitHub
+            new_url = upload_to_github(local_path, fname)
+            if not new_url:
+                failed += 1
+                continue
 
-        # 上傳到 GitHub
-        new_url = upload_to_github(local_path, fname)
-        if not new_url:
-            failed += 1
-            continue
+            html = html.replace(img_src, new_url)
+            log(f"{label} → ✅ 永久化完成", "🎉")
+            updated += 1
+            time.sleep(0.8)   # 避免 rate limit
 
-        # 更新 HTML
-        html = html.replace(img_src, new_url)
-        log(f"{log_prefix} → 永久 URL：{new_url[:70]}", "🎉")
-        updated += 1
-        time.sleep(0.5)  # 避免 GitHub API rate limit
+        ctx.close()
 
     # 寫回 HTML
     HTML_SRC.write_text(html, encoding="utf-8")
-    log(f"\n{'='*50}", "")
-    log(f"完成！更新 {updated} 張 ｜ 跳過 {skipped} 張 ｜ 失敗 {failed} 張", "📊")
-    log(f"請執行 sync.py 推上 GitHub Pages", "📤")
+    log(f"", "")
+    log(f"結果：更新 {updated} ｜ 失敗 {failed} ｜ 跳過（已永久）{skipped}", "📊")
 
-    # 自動 sync
     if updated > 0:
-        log("自動執行 sync.py...", "🔄")
+        log("執行 sync.py 推上 GitHub Pages...", "🔄")
         sync_py = Path(__file__).parent / "sync.py"
         subprocess.run(
-            [sys.executable, str(sync_py), f"refresh-reel-images: {updated} 張永久化"],
+            [sys.executable, str(sync_py), f"refresh-reel-images: {updated}張永久化"],
             cwd=str(Path(__file__).parent)
         )
+    else:
+        log("無更新，跳過 sync", "ℹ️")
 
 
 if __name__ == "__main__":
