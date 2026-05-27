@@ -690,6 +690,20 @@ body {
   pointer-events: none;
 }
 
+/* 圖片失效時：顯示漸層 + 點擊提示 */
+.reel-thumb.has-img.img-failed::after {
+  content: '🔗';
+  background: none;
+  height: auto;
+  font-size: 28px;
+  top: 50%;
+  left: 50%;
+  right: auto;
+  bottom: auto;
+  transform: translate(-50%, -50%);
+  opacity: 0.45;
+}
+
 .reel-body { padding: 10px 12px 12px; }
 
 .reel-from {
@@ -1777,7 +1791,7 @@ html:not(.locked) #pwgate { display: none !important; }
             <img
               src="https://instagram.fkhh5-1.fna.fbcdn.net/v/t51.82787-15/670474939_17928097182258468_6167892548080563046_n.jpg?stp=dst-jpg_e35_tt6&_nc_cat=106&ig_cache_key=Mzg3NDI0OTM1ODM1NTcwNTg3Nw%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkNBUk9VU0VMX0lURU0ueHBpZHMuMTQ0MC5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=zZ4EdLXZRncQ7kNvwG9Kzwf&_nc_oc=Adr1ngD98zfb6d8C3xtyxbYPBdScJQWbcawGhf1hk8uUH8U46SqSDE3qss_TGIo4qbE&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=instagram.fkhh5-1.fna&_nc_gid=mSy3eKInWgkTP2yGLVkGvw&_nc_ss=7a22e&oh=00_Af6xBj3y6LZWQIYvYY-sD0V161f9-mFsVBtHeVqLy2-_cQ&oe=6A162EAC"
               alt="首爾草莓奶油蛋糕"
-              onerror="this.style.display='none'"
+              onerror="this.style.cssText='opacity:0;position:absolute';this.parentElement.classList.add('img-failed')" 
             >
             <div class="reel-badge">Threads · @anyou.kr</div>
             <div class="reel-play"><i class="ph-fill ph-arrow-square-out"></i></div>
@@ -1793,7 +1807,7 @@ html:not(.locked) #pwgate { display: none !important; }
             <img
               src="https://instagram.fkhh5-1.fna.fbcdn.net/v/t51.82787-15/687519596_17960877537110685_1971254953769811404_n.jpg?stp=dst-jpg_e35_tt6&_nc_cat=103&ig_cache_key=Mzg5NjEzNzgxMTc5NTQ0NjUxMw%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkNBUk9VU0VMX0lURU0ueHBpZHMuMTEwNC5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=zrd5m9T8GJwQ7kNvwFvNsqM&_nc_oc=Ado0QFTEJUtVpALWQgMMd0GzHDVqCYJlr4pFa07k0vCtzicP9xf6F02v72-sQ9gidGo&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=instagram.fkhh5-1.fna&_nc_gid=1ddYe5fPedl1wgTdTt8l4A&_nc_ss=7a22e&oh=00_Af4WUMJtOwVWl1szWG8RGoAbzuaRM9x8w_wWk4Gp2SCmMQ&oe=6A161468"
               alt="聖水洞杜拜巧克力冰淇淋"
-              onerror="this.style.display='none'"
+              onerror="this.style.cssText='opacity:0;position:absolute';this.parentElement.classList.add('img-failed')" 
             >
             <div class="reel-badge">Threads · @zz.eatt</div>
             <div class="reel-play"><i class="ph-fill ph-arrow-square-out"></i></div>
@@ -1809,7 +1823,7 @@ html:not(.locked) #pwgate { display: none !important; }
             <img
               src="https://instagram.fkhh5-1.fna.fbcdn.net/v/t51.82787-15/702179872_17961334869105996_780726913103710621_n.webp?_nc_cat=104&ig_cache_key=Mzg5OTA0NTczMzEyNjQ4NjAxMA%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueXBpZHMuMTUwMC5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=Uq8I8Xx4ULUQ7kNvwHh5qFO&_nc_oc=AdppJ1NTYTTHKvsJwO_sgupfhE41QHulpty9ysS4yCODydgWnnWVi1iakWvBtGtPTaU&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=instagram.fkhh5-1.fna&_nc_gid=Lshkujg0NbolZIV_0emDgw&_nc_ss=7a22e&oh=00_Af40e-OOqppQBAatQlxbUuirqQPreJGqWlY4IGxVb3WXzA&oe=6A16286D"
               alt="水蜜桃美式"
-              onerror="this.style.display='none'"
+              onerror="this.style.cssText='opacity:0;position:absolute';this.parentElement.classList.add('img-failed')" 
             >
             <div class="reel-badge">Threads · @serrano615_</div>
             <div class="reel-play"><i class="ph-fill ph-arrow-square-out"></i></div>
@@ -1825,7 +1839,7 @@ html:not(.locked) #pwgate { display: none !important; }
             <img
               src="https://instagram.fkhh5-1.fna.fbcdn.net/v/t51.82787-15/702273111_17968885887103584_2099706357415944761_n.jpg?stp=cp6_dst-jpegr_e35_tt6&_nc_cat=110&ig_cache_key=MzkwMTYzODEwMTM2NTIzODA4MQ%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkNBUk9VU0VMX0lURU0ueHBpZHMuMjI2OC5oZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=EZeJSCIBLJMQ7kNvwG5x_Eh&_nc_oc=Adot2u5871PKe-1NsqC_WwmXFwppwyt62HwTG_OY4nfxHgYFsVmNWZmtpiuGeYF0aug&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&se=-1&_nc_ht=instagram.fkhh5-1.fna&_nc_gid=WDIgTiHaR6sR_Dtt9vkwbg&_nc_ss=7a22e&oh=00_Af7Pq_e3P5C_i7vD9hpMN0FKzCVzG0EEPzlTKRHNuxhRSQ&oe=6A1642E7"
               alt="弘大醬蟹"
-              onerror="this.style.display='none'"
+              onerror="this.style.cssText='opacity:0;position:absolute';this.parentElement.classList.add('img-failed')" 
             >
             <div class="reel-badge">Threads · @jolly._.1231</div>
             <div class="reel-play"><i class="ph-fill ph-arrow-square-out"></i></div>
@@ -1842,7 +1856,7 @@ html:not(.locked) #pwgate { display: none !important; }
             <img
               src="https://scontent.cdninstagram.com/v/t51.71878-15/671809629_1532698588418523_889202135766553954_n.jpg?stp=cmp1_dst-jpg_e35_s640x640_tt6&_nc_cat=105&ccb=7-5&_nc_sid=18de74&efg=eyJlZmdfdGFnIjoiRkVFRC5iZXN0X2ltYWdlX3VybGdlbi5DMyJ9&_nc_ohc=mPrVnyQuUEAQ7kNvwG_IUL_&_nc_oc=Adqs4NsV8wmClJUJ0u2GB9UNAvM08WmopKK_fPmUKuRqgBoV4tf_WKwTWKLnKc8YkVY&_nc_zt=23&_nc_ht=scontent.cdninstagram.com&_nc_gid=cDQuf14NaXMW3Q3YS3lOYw&_nc_ss=7f20f&oh=00_Af7kxgfHlFPLcDC0I5rF6KQgkSPdP7H3XzXhMXGaJYQzmA&oe=6A164EBE"
               alt="Rafre Fruit 西村"
-              onerror="this.style.display='none'"
+              onerror="this.style.cssText='opacity:0;position:absolute';this.parentElement.classList.add('img-failed')" 
             >
             <div class="reel-badge">Threads · @mirandasue_0811</div>
             <div class="reel-play"><i class="ph-fill ph-arrow-square-out"></i></div>
@@ -1858,7 +1872,7 @@ html:not(.locked) #pwgate { display: none !important; }
             <img
               src="https://scontent.cdninstagram.com/v/t51.82787-15/657447835_18139492723504324_8652017281088871964_n.jpg?stp=cmp1_dst-jpg_e35_s640x640_tt6&_nc_cat=106&ccb=7-5&_nc_sid=18de74&efg=eyJlZmdfdGFnIjoiQ0xJUFMuYmVzdF9pbWFnZV91cmxnZW4uQzMifQ%3D%3D&_nc_ohc=f-cthZ3L7f8Q7kNvwF11d2k&_nc_oc=Adrh_gaK1JPPfgjlF_oZmT_x3zivmPuJvtXJW_rtyEDknDUd5wSfAqkCVpTMgfzn_ck&_nc_zt=23&_nc_ht=scontent.cdninstagram.com&_nc_gid=-sKUJAWJIiKjI7tkJ4XZLg&_nc_ss=7f60f&oh=00_Af5Eh-YNhpQACutt8UboIE7udojfWYG9hxM_vIQcDronDg&oe=6A16247C"
               alt="星巴克杜拜巧克力星冰樂"
-              onerror="this.style.display='none'"
+              onerror="this.style.cssText='opacity:0;position:absolute';this.parentElement.classList.add('img-failed')" 
             >
             <div class="reel-badge">Instagram · @dayoff_albee</div>
             <div class="reel-play"><i class="ph-fill ph-play"></i></div>
@@ -1874,7 +1888,7 @@ html:not(.locked) #pwgate { display: none !important; }
             <img
               src="https://scontent.cdninstagram.com/v/t51.82787-15/649233126_18542943229070587_1461496284557119648_n.jpg?stp=cmp1_dst-jpg_e35_s640x640_tt6&_nc_cat=109&ccb=7-5&_nc_sid=18de74&efg=eyJlZmdfdGFnIjoiQ0xJUFMuYmVzdF9pbWFnZV91cmxnZW4uQzMifQ%3D%3D&_nc_ohc=bxK0bPuVts8Q7kNvwHdNVq9&_nc_oc=AdoH2Q7en1eMNL-TlCtqu-Li__Gt_iPl9I94Jqd1xLtHY_9w1jBLUR-0dSjqE4Z08D4&_nc_zt=23&_nc_ht=scontent.cdninstagram.com&_nc_gid=OylyE2xV8di0Bq6tYmrcIw&_nc_ss=7f60f&oh=00_Af4-DnUyVM2QLydPKpro9SyRVeeuoyYUCbXkJaeArk4-OQ&oe=6A162F2D"
               alt="明洞烤起司年糕"
-              onerror="this.style.display='none'"
+              onerror="this.style.cssText='opacity:0;position:absolute';this.parentElement.classList.add('img-failed')" 
             >
             <div class="reel-badge">Instagram · @shishi_bao</div>
             <div class="reel-play"><i class="ph-fill ph-play"></i></div>
@@ -1891,7 +1905,7 @@ html:not(.locked) #pwgate { display: none !important; }
               src="https://instagram.fkhh1-1.fna.fbcdn.net/v/t51.71878-15/705030355_1667384641053190_127955097921480476_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=102&ccb=7-5&_nc_sid=58cdad&oh=00_Af7xr3BRrGHl70ajaxJOHOXyP19L9Pe5H98hAThxyOzaig&oe=6A1A9B28"
               loading="lazy"
               alt="CU 便利店餅乾"
-              onerror="this.style.display='none'"
+              onerror="this.style.cssText='opacity:0;position:absolute';this.parentElement.classList.add('img-failed')" 
             >
             <div class="reel-badge">Threads · @yahui_0919</div>
             <div class="reel-play"><i class="ph-fill ph-play"></i></div>
@@ -1908,7 +1922,7 @@ html:not(.locked) #pwgate { display: none !important; }
             <img
               src="https://instagram.fkhh5-1.fna.fbcdn.net/v/t51.82787-15/696062887_17872005177609638_4606479233222138885_n.jpg?stp=dst-jpg_e35_tt6&_nc_cat=105&ig_cache_key=Mzg5NjE3MDM4MTg2NzM0NjkxMQ%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueXBpZHMuMTQ0MC5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=lQR0e6t8yA4Q7kNvwFU_P1-&_nc_oc=Adq_r9r_PPHH83em3ITAGCPHJ-ojYEPJyNtOKKYhP2Vb3DFXDaF9Tw8vO7n9IWkCltw&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=instagram.fkhh5-1.fna&_nc_gid=2EFlk7wEW_A_O1MHf2fCag&_nc_ss=7a22e&oh=00_Af4i2vqpmokVkAth3CmMt3oqknH2WH0BP5NbRYeEmGlFyw&oe=6A161F2A"
               alt="韓國大創頭髮香水"
-              onerror="this.style.display='none'"
+              onerror="this.style.cssText='opacity:0;position:absolute';this.parentElement.classList.add('img-failed')" 
             >
             <div class="reel-badge">Threads · @716lchnuy</div>
             <div class="reel-play"><i class="ph-fill ph-arrow-square-out"></i></div>
@@ -1924,7 +1938,7 @@ html:not(.locked) #pwgate { display: none !important; }
             <img
               src="https://instagram.fkhh5-1.fna.fbcdn.net/v/t51.82787-15/695877331_18588044452010627_5845102936764182616_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=108&ig_cache_key=Mzg5NjYwNTUyNDczNjEwMTQ5NTE4NTg4MDQ0NDQ2MDEwNjI3.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkNMSVBTLnhwaWRzLjEwMzIuc2RyLnZpZGVvX2RlZmF1bHRfY292ZXJfZnJhbWUuQzMifQ%3D%3D&_nc_ohc=DsMcKLk3lR0Q7kNvwHm6k5c&_nc_oc=AdrZ52sZ5NvXwHmh72JNGvRiAU48-GrIXoHgPTRNZlHmD-2IWNbuDbg5Ex3XC009Qyk&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=instagram.fkhh5-1.fna&_nc_gid=e4V2UGZvN0FIT5gyLidhPQ&_nc_ss=7a22e&oh=00_Af6EaYTE3VDXUCDnLItug6ra-LiH_0h1tekqA_PVaI2vdA&oe=6A1623DA"
               alt="韓國大創必買9件"
-              onerror="this.style.display='none'"
+              onerror="this.style.cssText='opacity:0;position:absolute';this.parentElement.classList.add('img-failed')" 
             >
             <div class="reel-badge">Instagram · @11.sns</div>
             <div class="reel-play"><i class="ph-fill ph-play"></i></div>
@@ -1940,7 +1954,7 @@ html:not(.locked) #pwgate { display: none !important; }
             <img
               src="https://instagram.fkhh5-1.fna.fbcdn.net/v/t51.82787-15/689280787_18585646183004499_8183743605911915359_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=103&ig_cache_key=Mzg5NjkxOTIzODM2Mzc4NDU1MA%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMzYwLnNkci52aWRlb19kZWZhdWx0X2NvdmVyX2ZyYW1lLkMzIn0%3D&_nc_ohc=GMWQDq6E9QgQ7kNvwF6VKLh&_nc_oc=AdpQ5z0NubfS2Ky5HSIAtvvEtOIvLyseGNpz5POP5Sb2ztjCV_6mPmtsmPQn87C9OIU&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=instagram.fkhh5-1.fna&_nc_gid=1iStdCApP_osgewLEjPX_g&_nc_ss=7a22e&oh=00_Af4Ix37h93bseUzNtJTezWMp4wAk7qimMP6H6HHOcjECoA&oe=6A16329C"
               alt="黃金微針 Dr. Evers"
-              onerror="this.style.display='none'"
+              onerror="this.style.cssText='opacity:0;position:absolute';this.parentElement.classList.add('img-failed')" 
             >
             <div class="reel-badge">Threads · @fz252525</div>
             <div class="reel-play"><i class="ph-fill ph-arrow-square-out"></i></div>
@@ -1957,7 +1971,7 @@ html:not(.locked) #pwgate { display: none !important; }
             <img
               src="https://instagram.fkhh5-1.fna.fbcdn.net/v/t51.82787-15/704782936_17869287513653973_1439461861255300217_n.jpg?stp=dst-jpg_e35_tt6&_nc_cat=110&ig_cache_key=MzkwMjQ3NTg5NzQ3NTc5MDMxNg%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMjQ4MC5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=QjodFfrDbRkQ7kNvwFJows0&_nc_oc=Adq8vsVAPc3v6TcUw9r4N_IUhNOMBWW5oQZhQhmoj9S-BkiiE8oZqVz2OX6BxGZpvAU&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=instagram.fkhh5-1.fna&_nc_gid=VDhg-8bbEX-8nK6ptFcCGg&_nc_ss=7a22e&oh=00_Af6Wd-2mzg2ADtwEbKZ3iLMmi3j1Bs0TBxRI4HB-fzR86A&oe=6A16429D"
               alt="韓國6月購物折扣"
-              onerror="this.style.display='none'"
+              onerror="this.style.cssText='opacity:0;position:absolute';this.parentElement.classList.add('img-failed')" 
             >
             <div class="reel-badge">Threads · @benjaminclinic_tw</div>
             <div class="reel-play"><i class="ph-fill ph-arrow-square-out"></i></div>
@@ -1974,7 +1988,7 @@ html:not(.locked) #pwgate { display: none !important; }
             <img
               src="https://scontent.cdninstagram.com/v/t51.71878-15/588873013_1521189262503679_1388401849664915141_n.jpg?stp=cmp1_dst-jpg_e35_s640x640_tt6&_nc_cat=109&ccb=7-5&_nc_sid=18de74&efg=eyJlZmdfdGFnIjoiQ0xJUFMuYmVzdF9pbWFnZV91cmxnZW4uQzMifQ%3D%3D&_nc_ohc=s2qdJvQqgQkQ7kNvwEXLkca&_nc_oc=AdrC6YA9wT3SlNC5Q1PXqTD9mr537mTq3CW5jUE8Z1WiZDCBbcJN379taEiA2DvUQ50&_nc_zt=23&_nc_ht=scontent.cdninstagram.com&_nc_gid=EtrUkOqoVkroNVNLe-2reg&_nc_ss=7f60f&oh=00_Af6m8qR64QAL1svL1LvaehquzuvYARHYNS9RuPlyixhreQ&oe=6A1627BF"
               alt="韓國美妝店避雷"
-              onerror="this.style.display='none'"
+              onerror="this.style.cssText='opacity:0;position:absolute';this.parentElement.classList.add('img-failed')" 
             >
             <div class="reel-badge">Instagram · @mrskincareiscoming</div>
             <div class="reel-play"><i class="ph-fill ph-play"></i></div>
@@ -1991,7 +2005,7 @@ html:not(.locked) #pwgate { display: none !important; }
             <img
               src="https://scontent.cdninstagram.com/v/t51.82787-15/702625021_18589500562010627_6571515497072927153_n.jpg?stp=cmp1_dst-jpg_e35_s640x640_tt6&_nc_cat=101&ccb=7-5&_nc_sid=18de74&efg=eyJlZmdfdGFnIjoiQ0xJUFMuYmVzdF9pbWFnZV91cmxnZW4uQzMifQ%3D%3D&_nc_ohc=Wu-MNqxuNLUQ7kNvwGlc7Pd&_nc_oc=AdpiNUU2SBZsIl42zGbhFyVT4e10rH0oWWIRm3_FGsXzlAffT6vLvBCgWta8X1-xVrY&_nc_zt=23&_nc_ht=scontent.cdninstagram.com&_nc_gid=kbIaMUjJsCM8FljXhO199Q&_nc_ss=7f60f&oh=00_Af64Yi71wnopFDEAkVnNbPmoFIcX290a_u6rsixe9Fu8sQ&oe=6A16506C"
               alt="韓國大創家事皂"
-              onerror="this.style.display='none'"
+              onerror="this.style.cssText='opacity:0;position:absolute';this.parentElement.classList.add('img-failed')" 
             >
             <div class="reel-badge">Instagram · @11.sns</div>
             <div class="reel-play"><i class="ph-fill ph-play"></i></div>
@@ -2005,9 +2019,9 @@ html:not(.locked) #pwgate { display: none !important; }
         <div class="reel-card" onclick="window.open('https://www.instagram.com/reel/DWd-lmhiflg/','_blank')">
           <div class="reel-thumb c4 has-img">
             <img
-              src="https://scontent.cdninstagram.com/v/t51.82787-15/657279546_18586241770057738_3897680318650771095_n.jpg?stp=cmp1_dst-jpg_e35_s640x640_tt6&_nc_cat=107&ccb=7-5&_nc_sid=18de74&efg=eyJlZmdfdGFnIjoiQ0xJUFMuYmVzdF9pbWFnZV91cmxnZW4uQzMifQ%3D%3D&_nc_ohc=3IEt6ZHIZPcQ7kNvwEsAqDy&_nc_oc=Adr_pf04pm_4i9uHUc1iezOoNM42WXgRee0ltUS0_msOVPaLKAn1wSvygzrbKu3k37o&_nc_zt=23&_nc_ht=scontent.cdninstagram.com&_nc_gid=6Wd9I1BMwfGmy48IQ7W-5w&_nc_ss=7f60f&oh=00_Af6SWzBs_xKTI2Qg5jFZtjbsnQrmNFA939NE0ZwteR6GHA&oe=6A16E959"
+              src="https://cdn.jsdelivr.net/gh/mandy0203-ops/korea-trip-yuki@main/assets/657279546_18586241770057738_3897680318650771095_n.jpg"
               alt="韓國藥局中文藥師"
-              onerror="this.style.display='none'"
+              onerror="this.style.cssText='opacity:0;position:absolute';this.parentElement.classList.add('img-failed')" 
             >
             <div class="reel-badge">Instagram · @coco_161.8</div>
             <div class="reel-play"><i class="ph-fill ph-play"></i></div>
@@ -2024,7 +2038,7 @@ html:not(.locked) #pwgate { display: none !important; }
               src="https://instagram.fkhh1-2.fna.fbcdn.net/v/t51.82787-15/705822611_17931385683268459_9135394264860611871_n.jpg?stp=dst-jpg_e35_tt6&_nc_cat=111&ccb=7-5&_nc_sid=58cdad&oh=00_Af6StQDWLvkirFU7B5l1CDENqBc9ETv4i1NuWy6LXvkqxA&oe=6A1A9B7C"
               loading="lazy"
               alt="大創必買清單"
-              onerror="this.style.display='none'"
+              onerror="this.style.cssText='opacity:0;position:absolute';this.parentElement.classList.add('img-failed')" 
             >
             <div class="reel-badge">Threads · @qb__28</div>
             <div class="reel-play"><i class="ph-fill ph-play"></i></div>
@@ -2041,7 +2055,7 @@ html:not(.locked) #pwgate { display: none !important; }
               src="https://scontent-sin6-2.cdninstagram.com/v/t51.82787-15/708294539_17940388359231256_4642156561910435638_n.jpg?stp=dst-jpg_e35_tt6&_nc_cat=109&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkNBUk9VU0VMX0lURU0ueHBpZHMuMTE3OS5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=L5IWQMCdVp8Q7kNvwFLrxRT&oh=00_Af6uag0_OpaHW_DVeaKi9gGClpqrl3pJ1M0vsVpqIJM__g&oe=6A1C5273"
               loading="lazy"
               alt="南大門老奶奶搓澡巾"
-              onerror="this.style.display='none'"
+              onerror="this.style.cssText='opacity:0;position:absolute';this.parentElement.classList.add('img-failed')" 
             >
             <div class="reel-badge">Threads · @teppei1915</div>
             <div class="reel-play"><i class="ph-fill ph-arrow-square-out"></i></div>
@@ -2058,7 +2072,7 @@ html:not(.locked) #pwgate { display: none !important; }
             <img
               src="https://instagram.fkhh5-1.fna.fbcdn.net/v/t51.82787-15/695105174_17879737224569756_2904701783236686843_n.jpg?stp=dst-jpg_e35_tt6&_nc_cat=111&ig_cache_key=Mzg5NDUyOTcyODcyOTA5Njc0OA%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkNBUk9VU0VMX0lURU0ueHBpZHMuMTA4MC5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=6LOmXhTFVWsQ7kNvwF-9tSM&_nc_oc=AdqRPwrZItIqJKSDUFLGbBuyH-obzsFfPCYnL_wA7Ne0qCUs2zrybeSiV3Ov_9VHZM8&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=instagram.fkhh5-1.fna&_nc_gid=vxGMysoDrzId9PM9Y0-zog&_nc_ss=7a22e&oh=00_Af5P0vAP84m4Gsg3f0SDymhe7aRHVqLykKEQusuH54hIFw&oe=6A16262A"
               alt="2026韓國入境新制"
-              onerror="this.style.display='none'"
+              onerror="this.style.cssText='opacity:0;position:absolute';this.parentElement.classList.add('img-failed')" 
             >
             <div class="reel-badge">Threads · @simsgogo</div>
             <div class="reel-play"><i class="ph-fill ph-arrow-square-out"></i></div>
@@ -2074,7 +2088,7 @@ html:not(.locked) #pwgate { display: none !important; }
             <img
               src="https://instagram.fkhh5-1.fna.fbcdn.net/v/t51.82787-15/702669145_17947709007176953_6355137967924177232_n.jpg?stp=cp6_dst-jpegr_e35_tt6&_nc_cat=104&ig_cache_key=MzkwMjAwODU0NDQzNDcyMTIyNw%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkNBUk9VU0VMX0lURU0ueHBpZHMuMjMwNC5oZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=fCsmqM4FXeIQ7kNvwHr1c-K&_nc_oc=AdpiDOhu9GoxHZ_6QozEgcZZdFIycumcMyJUWzDKxxJftSuxvHltaRqDYEJScYufohI&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&se=-1&_nc_ht=instagram.fkhh5-1.fna&_nc_gid=SLKA4Dawq1vou5-6h0KnMQ&_nc_ss=7a22e&oh=00_Af68wMJaQepJzEG1OMYcRtJT62pMcM1AMEMzvLT2Emb3tQ&oe=6A163AA0"
               alt="虎航登機箱尺寸踩雷"
-              onerror="this.style.display='none'"
+              onerror="this.style.cssText='opacity:0;position:absolute';this.parentElement.classList.add('img-failed')" 
             >
             <div class="reel-badge">Threads · @lai__1122</div>
             <div class="reel-play"><i class="ph-fill ph-arrow-square-out"></i></div>
@@ -2090,7 +2104,7 @@ html:not(.locked) #pwgate { display: none !important; }
             <img
               src="https://instagram.fkhh5-1.fna.fbcdn.net/v/t51.82787-15/702544724_17943938841228869_3030723481619077196_n.jpg?stp=dst-jpg_e35_tt6&_nc_cat=108&ig_cache_key=Mzg5OTc3OTI3MzQ2MTQzODI5OA%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMjM5MC5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=ZCLBL1coyQ4Q7kNvwGnUsNk&_nc_oc=AdrqmzOz1Kor1rCDie9UAOpAKwRWkP8BivTNnlU2Y57J3fzW_J5odbsRAG03LqyDbbE&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=instagram.fkhh5-1.fna&_nc_gid=IU-9a_DORrlZjOV5pvNuvA&_nc_ss=7a22e&oh=00_Af59woKMyvtzheUOj-rUTCVUBvRjyMOfaFwTkX2yraWj4g&oe=6A163F26"
               alt="6月韓國機票降價"
-              onerror="this.style.display='none'"
+              onerror="this.style.cssText='opacity:0;position:absolute';this.parentElement.classList.add('img-failed')" 
             >
             <div class="reel-badge">Threads · @siasopretty</div>
             <div class="reel-play"><i class="ph-fill ph-arrow-square-out"></i></div>
@@ -2107,7 +2121,7 @@ html:not(.locked) #pwgate { display: none !important; }
             <img
               src="https://scontent.cdninstagram.com/v/t51.71878-15/656039917_26115588458099961_1924141273873059628_n.jpg?stp=cmp1_dst-jpg_e35_s640x640_tt6&_nc_cat=105&ccb=7-5&_nc_sid=18de74&efg=eyJlZmdfdGFnIjoiQ0FST1VTRUxfSVRFTS5iZXN0X2ltYWdlX3VybGdlbi5DMyJ9&_nc_ohc=VxYVBYLByjoQ7kNvwHyHxs5&_nc_oc=AdpHSD_xWod3UOGAc064DsRel7pUTHbItzAkXFWpbxkkl7_1Q2qas1MYBCbcADL8h8A&_nc_zt=23&_nc_ht=scontent.cdninstagram.com&_nc_gid=apzlPFpbkwi4vy3wejHmdg&_nc_ss=7f20f&oh=00_Af7c07rtF9UaVek3P8Ydl3fJvacxmxHD2epYWHU9Gt9sZg&oe=6A16291C"
               alt="SeS 機場快速通關"
-              onerror="this.style.display='none'"
+              onerror="this.style.cssText='opacity:0;position:absolute';this.parentElement.classList.add('img-failed')" 
             >
             <div class="reel-badge">Threads · @anyou.kr</div>
             <div class="reel-play"><i class="ph-fill ph-arrow-square-out"></i></div>
@@ -2124,7 +2138,7 @@ html:not(.locked) #pwgate { display: none !important; }
             <img
               src="https://instagram.fkhh5-1.fna.fbcdn.net/v/t51.82787-15/684931010_18053574446556163_6723237059555889995_n.jpg?stp=dst-jpg_e35_tt6&_nc_cat=109&ig_cache_key=Mzg5ODk1NzgwODc2MjE2NjA3OQ%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkNBUk9VU0VMX0lURU0ueHBpZHMuMTA4Ni5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=mssbAdTc9QUQ7kNvwHY33a6&_nc_oc=AdqEVf8tarJ9DbY4aH84Ru98K3piuka0IrEudHq1r5X54_3Wle0lISlzmcfYlKGy3cY&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=instagram.fkhh5-1.fna&_nc_gid=SqgDT6XpSytHE6b1TPCFUw&_nc_ss=7a22e&oh=00_Af7kK5jBvlNfQgqE5CgUzWsdT_X1Npb2RtmV1775YV8ffw&oe=6A162FB4"
               alt="韓國必備App"
-              onerror="this.style.display='none'"
+              onerror="this.style.cssText='opacity:0;position:absolute';this.parentElement.classList.add('img-failed')" 
             >
             <div class="reel-badge">Threads · @huhu_travel</div>
             <div class="reel-play"><i class="ph-fill ph-arrow-square-out"></i></div>
@@ -2140,7 +2154,7 @@ html:not(.locked) #pwgate { display: none !important; }
             <img
               src="https://scontent.cdninstagram.com/v/t51.82787-15/696983649_17923549452339703_802157677290328713_n.jpg?stp=cmp1_dst-jpg_e35_s640x640_tt6&_nc_cat=101&ccb=7-5&_nc_sid=18de74&efg=eyJlZmdfdGFnIjoiQ0xJUFMuYmVzdF9pbWFnZV91cmxnZW4uQzMifQ%3D%3D&_nc_ohc=TCoE4yVBE84Q7kNvwHkbB1X&_nc_oc=Adr_ehcUV2SRpoVMDP6ueEVCQjjlSUH2Ft73B87mJzkzjtEqBxgJGynUNpAUA3tjqrI&_nc_zt=23&_nc_ht=scontent.cdninstagram.com&_nc_gid=w17CWWAAG8p3a2-DdS0fig&_nc_ss=7f60f&oh=00_Af6E2QTVvAuX5eg5dsF9YfkvIYb9qpbDqu0p-_W5yWmHLg&oe=6A16424F"
               alt="CHECK IN SEOUL 卡"
-              onerror="this.style.display='none'"
+              onerror="this.style.cssText='opacity:0;position:absolute';this.parentElement.classList.add('img-failed')" 
             >
             <div class="reel-badge">Instagram · @taimanshalang_korean</div>
             <div class="reel-play"><i class="ph-fill ph-play"></i></div>
@@ -2156,7 +2170,7 @@ html:not(.locked) #pwgate { display: none !important; }
             <img
               src="https://scontent.cdninstagram.com/v/t51.82787-15/671227664_18582964219020191_6186217629906739559_n.jpg?stp=cmp1_dst-jpg_e35_s640x640_tt6&_nc_cat=110&ccb=7-5&_nc_sid=18de74&efg=eyJlZmdfdGFnIjoiQ0xJUFMuYmVzdF9pbWFnZV91cmxnZW4uQzMifQ%3D%3D&_nc_ohc=vR7aycBl89kQ7kNvwEvmWHA&_nc_oc=AdqgE9xgf03LBDyLfS8PgM99HuX5k3pdoNVQQfUMxyuF87eWIuNqLBS_OgKwFm4hm7Y&_nc_zt=23&_nc_ht=scontent.cdninstagram.com&_nc_gid=bit7wqVh7ALfi6EwLekCug&_nc_ss=7f60f&oh=00_Af49z0Op6SHHBuTS0QjenxCjPd_5BxylHakdb8LNCJBkrQ&oe=6A1655FE"
               alt="首爾免費領禮品"
-              onerror="this.style.display='none'"
+              onerror="this.style.cssText='opacity:0;position:absolute';this.parentElement.classList.add('img-failed')" 
             >
             <div class="reel-badge">Instagram · @peiijing__</div>
             <div class="reel-play"><i class="ph-fill ph-play"></i></div>
@@ -2172,7 +2186,7 @@ html:not(.locked) #pwgate { display: none !important; }
             <img
               src="https://scontent.cdninstagram.com/v/t39.30808-6/692579283_1779478443333753_594167357053851727_n.jpg?stp=c216.0.648.648a_dst-jpg_e35_s640x640_tt6&_nc_cat=106&ccb=7-5&_nc_sid=18de74&efg=eyJlZmdfdGFnIjoiQ0FST1VTRUxfSVRFTS5iZXN0X2ltYWdlX3VybGdlbi5DMyJ9&_nc_ohc=COEARHI0jHMQ7kNvwF-dd9r&_nc_oc=AdptYhbnczigWPiLJpfk387nsqQT6iOpWKYoPMvME6a2FMaQMxpqjsGAziFlr4SMwFY&_nc_zt=23&_nc_ht=scontent.cdninstagram.com&_nc_gid=cukPjzZpCgTRgH4V5UIhLQ&_nc_ss=7f60f&oh=00_Af7fmJVW-pV2PP1TEoZlMZ29UFbO_ZZbpxa9bt5mjNaDYw&oe=6A1634D8"
               alt="韓國旅遊支付攻略"
-              onerror="this.style.display='none'"
+              onerror="this.style.cssText='opacity:0;position:absolute';this.parentElement.classList.add('img-failed')" 
             >
             <div class="reel-badge">Instagram · @beurlife.tw</div>
             <div class="reel-play"><i class="ph-fill ph-arrow-square-out"></i></div>
@@ -2189,7 +2203,7 @@ html:not(.locked) #pwgate { display: none !important; }
             <img
               src="https://instagram.fkhh5-1.fna.fbcdn.net/v/t51.82787-15/702716527_17925223821338424_178692107995237252_n.jpg?stp=dst-jpg_e35_tt6&_nc_cat=109&ig_cache_key=MzkwMjUyODAyOTA3NDc1NzM0MA%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkNBUk9VU0VMX0lURU0ueHBpZHMuODY4LnNkci5yZWd1bGFyX3Bob3RvLkMzIn0%3D&_nc_ohc=vQb0nJ_i8csQ7kNvwECTKQ0&_nc_oc=Ado05VyRAswfFAQzbk1hMYQ1c4wAkLaNz8WJTGelHUiRnjO_CYPOXRfs-RWIxdii5xE&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=instagram.fkhh5-1.fna&_nc_gid=Y3pcKqALzD4ifBBRH7NMug&_nc_ss=7a22e&oh=00_Af4Gcn2asccB-bHkcex4QgCZJZrgyjB3fjFpXZkqcOzPCQ&oe=6A162B7E"
               alt="Tmoney + Mastercard"
-              onerror="this.style.display='none'"
+              onerror="this.style.cssText='opacity:0;position:absolute';this.parentElement.classList.add('img-failed')" 
             >
             <div class="reel-badge">Threads · @wenyiii0</div>
             <div class="reel-play"><i class="ph-fill ph-arrow-square-out"></i></div>
@@ -2205,7 +2219,7 @@ html:not(.locked) #pwgate { display: none !important; }
             <img
               src="https://instagram.fkhh5-1.fna.fbcdn.net/v/t51.82787-15/702044049_17950242480153252_7274911185822179221_n.jpg?stp=cp6_dst-jpegr_e35_tt6&_nc_cat=100&ig_cache_key=Mzg5OTA5OTg0NjE5MjI3Nzg1Mw%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkNBUk9VU0VMX0lURU0ueHBpZHMuMzA3Mi5oZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=xDJ7_TGgoloQ7kNvwFnaBF7&_nc_oc=AdoGsmg41Xj0xosu2LkNHI17hSXyphc-QQy6S0EHAcdo6_U2fNdkp1bDdiecMvsSYW0&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&se=-1&_nc_ht=instagram.fkhh5-1.fna&_nc_gid=x3KRg_TEVVYHm0ZHJdDF6A&_nc_ss=7a22e&oh=00_Af4zDwUZCpTompkptVEre1B0icQnMpJXgl2yxlJ0tlaIlg&oe=6A1636E6"
               alt="WOWPASS + 氣候卡"
-              onerror="this.style.display='none'"
+              onerror="this.style.cssText='opacity:0;position:absolute';this.parentElement.classList.add('img-failed')" 
             >
             <div class="reel-badge">Threads · @yisheng_0222</div>
             <div class="reel-play"><i class="ph-fill ph-arrow-square-out"></i></div>
@@ -2221,7 +2235,7 @@ html:not(.locked) #pwgate { display: none !important; }
             <img
               src="https://instagram.fkhh5-1.fna.fbcdn.net/v/t51.82787-15/661375463_17955654438096625_4906848916832230847_n.jpg?stp=dst-jpg_e35_tt6&_nc_cat=104&ig_cache_key=Mzg2ODMxNjcyNzA5MjI4MzMyMA%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkNBUk9VU0VMX0lURU0ueHBpZHMuOTkzLnNkci5yZWd1bGFyX3Bob3RvLkMzIn0%3D&_nc_ohc=9z93F-PRG5oQ7kNvwFcKSj9&_nc_oc=AdqcmSgS8N-u0a32SAgYlyD4RqeSt5n2KGgi9StL31xo1uHlux4gk6yyO3DkGWZrnUg&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=instagram.fkhh5-1.fna&_nc_gid=qGBLUQ2Zg-fxR7YcNC4MNg&_nc_ss=7a22e&oh=00_Af4gehL408__4FAG7VB_8K_luRTFFEeTkO8hXX1HGnwP-Q&oe=6A16372E"
               alt="LINE Pay 韓國回饋"
-              onerror="this.style.display='none'"
+              onerror="this.style.cssText='opacity:0;position:absolute';this.parentElement.classList.add('img-failed')" 
             >
             <div class="reel-badge">Threads · @huang__10</div>
             <div class="reel-play"><i class="ph-fill ph-arrow-square-out"></i></div>
@@ -2235,10 +2249,10 @@ html:not(.locked) #pwgate { display: none !important; }
         <div class="reel-card" onclick="window.open('https://www.threads.com/@moojoo00731/post/DYyoKWpCL4m','_blank')">
           <div class="reel-thumb c2 has-img">
             <img
-              src="https://scontent-sin2-1.cdninstagram.com/v/t51.82787-15/706891185_17914304436386136_894915713555347837_n.jpg?stp=cp6_dst-jpg_e35_tt6&_nc_cat=100&ig_cache_key=MzkwNTM2MDQ2MDI0OTYxMTgxNA%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMTQ0MC5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=oU9VIlnR3l4Q7kNvwFs2DCI&_nc_oc=AdogtSz1-UYTRkeMLhjlWWqWgjVeYOcO49oY51TT2VfGRXBy_AyCabMgkLpWVNNiMY1ksxYD1-JXh781P-eejEUc&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-sin2-1.cdninstagram.com&_nc_gid=xrDYd-fe-w_alxVtUXr7pQ&_nc_ss=7a22e&oh=00_Af4qMSJ3FZR-0RO4Z6AHot9rh2skAtH9mYV7AzRsFH-Rmw&oe=6A1C5548"
+              src="https://cdn.jsdelivr.net/gh/mandy0203-ops/korea-trip-yuki@main/assets/706891185_17914304436386136_894915713555347837_n.jpg"
               loading="lazy"
               alt="7-11 ibon 買 eSIM"
-              onerror="this.style.display='none'"
+              onerror="this.style.cssText='opacity:0;position:absolute';this.parentElement.classList.add('img-failed')" 
             >
             <div class="reel-badge">Threads · @moojoo00731</div>
             <div class="reel-play"><i class="ph-fill ph-arrow-square-out"></i></div>
@@ -2255,7 +2269,7 @@ html:not(.locked) #pwgate { display: none !important; }
             <img
               src="https://scontent.cdninstagram.com/v/t51.71878-15/685935138_4400969363515704_7969348744561551991_n.jpg?stp=cmp1_dst-jpg_e35_s640x640_tt6&_nc_cat=104&ccb=7-5&_nc_sid=18de74&efg=eyJlZmdfdGFnIjoiQ0xJUFMuYmVzdF9pbWFnZV91cmxnZW4uQzMifQ%3D%3D&_nc_ohc=3kzlEqaCyJwQ7kNvwELHFfk&_nc_oc=AdqOwun_hbypIKkU2by-ZmUtT4VFrbhKBcaDQxd7fSvbx_JoPFRBVnyU1buRFK0NqPE&_nc_zt=23&_nc_ht=scontent.cdninstagram.com&_nc_gid=snPyBFmXtzDDlhqpwjU9kw&_nc_ss=7f60f&oh=00_Af56-SABDCGrmUgiHp8ZUxj6YzThGKa5RUaozr2Xi3AROg&oe=6A164C76"
               alt="韓國旅遊潛規則禮儀"
-              onerror="this.style.display='none'"
+              onerror="this.style.cssText='opacity:0;position:absolute';this.parentElement.classList.add('img-failed')" 
             >
             <div class="reel-badge">Instagram · @sherryluerr</div>
             <div class="reel-play"><i class="ph-fill ph-play"></i></div>
@@ -2271,7 +2285,7 @@ html:not(.locked) #pwgate { display: none !important; }
             <img
               src="https://scontent.cdninstagram.com/v/t51.82787-15/674447305_17931188469248127_3178630336910144590_n.jpg?stp=cmp1_dst-jpg_e35_s640x640_tt6&_nc_cat=101&ccb=7-5&_nc_sid=18de74&efg=eyJlZmdfdGFnIjoiQ0xJUFMuYmVzdF9pbWFnZV91cmxnZW4uQzMifQ%3D%3D&_nc_ohc=62y59pkTOF0Q7kNvwEdOnUM&_nc_oc=AdogwTqRYYHt_wfKsdgJC8fgFVJf1NnCuNRSdnyWlAqcJ9T38B7hbl_mFboRvr5XbUY&_nc_zt=23&_nc_ht=scontent.cdninstagram.com&_nc_gid=hFNH8wuJvbBocTAilihPag&_nc_ss=7f60f&oh=00_Af5PTw2vsquOccwJOSDW819cAhChfHScad85T_RE8h-Mrg&oe=6A165024"
               alt="韓國 5 個社死瞬間"
-              onerror="this.style.display='none'"
+              onerror="this.style.cssText='opacity:0;position:absolute';this.parentElement.classList.add('img-failed')" 
             >
             <div class="reel-badge">Instagram · @rg_koreago</div>
             <div class="reel-play"><i class="ph-fill ph-play"></i></div>
@@ -2288,7 +2302,7 @@ html:not(.locked) #pwgate { display: none !important; }
             <img
               src="https://scontent.cdninstagram.com/v/t39.30808-6/685017182_950259994508324_3987064988802880365_n.jpg?stp=c216.0.648.648a_dst-jpg_e35_s640x640_tt6&_nc_cat=107&ccb=7-5&_nc_sid=18de74&efg=eyJlZmdfdGFnIjoiRkVFRC5iZXN0X2ltYWdlX3VybGdlbi5DMyJ9&_nc_ohc=h_SP1pW8_WAQ7kNvwFt3iIM&_nc_oc=Adp_gT1m7yyfLfQ0i5FOIRfducnFmr5tnLMpIxSVXLx-ah_Nk7pEO93Pz8FSNvNVJhw&_nc_zt=23&_nc_ht=scontent.cdninstagram.com&_nc_gid=TNLmd51fWcb09iMvBovDtg&_nc_ss=7f60f&oh=00_Af77yX-iMKj4oSrrq9t8CL2W67gTxqI66pxnPgH3Bwqeew&oe=6A1655D0"
               alt="濟州島過馬路被罰"
-              onerror="this.style.display='none'"
+              onerror="this.style.cssText='opacity:0;position:absolute';this.parentElement.classList.add('img-failed')" 
             >
             <div class="reel-badge">Instagram · @everyday.news88</div>
             <div class="reel-play"><i class="ph-fill ph-arrow-square-out"></i></div>
@@ -2302,9 +2316,9 @@ html:not(.locked) #pwgate { display: none !important; }
         <div class="reel-card" onclick="window.open('https://www.instagram.com/reel/C_neyltyXXE/','_blank')">
           <div class="reel-thumb c4 has-img">
             <img
-              src="https://scontent.cdninstagram.com/v/t51.71878-15/506254796_1797121027887773_3956550422759058467_n.jpg?stp=cmp1_dst-jpg_e35_s640x640_tt6&_nc_cat=109&ccb=7-5&_nc_sid=18de74&efg=eyJlZmdfdGFnIjoiQ0xJUFMuYmVzdF9pbWFnZV91cmxnZW4uQzMifQ%3D%3D&_nc_ohc=f4bJZQNXJcYQ7kNvwHMngah&_nc_oc=AdoGhFzFN-XzQ_OH5_eM0d5zpbQz1ftpBP96N4Zj6GYtrpzryB1CWrbewCndgcZqdzRJZUL9YCzUwYe8skFUJK-x&_nc_zt=23&_nc_ht=scontent.cdninstagram.com&_nc_gid=32uG8O0qXsws_bR_TjW5OA&_nc_ss=7f60f&oh=00_Af6ZWBke3i6qiDoKzm9BxRAcHXmrOUIfzx66XuLrnDxIdg&oe=6A173041"
+              src="https://cdn.jsdelivr.net/gh/mandy0203-ops/korea-trip-yuki@main/assets/506254796_1797121027887773_3956550422759058467_n.jpg"
               alt="汗蒸幕流程教學"
-              onerror="this.style.display='none'"
+              onerror="this.style.cssText='opacity:0;position:absolute';this.parentElement.classList.add('img-failed')" 
             >
             <div class="reel-badge">Instagram · @_food.travel</div>
             <div class="reel-play"><i class="ph-fill ph-play"></i></div>
@@ -2318,9 +2332,9 @@ html:not(.locked) #pwgate { display: none !important; }
         <div class="reel-card" onclick="window.open('https://www.instagram.com/p/DXRd5rBie8j/','_blank')">
           <div class="reel-thumb c5 has-img">
             <img
-              src="https://scontent.cdninstagram.com/v/t51.82787-15/670435954_18388268410090481_993521562126483076_n.jpg?stp=cmp1_dst-jpg_e35_s640x640_tt6&_nc_cat=109&ccb=7-5&_nc_sid=18de74&efg=eyJlZmdfdGFnIjoiQ0FST1VTRUxfSVRFTS5iZXN0X2ltYWdlX3VybGdlbi5DMyJ9&_nc_ohc=0YXfVjcCHEkQ7kNvwGt5TKV&_nc_oc=AdqKKf0tGPPw9Gkd8ByJN_x3eftuL3rHX347chs0Gqe0HC0JFc8LliTFVpN9_Ob4WPawNhsx9VNU4hLssxVSevce&_nc_zt=23&_nc_ht=scontent.cdninstagram.com&_nc_gid=O-dmwiwR2-YT09_eDY_fCg&_nc_ss=7f60f&oh=00_Af5vSDYc-ACMaK7wJ4BqvulcwzYliTPl1tfbOKevBw0QRg&oe=6A172FE6"
+              src="https://cdn.jsdelivr.net/gh/mandy0203-ops/korea-trip-yuki@main/assets/670435954_18388268410090481_993521562126483076_n.jpg"
               alt="汗蒸幕潛規則"
-              onerror="this.style.display='none'"
+              onerror="this.style.cssText='opacity:0;position:absolute';this.parentElement.classList.add('img-failed')" 
             >
             <div class="reel-badge">Instagram · @creatrip.tw</div>
             <div class="reel-play"><i class="ph-fill ph-arrow-square-out"></i></div>
@@ -2337,7 +2351,7 @@ html:not(.locked) #pwgate { display: none !important; }
               src="https://instagram.fkhh1-2.fna.fbcdn.net/v/t51.71878-15/705567864_2378325972661631_2505643493094150510_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=109&ccb=7-5&_nc_sid=58cdad&oh=00_Af7iaV5C745fEtJBjroJEIx9H26lC39GgdwIxxOgiPZPUg&oe=6A1AC491"
               loading="lazy"
               alt="韓國6月飛蟲警告"
-              onerror="this.style.display='none'"
+              onerror="this.style.cssText='opacity:0;position:absolute';this.parentElement.classList.add('img-failed')" 
             >
             <div class="reel-badge">Threads · @missman_diary</div>
             <div class="reel-play"><i class="ph-fill ph-play"></i></div>
@@ -2354,7 +2368,7 @@ html:not(.locked) #pwgate { display: none !important; }
             <img
               src="https://scontent.cdninstagram.com/v/t51.82787-15/683238639_18579927619056400_8826111170094122958_n.jpg?stp=cmp1_dst-jpg_e35_s640x640_tt6&_nc_cat=105&ccb=7-5&_nc_sid=18de74&efg=eyJlZmdfdGFnIjoiQ0xJUFMuYmVzdF9pbWFnZV91cmxnZW4uQzMifQ%3D%3D&_nc_ohc=zIu98ZphpWkQ7kNvwFzq0gF&_nc_oc=AdpGVn3rpOfBlV_yt0yl1-fA5_eqDM-mfR8cQp0zJNzSPSNZNJgf4S3wSOdKJvIfT_w&_nc_zt=23&_nc_ht=scontent.cdninstagram.com&_nc_gid=qsdFp4vbMSkAaolvnUR0xQ&_nc_ss=7f60f&oh=00_Af7Aue5m1axrBOEIGscR6Tyg01rnB-DUmc_ce93KxFi7yw&oe=6A16329E"
               alt="@whitesunnie 韓國 Reel"
-              onerror="this.style.display='none'"
+              onerror="this.style.cssText='opacity:0;position:absolute';this.parentElement.classList.add('img-failed')" 
             >
             <div class="reel-badge">Instagram · @whitesunnie</div>
             <div class="reel-play"><i class="ph-fill ph-play"></i></div>
