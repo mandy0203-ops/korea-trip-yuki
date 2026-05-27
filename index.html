@@ -731,6 +731,35 @@ body {
   line-height: 1.5;
 }
 
+/* 分類標題：橫跨整列，不受 grid 欄數影響 */
+.reel-group-title {
+  grid-column: 1 / -1;          /* 全寬 span */
+  font-family: var(--ff-serif);
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: var(--ink);
+  letter-spacing: .04em;
+  padding: 6px 4px 4px;
+  margin-top: 8px;
+  border-bottom: 1.5px solid var(--border);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.reel-group-title::before {
+  content: '';
+  display: inline-block;
+  width: 4px;
+  height: 1.1em;
+  background: var(--lavender);
+  border-radius: 3px;
+  flex-shrink: 0;
+}
+/* 第一個 group-title 不要上方 margin（貼頂） */
+.reels-grid > .reel-group-title:first-child {
+  margin-top: 0;
+}
+
 /* ═══════════════════════════════════════
    §5 FOOD LIST (美食清單)
 ═══════════════════════════════════════ */
