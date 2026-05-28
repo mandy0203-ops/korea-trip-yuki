@@ -1348,12 +1348,76 @@ html:not(.locked) #pwgate { display: none !important; }
   display: inline-block;
   flex-shrink: 0;
 }
+/* 地圖 + 地點側欄 */
+.map-with-list {
+  display: flex;
+  gap: 10px;
+  align-items: flex-start;
+}
 #leaflet-map {
+  flex: 1;
+  min-width: 0;
   height: 460px;
   border-radius: 16px;
   border: 1.5px dashed rgba(0,0,0,0.18);
   font-family: var(--ff-sans, -apple-system, sans-serif);
   z-index: 1;
+}
+.map-location-list {
+  width: 168px;
+  flex-shrink: 0;
+  height: 460px;
+  overflow-y: auto;
+  background: var(--white);
+  border: 1.5px solid var(--border);
+  border-radius: 14px;
+  padding: 6px 0 8px;
+  scrollbar-width: thin;
+  scrollbar-color: var(--border) transparent;
+}
+.map-loc-group-label {
+  font-size: 10.5px;
+  font-weight: 700;
+  color: var(--ink-lt);
+  font-family: var(--ff-sans);
+  padding: 8px 10px 3px;
+  letter-spacing: .05em;
+  text-transform: uppercase;
+}
+.map-loc-group-label:first-child { padding-top: 4px; }
+.map-loc-btn {
+  display: block;
+  width: 100%;
+  text-align: left;
+  padding: 5px 10px 5px 14px;
+  font-size: 12.5px;
+  font-family: var(--ff-sans);
+  color: var(--ink);
+  background: none;
+  border: none;
+  cursor: pointer;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  transition: background .12s, color .12s;
+  border-radius: 0;
+}
+.map-loc-btn:hover  { background: var(--teal-pale); }
+.map-loc-btn.active {
+  background: var(--teal-pale);
+  color: var(--teal);
+  font-weight: 700;
+}
+/* Mobile：地點清單移至地圖下方，橫向滾動 */
+@media (max-width: 620px) {
+  .map-with-list   { flex-direction: column; }
+  #leaflet-map     { width: 100%; }
+  .map-location-list {
+    width: 100%;
+    height: auto;
+    max-height: 190px;
+    border-radius: 12px;
+  }
 }
 .map-note {
   margin-top: 12px;
@@ -1522,7 +1586,10 @@ html:not(.locked) #pwgate { display: none !important; }
         <button class="map-filter-chip" data-group="shop">🛍️ 購物</button>
       </div>
 
-      <div id="leaflet-map"></div>
+      <div class="map-with-list">
+        <div id="leaflet-map"></div>
+        <div id="map-location-list" class="map-location-list"></div>
+      </div>
 
 
     </section>
@@ -2787,7 +2854,7 @@ document.addEventListener('DOMContentLoaded', function() {
   const markerGroups = {};   // { 'food': [m1, m2, ...], ... }
   const allMarkers  = [];
 
-  function pin(lat, lon, color, label, naverQ, emoji, group) {
+  function pin(lat, lon, color, label, naverQ, emoji, group, short) {
     const html = '<div style="background:' + color +
       ';color:#fff;border:2.5px solid #fff;border-radius:50%;width:28px;height:28px;display:flex;align-items:center;justify-content:center;font-size:14px;line-height:1;box-shadow:0 2px 6px rgba(0,0,0,0.35);">' +
       emoji + '</div>';
@@ -2801,6 +2868,8 @@ document.addEventListener('DOMContentLoaded', function() {
     m.bindPopup('<strong>' + label + '</strong><br><a href="' + naverUrl(naverQ) +
       '" target="_blank" rel="noopener">📍 在 NAVER Map 打開</a>');
     m._pinGroup = group || 'other';
+    m._emoji    = emoji;
+    m._short    = short || label;
     if (!markerGroups[m._pinGroup]) markerGroups[m._pinGroup] = [];
     markerGroups[m._pinGroup].push(m);
     allMarkers.push(m);
@@ -2815,30 +2884,27 @@ document.addEventListener('DOMContentLoaded', function() {
   const C_FOOD = '#6b9080';
 
   // markers
-  pin(HOTEL[0], HOTEL[1], C_HOTEL, '莊藍酒店 Trang Blue Hotel（飯店）', '서울 관악구 신림동 7길 52', '🏨', 'itinerary');
-  pin(GIMPO[0], GIMPO[1], C_D1,   '金浦國際機場 GMP', '김포국제공항', '✈️', 'itinerary');
-  pin(SAUNA[0], SAUNA[1], C_D1,   '♨️ 삼모스포렉스 (新林・主推)', '삼모스포렉스', '♨️', 'itinerary');
-  pin(CLINIC[0], CLINIC[1], C_D2, '江南醫美診所 (6/5 14:00)', '서초구 강남대로 363', '💉', 'medical');
-  pin(37.5793, 126.9859, C_FOOD, 'London Bagel Museum 安國店', '런던베이글뮤지엄 안국점', '🥯', 'food');
-  pin(37.5772, 126.9836, C_FOOD, 'Artist Bakery 安國店', 'artist bakery 안국', '🍞', 'food');
-  pin(37.5560, 126.9252, C_FOOD, '花蟹世界 弘大店', '꽃게나라 홍대점', '🦀', 'food');
-  pin(37.5835, 126.9639, C_FOOD, 'Rafre Fruit 西村店', '라프레프루트 옥인동', '🍓', 'food');
-  pin(37.5435, 127.0374, C_FOOD, 'Rafre Fruit 聖水洞', '라프레프루트 성수', '🍓', 'food');
-  pin(37.5454, 127.0536, C_FOOD, '杜拜巧克力冰淇淋 (聖水)', '두바이 초콜릿 아이스크림 성수', '🍫', 'food');
+  pin(HOTEL[0], HOTEL[1], C_HOTEL, '莊藍酒店 Trang Blue Hotel（飯店）', '서울 관악구 신림동 7길 52', '🏨', 'itinerary', '莊藍酒店');
+  pin(GIMPO[0], GIMPO[1], C_D1,   '金浦國際機場 GMP', '김포국제공항', '✈️', 'itinerary', '金浦機場');
+  pin(SAUNA[0], SAUNA[1], C_D1,   '♨️ 삼모스포렉스 (新林・主推)', '삼모스포렉스', '♨️', 'itinerary', '삼모스포렉스');
+  pin(CLINIC[0], CLINIC[1], C_D2, '江南醫美診所 (6/5 14:00)', '서초구 강남대로 363', '💉', 'medical', '江南醫美診所');
+  pin(37.5793, 126.9859, C_FOOD, 'London Bagel Museum 安國店', '런던베이글뮤지엄 안국점', '🥯', 'food', 'London Bagel 安國');
+  pin(37.5772, 126.9836, C_FOOD, 'Artist Bakery 安國店', 'artist bakery 안국', '🍞', 'food', 'Artist Bakery');
+  pin(37.5560, 126.9252, C_FOOD, '花蟹世界 弘大店', '꽃게나라 홍대점', '🦀', 'food', '花蟹世界 弘大');
+  pin(37.5835, 126.9639, C_FOOD, 'Rafre Fruit 西村店', '라프레프루트 옥인동', '🍓', 'food', 'Rafre 西村');
+  pin(37.5435, 127.0374, C_FOOD, 'Rafre Fruit 聖水洞', '라프레프루트 성수', '🍓', 'food', 'Rafre 聖水');
+  pin(37.5454, 127.0536, C_FOOD, '杜拜巧克力冰淇淋 (聖水)', '두바이 초콜릿 아이스크림 성수', '🍫', 'food', '杜拜巧克力 聖水');
+  pin(37.5628, 126.9858, C_FOOD, '明洞街 烤起司年糕（街頭攤位・明洞길）', '명동 거리음식', '🧀', 'food', '烤起司年糕 明洞');
 
   // 購物地點
   const C_SHOP = '#a47dc4';  // 莫蘭迪紫
-  pin(37.5008, 127.0258, C_SHOP, 'Olive Young 江南旗艦店', '올리브영 강남타운점', '🛍️', 'shop');
-  pin(37.5553, 126.9356, C_SHOP, '大創新村本店', '다이소 신촌점', '🧴', 'shop');
-  pin(37.5638, 126.9850, C_SHOP, '大創明洞本店（旗艦）', '다이소 명동본점', '🧴', 'shop');
-  pin(37.5538, 126.9237, C_SHOP, 'ason 弘大 (包包)', "as''on 홍대", '👜', 'shop');
-
-  // 明洞周邊
-  pin(37.5651, 126.9822, C_SHOP, '롯데백화점 明洞本店（T-money + OY 歡迎禮領取）', '롯데백화점 명동점', '🎁', 'shop');
-  pin(37.5640, 126.9843, C_D2,   'Dr. Evers Clinic 明洞（黃金微針・8號出口50m）', '닥터에버스클리닉 명동', '💉', 'medical');
-  pin(37.5628, 126.9858, C_FOOD, '明洞街 烤起司年糕（街頭攤位・明洞길）', '명동 거리음식', '🧀', 'food');
-  // 南大門
-  pin(37.5592, 126.9763, C_SHOP, '南大門市場（老奶奶搓澡巾）', '남대문시장', '🧖', 'shop');
+  pin(37.5008, 127.0258, C_SHOP, 'Olive Young 江南旗艦店', '올리브영 강남타운점', '🛍️', 'shop', 'Olive Young 江南');
+  pin(37.5553, 126.9356, C_SHOP, '大創新村本店', '다이소 신촌점', '🧴', 'shop', '大創 新村');
+  pin(37.5638, 126.9850, C_SHOP, '大創明洞本店（旗艦）', '다이소 명동본점', '🧴', 'shop', '大創 明洞');
+  pin(37.5538, 126.9237, C_SHOP, 'ason 弘大 (包包)', "as''on 홍대", '👜', 'shop', 'ason 弘大');
+  pin(37.5651, 126.9822, C_SHOP, '롯데백화점 明洞本店（T-money + OY 歡迎禮領取）', '롯데백화점 명동점', '🎁', 'shop', '樂天百貨 明洞');
+  pin(37.5640, 126.9843, C_D2,   'Dr. Evers Clinic 明洞（黃金微針・8號出口50m）', '닥터에버스클리닉 명동', '💉', 'medical', 'Dr. Evers 明洞');
+  pin(37.5592, 126.9763, C_SHOP, '南大門市場（老奶奶搓澡巾）', '남대문시장', '🧖', 'shop', '南大門市場');
 
   // 行程順序連線（虛線，標明非真實路線）
   L.polyline([GIMPO, HOTEL, SAUNA], {color: C_D1, weight: 3, dashArray: '8,8', opacity: 0.75}).addTo(map);
@@ -2849,29 +2915,66 @@ document.addEventListener('DOMContentLoaded', function() {
   const FULL_BOUNDS = L.latLngBounds([GIMPO, CLINIC, [37.5835, 126.9639], [37.5454, 127.0536]]);
   map.fitBounds(FULL_BOUNDS, {padding: [35, 35]});
 
+  // ── 地點清單（動態建立）────────────────────────────────
+  var listEl = document.getElementById('map-location-list');
+  if (listEl) {
+    var GROUP_ORDER  = ['itinerary','medical','food','shop'];
+    var GROUP_LABELS = {itinerary:'🏨 行程', medical:'💉 醫美', food:'🍽️ 美食', shop:'🛍️ 購物'};
+
+    GROUP_ORDER.forEach(function(g) {
+      if (!markerGroups[g] || !markerGroups[g].length) return;
+      var labelDiv = document.createElement('div');
+      labelDiv.className = 'map-loc-group-label';
+      labelDiv.textContent = GROUP_LABELS[g];
+      listEl.appendChild(labelDiv);
+
+      markerGroups[g].forEach(function(m) {
+        var btn = document.createElement('button');
+        btn.className = 'map-loc-btn';
+        btn.textContent = m._emoji + ' ' + m._short;
+        btn.title = m._short;
+
+        btn.addEventListener('click', function() {
+          // 清掉 chip active + 所有 list active
+          document.querySelectorAll('.map-filter-chip').forEach(function(c){ c.classList.remove('active'); });
+          document.querySelectorAll('.map-loc-btn').forEach(function(b){ b.classList.remove('active'); });
+          btn.classList.add('active');
+
+          // 只顯示這一個 marker
+          allMarkers.forEach(function(mk) {
+            if (mk === m) { if (!map.hasLayer(mk)) mk.addTo(map); }
+            else          { if (map.hasLayer(mk))  map.removeLayer(mk); }
+          });
+
+          // 縮放 + 開 popup
+          map.setView(m.getLatLng(), 15, {animate: true});
+          setTimeout(function(){ m.openPopup(); }, 300);
+        });
+
+        listEl.appendChild(btn);
+      });
+    });
+  }
+
   // ── 篩選 Chip ────────────────────────────────────────────
   document.querySelectorAll('.map-filter-chip').forEach(function(chip) {
     chip.addEventListener('click', function() {
-      const g = this.dataset.group;
+      var g = this.dataset.group;
 
-      // 更新 active 狀態
-      document.querySelectorAll('.map-filter-chip').forEach(function(c) {
-        c.classList.remove('active');
-      });
+      // 更新 chip active，清掉地點 active
+      document.querySelectorAll('.map-filter-chip').forEach(function(c){ c.classList.remove('active'); });
+      document.querySelectorAll('.map-loc-btn').forEach(function(b){ b.classList.remove('active'); });
       this.classList.add('active');
 
       // 顯示 / 隱藏 marker
       allMarkers.forEach(function(m) {
-        if (g === 'all' || m._pinGroup === g) {
-          if (!map.hasLayer(m)) m.addTo(map);
-        } else {
-          if (map.hasLayer(m)) map.removeLayer(m);
-        }
+        if (g === 'all' || m._pinGroup === g) { if (!map.hasLayer(m)) m.addTo(map); }
+        else                                  { if (map.hasLayer(m))  map.removeLayer(m); }
       });
 
       // 自動縮放到可見 marker 範圍
       if (g !== 'all' && markerGroups[g] && markerGroups[g].length > 0) {
-        var pts = markerGroups[g].map(function(m) { return m.getLatLng(); });
+        var pts = markerGroups[g].map(function(m){ return m.getLatLng(); });
         map.fitBounds(L.latLngBounds(pts), {padding: [55, 55], maxZoom: 15});
       } else {
         map.fitBounds(FULL_BOUNDS, {padding: [35, 35]});
